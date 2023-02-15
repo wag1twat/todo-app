@@ -1,7 +1,8 @@
 import React from "react";
+import { Main } from "../../entities";
 
 const Analytics = () => {
-    return <div>Analytics</div>;
+    return <Main>Analytics</Main>;
 };
 
 export { Analytics };

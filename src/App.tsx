@@ -34,7 +34,11 @@ function App() {
 
                         <Route
                             path={RoutesManager.analytics}
-                            element={<Analytics />}
+                            element={
+                                <ErrorBoundary stage="development">
+                                    <Analytics />
+                                </ErrorBoundary>
+                            }
                         />
                         <Route path="*" element={<Navigate to="/" replace />} />
                     </Routes>
