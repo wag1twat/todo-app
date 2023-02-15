@@ -1,14 +1,8 @@
 import React from "react";
-import { apiManager, useGet } from "../../processes";
+import { useTodos } from "../../entities";
 
 const Todos: React.FC = React.memo(() => {
-    console.log("render");
-
-    const { get } = useGet();
-
-    React.useEffect(() => {
-        get(apiManager().todos().url);
-    }, []);
+    const todos = useTodos();
 
     return <div>Todos</div>;
 });
