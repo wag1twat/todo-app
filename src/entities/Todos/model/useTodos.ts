@@ -12,7 +12,7 @@ const todo = Record({
 type Todo = Static<typeof todo>
 
 const useTodos = () => {
-    const todos = useGet<Todo[]>();
+    const todos = useGet<Todo[]>([]);
 
     React.useEffect(() => {
         todos.get(apiManager().todos().url);
@@ -20,7 +20,7 @@ const useTodos = () => {
 
     React.useEffect(() => {
         Array(todo).Or(Undefined).check(todos.state)
-    })
+    }, [])
 
     return todos
 }

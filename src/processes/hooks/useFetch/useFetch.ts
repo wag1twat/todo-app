@@ -2,10 +2,10 @@ import React from 'react'
 import { AxiosError } from 'axios'
 import { axiosInstance } from '../../axios'
 
-const useGet = <T extends unknown>() => {
+const useGet = <T extends unknown>(initialState: T) => {
     const [isLoading, setIsLoading] = React.useState(false)
-    const [state,setState] = React.useState<T | undefined>(undefined)
-    const [error,setError] = React.useState(undefined)
+    const [state, setState] = React.useState<T | undefined>(() => initialState)
+    const [error, setError] = React.useState(undefined)
 
     const get = React.useCallback(async (url:string) => {
         try {
