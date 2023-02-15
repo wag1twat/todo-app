@@ -14,8 +14,24 @@ function App() {
                 <Header />
                 <BrowserRouter>
                     <Routes>
-                        <Route path="/" element={<Todos />} />
-                        <Route path={RoutesManager.todos} element={<Todos />} />
+                        <Route
+                            path="/"
+                            element={
+                                <ErrorBoundary stage="development">
+                                    <Todos />
+                                </ErrorBoundary>
+                            }
+                        />
+
+                        <Route
+                            path={RoutesManager.todos}
+                            element={
+                                <ErrorBoundary stage="development">
+                                    <Todos />
+                                </ErrorBoundary>
+                            }
+                        />
+
                         <Route
                             path={RoutesManager.analytics}
                             element={<Analytics />}
