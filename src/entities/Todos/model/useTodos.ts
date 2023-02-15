@@ -1,5 +1,5 @@
 import React from 'react'
-import { Boolean, Number, Record, Static, String } from 'runtypes';
+import { Array, Boolean, Number, Record, Static, String, Undefined } from 'runtypes';
 import { apiManager, useGet } from '../../../processes';
 
 const todo = Record({
@@ -19,7 +19,7 @@ const useTodos = () => {
     }, [todos.get]);
 
     React.useEffect(() => {
-        todo.check(todos.state)
+        Array(todo).Or(Undefined).check(todos.state)
     })
 
     return todos
