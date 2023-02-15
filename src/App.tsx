@@ -1,17 +1,17 @@
 import { ChakraProvider } from "@chakra-ui/react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { Header } from "./entities";
+import { Header, Main } from "./entities";
 import { Analytics, Todos } from "./pages";
 import { ErrorBoundary, ProcessCheck, RoutesManager } from "./processes";
 
 function App() {
     return (
         <ChakraProvider>
-            <ErrorBoundary stage="development">
-                <ProcessCheck />
-            </ErrorBoundary>
-            <main>
+            <Main>
                 <Header />
+                <ErrorBoundary stage="development">
+                    <ProcessCheck />
+                </ErrorBoundary>
                 <BrowserRouter>
                     <Routes>
                         <Route
@@ -43,7 +43,7 @@ function App() {
                         <Route path="*" element={<Navigate to="/" replace />} />
                     </Routes>
                 </BrowserRouter>
-            </main>
+            </Main>
         </ChakraProvider>
     );
 }

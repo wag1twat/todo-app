@@ -2,9 +2,9 @@ import React from 'react'
 import { AxiosError } from 'axios'
 import { axiosInstance } from '../../axios'
 
-const useGet = () => {
+const useGet = <T extends unknown>() => {
     const [isLoading, setIsLoading] = React.useState(false)
-    const [state,setState] = React.useState(undefined)
+    const [state,setState] = React.useState<T | undefined>(undefined)
     const [error,setError] = React.useState(undefined)
 
     const get = React.useCallback(async (url:string) => {
@@ -17,11 +17,12 @@ const useGet = () => {
         }
 
         catch(err){
-           setError(undefined)
+            setState(undefined)
+            setError(undefined)
         }
 
         finally{
-           setIsLoading(false)
+            setIsLoading(false)
         }
     }, [])
 

@@ -48,7 +48,7 @@ class ErrorBoundary extends React.Component<
     render() {
         if (process.env.NODE_ENV === "development" && this.state.hasError) {
             return (
-                <Stack p={6} spacing={2}>
+                <Stack spacing={2}>
                     <Text fontSize="md">{this.state.name}</Text>
                     <Text fontSize="small">{this.state.message}</Text>
                     <Text fontSize="x-small">{this.state.stack}</Text>
