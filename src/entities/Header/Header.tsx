@@ -6,8 +6,10 @@ const Header = () => {
     return (
         <Flex justifyContent="flex-end" p={6}>
             <Stack spacing={6} direction="row">
-                <Button>Todos</Button>
-                <Button>Analytics</Button>
+                <Button size={"sm"}>Todos</Button>
+                <Button size="sm" colorScheme={"cyan"}>
+                    Analytics
+                </Button>
             </Stack>
         </Flex>
     );

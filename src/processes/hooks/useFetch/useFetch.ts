@@ -9,19 +9,19 @@ const useGet = () => {
 
     const get = React.useCallback(async (url:string) => {
         try {
-            // setIsLoading(true)
+           setIsLoading(true)
 
             const response = await axiosInstance.get(url)
 
-            // setState(response.data)
+           setState(response.data)
         }
 
         catch(err){
-            // setError(undefined)
+           setError(undefined)
         }
 
         finally{
-            // setIsLoading(false)
+           setIsLoading(false)
         }
     }, [])
 
