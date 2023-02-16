@@ -19,7 +19,8 @@ const useGet = <T extends unknown>(key: (string)[], config: ConfigGet<T>) => {
     const { initialState, cacheTime = 5000 } = config
     const [url, setUrl] = React.useState<string | undefined>(undefined)
     const [isLoading, setIsLoading] = React.useState(false)
-    const [state, setState] = React.useState<T | undefined>(() => initialState)
+    const [isFetching, setIsFetching] = React.useState(false)
+    const [state, setState] = React.useState<T>(() => initialState)
     const [error, setError] = React.useState<Partial<E> | undefined>(undefined)
 
     const get = React.useCallback(async (url:string) => {
@@ -28,7 +29,7 @@ const useGet = <T extends unknown>(key: (string)[], config: ConfigGet<T>) => {
         const cacheKey = `${REACT_APP_NAME}-${key.join(',')}`
 
         try {
-            setIsLoading(true)
+            setIsFetching(true)
 
             const cache = await caches.open(cacheKey)
 
@@ -45,6 +46,8 @@ const useGet = <T extends unknown>(key: (string)[], config: ConfigGet<T>) => {
                 setError(undefined)
                 return setState(() => json)
             }
+
+            setIsLoading(true)
 
             await axiosInstance.get<T>(url)
 
@@ -75,12 +78,13 @@ const useGet = <T extends unknown>(key: (string)[], config: ConfigGet<T>) => {
         }
         finally {
             setIsLoading(false)
+            setIsFetching(false)
         }
     }, [cacheTime])
 
     const refetch = React.useCallback( async () => url ? get(url): undefined, [get, url])
 
-    return { isLoading, get, refetch, state, error }
+    return { isLoading, isFetching, get, refetch, state, error }
 }
 
 export { useGet }

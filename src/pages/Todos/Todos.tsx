@@ -1,34 +1,22 @@
-import {
-    Box,
-    Button,
-    Heading,
-    IconButton,
-    Skeleton,
-    Stack,
-    Text
-} from "@chakra-ui/react";
+import { Box, Heading, IconButton, Stack } from "@chakra-ui/react";
 import { RepeatIcon } from "@chakra-ui/icons";
 import React from "react";
 import { Column } from "react-table";
-import {
-    MergeUserIntoTodo,
-    mergeUsersIntoTodo,
-    Table,
-    useTodos,
-    useUsers
-} from "../../entities";
+import { Table, Todo, useTodos, useUsers } from "../../entities";
 import { CompletedIcon, Loader } from "../../shared";
 
 const Todos: React.FC = React.memo(() => {
     const users = useUsers();
     const todos = useTodos();
 
-    const mergedUsersIntoTodo = React.useMemo(
-        () => mergeUsersIntoTodo(todos.state, users.state),
-        [todos.state, users.state]
+    const getAuthor = React.useCallback(
+        (userId: number) => {
+            return users.state.find((user) => user.id === userId)?.username;
+        },
+        [users.state]
     );
 
-    const columns = React.useMemo<Column<MergeUserIntoTodo>[]>(() => {
+    const columns = React.useMemo<Column<Todo>[]>(() => {
         return [
             {
                 Header: (props) => {
@@ -68,12 +56,12 @@ const Todos: React.FC = React.memo(() => {
                     return <Box>Author</Box>;
                 },
                 Cell: (props) => {
-                    return <Box>{props.row.original.author}</Box>;
+                    return <Box>{getAuthor(props.row.original.userId)}</Box>;
                 },
-                accessor: "author"
+                accessor: "userId"
             }
         ];
-    }, []);
+    }, [getAuthor]);
     return (
         <Stack>
             <Stack direction={"row"} spacing={4} alignItems="flex-end">
@@ -82,17 +70,14 @@ const Todos: React.FC = React.memo(() => {
                     aria-label="Refetch todos"
                     size="sm"
                     isLoading={todos.isLoading}
+                    isDisabled={todos.isLoading || todos.isFetching}
                     onClick={todos.refetch}
                 >
                     <RepeatIcon />
                 </IconButton>
             </Stack>
-            <Loader
-                isLoading={todos.isLoading}
-                error={undefined}
-                LoaderElement={<Skeleton height={6} />}
-            >
-                <Table data={mergedUsersIntoTodo} columns={columns} />
+            <Loader isLoading={todos.isLoading} error={undefined}>
+                <Table data={todos.state} columns={columns} />
             </Loader>
         </Stack>
     );
@@ -102,7 +87,6 @@ const FallbackTodos = () => {
     return (
         <Stack>
             <Heading>Todos</Heading>
-            <Skeleton height={6} />
         </Stack>
     );
 };

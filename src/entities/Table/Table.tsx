@@ -1,12 +1,8 @@
-import React from "react";
 import {
-    Box,
     Table as ChakraTable,
-    TableCaption,
     TableContainer,
     Tbody,
     Td,
-    Tfoot,
     Th,
     Thead,
     Tr
