@@ -34,7 +34,7 @@ const user = Record({
 type User = Static<typeof user>
 
 const useUsers = () => {
-    const users = useGet<User[]>([])
+    const users = useGet<User[]>(['users'], { initialState: [], cacheTime: 10000 })
 
     React.useEffect(() => {
         users.get(apiManager().users().url)

@@ -2,12 +2,14 @@ import { Record, String, Static } from "runtypes"
 
 enum EnvKeys {
     REACT_APP_API = 'REACT_APP_API',
-    REACT_APP_VERSION = 'REACT_APP_VERSION'
+    REACT_APP_VERSION = 'REACT_APP_VERSION',
+    REACT_APP_NAME = 'REACT_APP_NAME'
 }
 
 const env = Record({
     [EnvKeys.REACT_APP_API]: String,
     [EnvKeys.REACT_APP_VERSION]: String,
+    [EnvKeys.REACT_APP_NAME]: String
 })
 
 

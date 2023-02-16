@@ -12,7 +12,7 @@ const todo = Record({
 type Todo = Static<typeof todo>
 
 const useTodos = () => {
-    const todos = useGet<Todo[]>([]);
+    const todos = useGet<Todo[]>(['todos'], { initialState: [], cacheTime: 5000 });
 
     React.useEffect(() => {
         todos.get(apiManager().todos().url);
