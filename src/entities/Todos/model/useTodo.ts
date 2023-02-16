@@ -5,7 +5,7 @@ import { Todo, todoContract } from './useTodos';
 
 
 const useTodo = (id: string | undefined) => {    
-    const todo = useGet<Todo | undefined>(['todo'], { initialState: undefined, cacheTime: 5000 });
+    const todo = useGet<Todo | undefined>(['todo', String(id)], { initialState: undefined, cacheTime: 5000 });
 
     React.useEffect(() => {
         todo.get(ApiManager.todosManager.todo.url(id));
