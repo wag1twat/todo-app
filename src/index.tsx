@@ -6,6 +6,9 @@ import reportWebVitals from "./reportWebVitals";
 const root = ReactDOM.createRoot(
     document.getElementById("root") as HTMLElement
 );
+
+// React.StrictMode при дев окружении рендерит /App два раза
+
 root.render(
     <React.StrictMode>
         <App />
