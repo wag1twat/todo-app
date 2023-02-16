@@ -65,7 +65,7 @@ const Todos: React.FC = React.memo(() => {
             },
             {
                 Header: (props) => {
-                    return <Box>userId</Box>;
+                    return <Box>Author</Box>;
                 },
                 Cell: (props) => {
                     return <Box>{props.row.original.author}</Box>;
