@@ -3,7 +3,8 @@ import { RepeatIcon } from "@chakra-ui/icons";
 import React from "react";
 import { Column } from "react-table";
 import { Table, Todo, useTodos, useUsers } from "../../entities";
-import { CompletedIcon, Loader } from "../../shared";
+import { CompletedIcon, Loader, RouterLink } from "../../shared";
+import { RoutesManager } from "../../processes";
 
 const Todos: React.FC = React.memo(() => {
     const users = useUsers();
@@ -23,7 +24,17 @@ const Todos: React.FC = React.memo(() => {
                     return <Box>id</Box>;
                 },
                 Cell: (props) => {
-                    return <Box>{props.row.original.id}</Box>;
+                    return (
+                        <Box>
+                            <RouterLink
+                                to={RoutesManager.todosManager.todo.link(
+                                    props.row.original.id
+                                )}
+                            >
+                                {props.row.original.id}
+                            </RouterLink>
+                        </Box>
+                    );
                 },
                 accessor: "id"
             },

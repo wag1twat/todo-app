@@ -6,10 +6,11 @@ class RoutesManager {
             route: '/todos',
         },
         todo: {
-            link: (id: number) => `${this.todosManager.todos}/${id}`,
-            route: () => `${this.todosManager.todos}/:id`
+            link: (id: number) => `${this.todosManager.todos.link}/${id}`,
+            route: () => `${this.todosManager.todos.link}/:id`
         }
     }
+
     static analyticsManager = {
         analytics: {
             link: '/analytics',
