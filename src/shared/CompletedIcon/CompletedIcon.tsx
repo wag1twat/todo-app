@@ -1,4 +1,5 @@
 import { CheckCircleIcon, CloseIcon } from "@chakra-ui/icons";
+import { IconProps } from "@chakra-ui/react";
 
 interface CompletedIconProps {
     isCompleted: boolean;
@@ -6,9 +7,9 @@ interface CompletedIconProps {
 
 const CompletedIcon: React.FC<CompletedIconProps> = ({ isCompleted }) => {
     return isCompleted ? (
-        <CheckCircleIcon color="green.500" />
+        <CheckCircleIcon fontSize={12} color="green.500" />
     ) : (
-        <CloseIcon color="red.400" />
+        <CloseIcon fontSize={12} color="red.400" />
     );
 };
 

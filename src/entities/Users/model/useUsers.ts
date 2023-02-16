@@ -42,7 +42,7 @@ const useUsers = () => {
 
     React.useEffect(() => {
         Array(user).Or(Undefined).check(users.state)
-    }, [])
+    }, [users.state])
 
     return users
 }

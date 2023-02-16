@@ -20,7 +20,7 @@ const useTodos = () => {
 
     React.useEffect(() => {
         Array(todo).Or(Undefined).check(todos.state)
-    }, [])
+    }, [todos.state])
 
     return todos
 }
