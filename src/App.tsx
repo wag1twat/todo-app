@@ -1,8 +1,12 @@
+import React from "react";
 import { ChakraProvider } from "@chakra-ui/react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Header, Main } from "./entities";
-import { Analytics, Todos } from "./pages";
 import { ErrorBoundary, ProcessCheck, RoutesManager } from "./processes";
+import { FallbackAnalytics, FallbackTodos } from "./pages";
+
+const TodosPage = React.lazy(() => import("./pages/Todos/Todos"));
+const AnalyticsPage = React.lazy(() => import("./pages/Analytics/Analitycs"));
 
 function App() {
     return (
@@ -18,7 +22,11 @@ function App() {
                             path="/"
                             element={
                                 <ErrorBoundary stage="development">
-                                    <Todos />
+                                    <React.Suspense
+                                        fallback={<FallbackTodos />}
+                                    >
+                                        <TodosPage />
+                                    </React.Suspense>
                                 </ErrorBoundary>
                             }
                         />
@@ -27,7 +35,11 @@ function App() {
                             path={RoutesManager.todos}
                             element={
                                 <ErrorBoundary stage="development">
-                                    <Todos />
+                                    <React.Suspense
+                                        fallback={<FallbackTodos />}
+                                    >
+                                        <TodosPage />
+                                    </React.Suspense>
                                 </ErrorBoundary>
                             }
                         />
@@ -36,7 +48,11 @@ function App() {
                             path={RoutesManager.analytics}
                             element={
                                 <ErrorBoundary stage="development">
-                                    <Analytics />
+                                    <React.Suspense
+                                        fallback={<FallbackAnalytics />}
+                                    >
+                                        <AnalyticsPage />
+                                    </React.Suspense>
                                 </ErrorBoundary>
                             }
                         />

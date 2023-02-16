@@ -8,7 +8,6 @@ enum EnvKeys {
 const env = Record({
     [EnvKeys.REACT_APP_API]: String,
     [EnvKeys.REACT_APP_VERSION]: String,
-    REACT_APP_X: String
 })
 
 

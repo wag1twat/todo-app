@@ -48,6 +48,7 @@ const Table = <T extends object = object>(props: TableProps<T>) => {
                                             {...column.getHeaderProps(
                                                 column.getSortByToggleProps()
                                             )}
+                                            p={2}
                                         >
                                             {
                                                 // Render the header
@@ -75,7 +76,10 @@ const Table = <T extends object = object>(props: TableProps<T>) => {
                                         row.cells.map((cell) => {
                                             // Apply the cell props
                                             return (
-                                                <Td {...cell.getCellProps()}>
+                                                <Td
+                                                    {...cell.getCellProps()}
+                                                    p={2}
+                                                >
                                                     {
                                                         // Render the cell contents
                                                         cell.render("Cell")

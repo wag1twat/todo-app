@@ -14,7 +14,7 @@ const Header = () => {
             width="100%"
             backgroundColor="#fff"
         >
-            <Stack spacing={6} direction="row">
+            <Stack spacing={4} direction="row">
                 <Button size={"sm"}>Todos</Button>
                 <Button size="sm" colorScheme={"cyan"}>
                     Analytics
