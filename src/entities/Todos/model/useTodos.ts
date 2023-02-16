@@ -1,6 +1,6 @@
 import React from 'react'
 import { Array, Boolean, Number, Record, Static, String, Undefined } from 'runtypes';
-import { apiManager, useGet } from '../../../processes';
+import { ApiManager, useGet } from '../../../processes';
 
 const todo = Record({
     completed: Boolean,
@@ -15,7 +15,7 @@ const useTodos = () => {
     const todos = useGet<Todo[]>(['todos'], { initialState: [], cacheTime: 5000 });
 
     React.useEffect(() => {
-        todos.get(apiManager().todos().url);
+        todos.get(ApiManager.todosManager.todos.url);
     }, [todos.get]);
 
     React.useEffect(() => {

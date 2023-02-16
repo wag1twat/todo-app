@@ -1,36 +1,29 @@
 import { EnvKeys } from "../EnvManager"
-import { UrlManager } from "../UrlManager"
 
-type ApiKeys = 'todos' | 'users'
+class ApiManager  {
+    static url = process.env[EnvKeys.REACT_APP_API]
 
-class ApiManager extends UrlManager {
-    constructor(url: string ) {
-        super(url)
+    static todosManager = {
+        todos: {
+            url: `${this.url}/todos`,
+        },
+        todo: {
+            url: (id: number) => {
+                return `${this.todosManager.todos.url}/${id}`
+            }
+        }
     }
 
-    todos() {
-        return {
-            id: (id: number) => {
-                this.slash('todos').slash(String(id))
-                return this
-            },
-            url: this.slash('todos').url
-           
+    static usersManager = {
+        users: {
+            url: `${this.url}/users`,
+        },
+        user: {
+            url: (id: number) => {
+                return `${this.usersManager.users.url}/${id}`
+            }
         }
-   }
-
-   users() {
-        return {
-            id: (id: number) => {
-                this.slash('users').slash(String(id))
-                return this
-            },
-            url: this.slash('users').url
-        }
-   }
+    }
 }
 
-const apiManager = () => new ApiManager(process.env[EnvKeys.REACT_APP_API] || "")
-
-export type { ApiKeys }
-export { apiManager }
+export { ApiManager }

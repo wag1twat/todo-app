@@ -1,8 +1,11 @@
 import { Button } from "@chakra-ui/button";
 import { Stack } from "@chakra-ui/layout";
 import { Flex } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
+import { RoutesManager } from "../../processes";
 
 const Header = () => {
+    const navigate = useNavigate();
     return (
         <Flex
             justifyContent="flex-end"
@@ -15,8 +18,21 @@ const Header = () => {
             backgroundColor="#fff"
         >
             <Stack spacing={4} direction="row">
-                <Button size={"sm"}>Todos</Button>
-                <Button size="sm" colorScheme={"cyan"}>
+                <Button
+                    size={"sm"}
+                    onClick={() =>
+                        navigate(RoutesManager.todosManager.todos.link)
+                    }
+                >
+                    Todos
+                </Button>
+                <Button
+                    size="sm"
+                    colorScheme={"cyan"}
+                    onClick={() =>
+                        navigate(RoutesManager.analyticsManager.analytics.link)
+                    }
+                >
                     Analytics
                 </Button>
             </Stack>
