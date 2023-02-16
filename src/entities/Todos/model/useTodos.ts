@@ -2,14 +2,14 @@ import React from 'react'
 import { Array, Boolean, Number, Record, Static, String, Undefined } from 'runtypes';
 import { ApiManager, useGet } from '../../../processes';
 
-const todo = Record({
+const todoContract = Record({
     completed: Boolean,
     id:Number,
     title: String,
     userId:Number
 })
 
-type Todo = Static<typeof todo>
+type Todo = Static<typeof todoContract>
 
 const useTodos = () => {
     const todos = useGet<Todo[]>(['todos'], { initialState: [], cacheTime: 5000 });
@@ -19,11 +19,11 @@ const useTodos = () => {
     }, [todos.get]);
 
     React.useEffect(() => {
-        Array(todo).Or(Undefined).check(todos.state)
+        Array(todoContract).Or(Undefined).check(todos.state)
     }, [todos.state])
 
     return todos
 }
 
 export type { Todo }
-export { useTodos }
+export { todoContract, useTodos }

@@ -8,7 +8,7 @@ class ApiManager  {
             url: `${this.url}/todos`,
         },
         todo: {
-            url: (id: number) => {
+            url: (id: string | undefined) => {
                 return `${this.todosManager.todos.url}/${id}`
             }
         }
@@ -19,7 +19,7 @@ class ApiManager  {
             url: `${this.url}/users`,
         },
         user: {
-            url: (id: number) => {
+            url: (id: string | undefined) => {
                 return `${this.usersManager.users.url}/${id}`
             }
         }

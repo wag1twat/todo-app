@@ -2,27 +2,27 @@ import React from 'react'
 import { Array, Number, Record, Static, String, Undefined } from 'runtypes';
 import { ApiManager, useGet } from '../../../processes';
 
-const geo = Record({
+const geoContact = Record({
     lat: String, lng: String
 })
 
-const address = Record({
+const addressContract = Record({
     city: String,
-    geo,
+    geo: geoContact,
     street: String,
     suite: String,
     zipcode: String,
 })
 
-const company = Record({
+const companyContract = Record({
     bs: String,
     catchPhrase: String,
     name: String
 })
 
-const user = Record({
-    address,
-    company,
+const userContract = Record({
+    address: addressContract,
+    company: companyContract,
     email: String,
     id: Number,
     name: String,
@@ -31,7 +31,7 @@ const user = Record({
     website: String
 })
 
-type User = Static<typeof user>
+type User = Static<typeof userContract>
 
 const useUsers = () => {
     const users = useGet<User[]>(['users'], { initialState: [], cacheTime: 10000 })
@@ -41,11 +41,11 @@ const useUsers = () => {
     }, [users.get]);
 
     React.useEffect(() => {
-        Array(user).Or(Undefined).check(users.state)
+        Array(userContract).Or(Undefined).check(users.state)
     }, [users.state])
 
     return users
 }
 
 export type { User }
-export { useUsers }
+export { userContract, useUsers }
