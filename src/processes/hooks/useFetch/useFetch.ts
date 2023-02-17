@@ -6,7 +6,7 @@ import { DateTime } from 'luxon'
 
 interface ConfigGet<T extends unknown> {
     cacheTime?: number
-    initialState: T
+    initialState: T,
 }
 interface E {
     code: string
@@ -83,6 +83,7 @@ const useGet = <T extends unknown>(key: (string)[], config: ConfigGet<T>) => {
     }, [cacheTime])
 
     const refetch = React.useCallback( async () => url ? get(url): undefined, [get, url])
+
 
     return { isLoading, isFetching, get, refetch, state, error }
 }

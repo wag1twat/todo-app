@@ -1,14 +1,25 @@
-import { Box, Heading, IconButton, Stack } from "@chakra-ui/react";
-import { RepeatIcon } from "@chakra-ui/icons";
-import React from "react";
-import { Column } from "react-table";
-import { Table, Todo, useTodos, useUsers } from "../../entities";
-import { CompletedIcon, RouterLink } from "../../shared";
-import { Managers } from "../../processes";
+import { Flex, Heading, Input, Stack } from "@chakra-ui/react";
+import React, { useDeferredValue } from "react";
+import { TodosCards, TodosTable, useTodos, useUsers } from "../../entities";
+import { useGlobalLoader } from "../../processes";
+import {
+    Layout,
+    ReloadHeader,
+    ToggleView,
+    useValidateView
+} from "../../shared";
 
-const Todos: React.FC = React.memo(() => {
+const Todos: React.FC = () => {
+    const [username, setUsername] = React.useState<string>("");
+    const defferedUsername = useDeferredValue(username);
+
+    const view = useValidateView();
+
     const users = useUsers();
+
     const todos = useTodos();
+
+    useGlobalLoader(todos.isLoading || users.isLoading);
 
     const getAuthor = React.useCallback(
         (userId: number) => {
@@ -17,81 +28,67 @@ const Todos: React.FC = React.memo(() => {
         [users.state]
     );
 
-    const columns = React.useMemo<Column<Todo>[]>(() => {
-        return [
-            {
-                Header: (props) => {
-                    return <Box>id</Box>;
-                },
-                Cell: (props) => {
-                    return (
-                        <Box>
-                            <RouterLink
-                                to={Managers.route()
-                                    .todo()
-                                    .link(`${props.row.original.id}`)
-                                    .exec()}
-                            >
-                                {props.row.original.id}
-                            </RouterLink>
-                        </Box>
-                    );
-                },
-                accessor: "id"
-            },
-            {
-                Header: (props) => {
-                    return <Box>title</Box>;
-                },
-                Cell: (props) => {
-                    return <Box>{props.row.original.title}</Box>;
-                },
-                accessor: "title"
-            },
-            {
-                Header: (props) => {
-                    return <Box>completed</Box>;
-                },
-                Cell: (props) => {
-                    return (
-                        <Box>
-                            <CompletedIcon
-                                isCompleted={props.row.original.completed}
-                            />
-                        </Box>
-                    );
-                },
-                accessor: "completed"
-            },
-            {
-                Header: (props) => {
-                    return <Box>Author</Box>;
-                },
-                Cell: (props) => {
-                    return <Box>{getAuthor(props.row.original.userId)}</Box>;
-                },
-                accessor: "userId"
-            }
-        ];
-    }, [getAuthor]);
+    const filteredTodos = React.useMemo(() => {
+        return todos.state.filter((todo) =>
+            Boolean(
+                getAuthor(todo.userId)
+                    ?.toLocaleLowerCase()
+                    .includes(defferedUsername.toLocaleLowerCase())
+            )
+        );
+    }, [todos.state, defferedUsername]);
+
     return (
-        <Stack>
-            <Stack direction={"row"} spacing={4} alignItems="flex-end">
-                <Heading>Todos</Heading>
-                <IconButton
-                    aria-label="Refetch todos"
-                    size="sm"
-                    isLoading={todos.isLoading}
-                    isDisabled={todos.isLoading || todos.isFetching}
-                    onClick={todos.refetch}
+        <Layout>
+            <Stack width="100%" spacing={4}>
+                <Flex
+                    alignItems={"center"}
+                    justifyContent={[
+                        "unset",
+                        "space-between",
+                        "space-between",
+                        "space-between",
+                        "space-between"
+                    ]}
+                    flexDirection={["column", "row", "row", "row", "row"]}
                 >
-                    <RepeatIcon />
-                </IconButton>
+                    <Stack
+                        width="100%"
+                        direction={"row"}
+                        spacing={4}
+                        alignItems="center"
+                    >
+                        <ReloadHeader
+                            isLoading={todos.isLoading}
+                            isDisabled={todos.isLoading || todos.isFetching}
+                            refetch={todos.refetch}
+                        >
+                            Todos
+                        </ReloadHeader>
+                        <ToggleView />
+                    </Stack>
+                    <Input
+                        mt={[4, "unset", "unset", "unset", "unset"]}
+                        size="sm"
+                        width="100%"
+                        maxWidth={["unset", "300px", "300px", "300px", "300px"]}
+                        isDisabled={todos.isLoading || todos.isFetching}
+                        placeholder="Username..."
+                        value={defferedUsername}
+                        onChange={(e) => setUsername(e.target.value)}
+                    />
+                </Flex>
+
+                {view === "list" && todos.state.length > 0 && (
+                    <TodosTable todos={filteredTodos} getAuthor={getAuthor} />
+                )}
+                {view === "card" && (
+                    <TodosCards todos={filteredTodos} getAuthor={getAuthor} />
+                )}
             </Stack>
-            <Table data={todos.state} columns={columns} />
-        </Stack>
+        </Layout>
     );
-});
+};
 
 const FallbackTodos = () => {
     return (

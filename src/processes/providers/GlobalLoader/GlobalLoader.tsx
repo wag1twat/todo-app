@@ -1,5 +1,6 @@
-import { Box, CircularProgress, useTheme } from "@chakra-ui/react";
+import { Box, CircularProgress } from "@chakra-ui/react";
 import React from "react";
+import { useMaxZIndex } from "../../hooks";
 
 interface GlobalLoaderContext {
     setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
@@ -23,14 +24,7 @@ const GlobalLoaderProvider: React.FC<React.PropsWithChildren<{}>> = ({
 }) => {
     const [isLoading, setIsLoading] = React.useState(false);
 
-    const theme = useTheme();
-
-    const zIndex = React.useMemo(() => {
-        const zIndices = Object.values(theme.zIndices).filter(
-            (value) => typeof value === "number"
-        ) as number[];
-        return Math.max(...zIndices) + 1;
-    }, [theme.zIndices]);
+    const zIndex = useMaxZIndex();
     return (
         <globalLoaderContext.Provider
             value={{
@@ -46,7 +40,7 @@ const GlobalLoaderProvider: React.FC<React.PropsWithChildren<{}>> = ({
                 zIndex={zIndex}
                 backgroundColor="#fff"
                 opacity={"0.7"}
-                pointerEvents="none"
+                pointerEvents="painted"
             >
                 <CircularProgress
                     isIndeterminate
