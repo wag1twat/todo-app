@@ -2,7 +2,7 @@ import { Button } from "@chakra-ui/button";
 import { Stack } from "@chakra-ui/layout";
 import { Flex } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
-import { RoutesManager } from "../../processes";
+import { Managers } from "../../processes";
 
 const Header = () => {
     const navigate = useNavigate();
@@ -21,7 +21,7 @@ const Header = () => {
                 <Button
                     size={"sm"}
                     onClick={() =>
-                        navigate(RoutesManager.todosManager.todos.link)
+                        navigate(Managers.route().todos().link().exec())
                     }
                 >
                     Todos
@@ -30,7 +30,7 @@ const Header = () => {
                     size="sm"
                     colorScheme={"cyan"}
                     onClick={() =>
-                        navigate(RoutesManager.analyticsManager.analytics.link)
+                        navigate(Managers.route().analytics().link().exec())
                     }
                 >
                     Analytics

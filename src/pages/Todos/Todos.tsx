@@ -4,7 +4,7 @@ import React from "react";
 import { Column } from "react-table";
 import { Table, Todo, useTodos, useUsers } from "../../entities";
 import { CompletedIcon, Loader, RouterLink } from "../../shared";
-import { RoutesManager } from "../../processes";
+import { Managers } from "../../processes";
 
 const Todos: React.FC = React.memo(() => {
     const users = useUsers();
@@ -27,9 +27,10 @@ const Todos: React.FC = React.memo(() => {
                     return (
                         <Box>
                             <RouterLink
-                                to={RoutesManager.todosManager.todo.link(
-                                    props.row.original.id
-                                )}
+                                to={Managers.route()
+                                    .todo()
+                                    .link(`${props.row.original.id}`)
+                                    .exec()}
                             >
                                 {props.row.original.id}
                             </RouterLink>

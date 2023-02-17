@@ -2,7 +2,7 @@ import React from "react";
 import { ChakraProvider } from "@chakra-ui/react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Header, Main } from "./entities";
-import { ErrorBoundary, ProcessCheck, RoutesManager } from "./processes";
+import { ErrorBoundary, Managers, ProcessCheck } from "./processes";
 import { FallbackAnalytics, FallbackTodos, FallbackTodo } from "./pages";
 
 const TodosPage = React.lazy(() => import("./pages/Todos/Todos"));
@@ -10,6 +10,7 @@ const AnalyticsPage = React.lazy(() => import("./pages/Analytics/Analitycs"));
 const TodoPage = React.lazy(() => import("./pages/Todo/Todo"));
 
 function App() {
+    const managers = new Managers();
     return (
         <ChakraProvider>
             <Main>
@@ -20,7 +21,7 @@ function App() {
                     </ErrorBoundary>
                     <Routes>
                         <Route
-                            path="/"
+                            path={Managers.route().exec()}
                             element={
                                 <ErrorBoundary stage="development">
                                     <React.Suspense
@@ -33,7 +34,7 @@ function App() {
                         />
 
                         <Route
-                            path={RoutesManager.todosManager.todos.route}
+                            path={Managers.route().todos().path().exec()}
                             element={
                                 <ErrorBoundary stage="development">
                                     <React.Suspense
@@ -46,7 +47,7 @@ function App() {
                         />
 
                         <Route
-                            path={RoutesManager.todosManager.todo.route()}
+                            path={Managers.route().todo().path().exec()}
                             element={
                                 <ErrorBoundary stage="development">
                                     <React.Suspense fallback={<FallbackTodo />}>
@@ -57,9 +58,7 @@ function App() {
                         />
 
                         <Route
-                            path={
-                                RoutesManager.analyticsManager.analytics.route
-                            }
+                            path={Managers.route().analytics().path().exec()}
                             element={
                                 <ErrorBoundary stage="development">
                                     <React.Suspense
