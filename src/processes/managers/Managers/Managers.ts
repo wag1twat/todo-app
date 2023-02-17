@@ -96,6 +96,14 @@ class Route extends Url {
     }
 }
 
+// TODO: квери манагер
+class Queries {
+    private url: string
+    constructor(url: string) {
+        this.url = url
+    }
+}
+
 
 
 class Managers {
