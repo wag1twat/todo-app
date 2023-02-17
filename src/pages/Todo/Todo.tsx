@@ -1,16 +1,18 @@
 import { Heading, Stack } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
-import { useTodo } from "../../entities";
+import { TodoCard, useTodo } from "../../entities";
+import { useGlobalLoader } from "../../processes";
 
 const Todo = () => {
     const { id } = useParams();
 
     const todo = useTodo(id);
+
+    useGlobalLoader(todo.isLoading);
     return (
-        <Stack>
-            <Stack direction={"row"} spacing={4} alignItems="flex-end">
-                <Heading>Todo #{id}</Heading>
-            </Stack>
+        <Stack spacing={4} direction="column">
+            <Heading>Todo #{id}</Heading>
+            <TodoCard todo={todo.state} />
         </Stack>
     );
 };

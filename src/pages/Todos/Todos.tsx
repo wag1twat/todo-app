@@ -3,7 +3,7 @@ import { RepeatIcon } from "@chakra-ui/icons";
 import React from "react";
 import { Column } from "react-table";
 import { Table, Todo, useTodos, useUsers } from "../../entities";
-import { CompletedIcon, Loader, RouterLink } from "../../shared";
+import { CompletedIcon, RouterLink } from "../../shared";
 import { Managers } from "../../processes";
 
 const Todos: React.FC = React.memo(() => {
@@ -88,9 +88,7 @@ const Todos: React.FC = React.memo(() => {
                     <RepeatIcon />
                 </IconButton>
             </Stack>
-            <Loader isLoading={todos.isLoading} error={undefined}>
-                <Table data={todos.state} columns={columns} />
-            </Loader>
+            <Table data={todos.state} columns={columns} />
         </Stack>
     );
 });
