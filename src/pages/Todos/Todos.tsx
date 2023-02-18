@@ -13,8 +13,6 @@ const Todos: React.FC = () => {
         Managers.queries().field("username")
     );
 
-    console.log(username);
-
     const defferedUsername = useDeferredValue(username);
 
     const { renderVariant } = useValidateRenderVariant();
@@ -34,13 +32,11 @@ const Todos: React.FC = () => {
 
     const filteredTodos = React.useMemo(() => {
         return todos.state.filter((todo) =>
-            Boolean(
-                getAuthor(todo.userId)
-                    ?.toLocaleLowerCase()
-                    .includes(defferedUsername.toLocaleLowerCase())
-            )
+            getAuthor(todo.userId)
+                ?.toLocaleLowerCase()
+                .includes(defferedUsername.toLocaleLowerCase())
         );
-    }, [todos.state, defferedUsername]);
+    }, [todos.state, defferedUsername, getAuthor]);
 
     return (
         <Layout>
