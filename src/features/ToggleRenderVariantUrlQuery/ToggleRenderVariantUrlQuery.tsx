@@ -10,8 +10,6 @@ const ToggleRenderVariantUrlQuery = () => {
     const navigate = useNavigate();
     const { renderVariant, renderVariants } = useValidateRenderVariant();
 
-    console.log(renderVariant);
-
     const toggle = React.useCallback(() => {
         if (renderVariant) {
             const index = renderVariants.variants.indexOf(renderVariant);

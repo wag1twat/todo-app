@@ -5,11 +5,16 @@ import {
     ToggleRenderVariantUrlQuery,
     useValidateRenderVariant
 } from "../../features";
-import { useGlobalLoader } from "../../processes";
+import { Managers, useGlobalLoader } from "../../processes";
 import { Layout, ReloadHeader } from "../../shared";
 
 const Todos: React.FC = () => {
-    const [username, setUsername] = React.useState<string>("");
+    const [username, setUsername] = React.useState<string>(() =>
+        Managers.queries().field("username")
+    );
+
+    console.log(username);
+
     const defferedUsername = useDeferredValue(username);
 
     const { renderVariant } = useValidateRenderVariant();

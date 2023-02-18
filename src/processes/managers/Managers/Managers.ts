@@ -121,6 +121,16 @@ class Queries {
 
         return ([] as string[]).concat.apply([] as string[], query).join('&');
     }
+
+    public field<K extends string>(key: K) {
+        const location = globalThis.location
+
+        const urlSearchParams = new URLSearchParams(location.search)
+
+        const field = urlSearchParams.get(key)
+
+        return field ? field : ''
+    }
 }
 
 class Managers {
