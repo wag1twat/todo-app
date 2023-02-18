@@ -16,7 +16,9 @@ function App() {
             <GlobalLoaderProvider>
                 <Main>
                     <BrowserRouter>
-                        <Header />
+                        <ErrorBoundary stage="development">
+                            <Header />
+                        </ErrorBoundary>
                         <Routes>
                             <Route
                                 path={Managers.route().exec()}
