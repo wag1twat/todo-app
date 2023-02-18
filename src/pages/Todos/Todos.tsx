@@ -19,7 +19,11 @@ const Todos: React.FC = () => {
 
     const users = useUsers();
 
-    const todos = useTodos();
+    const todos = useTodos({
+        onSettled: () => {
+            users.refetch();
+        }
+    });
 
     useGlobalLoader(todos.isLoading || users.isLoading);
 
@@ -59,7 +63,7 @@ const Todos: React.FC = () => {
                         alignItems="center"
                     >
                         <ReloadHeader
-                            isLoading={todos.isLoading}
+                            isLoading={todos.isLoading || todos.isFetching}
                             isDisabled={todos.isLoading || todos.isFetching}
                             refetch={todos.refetch}
                         >

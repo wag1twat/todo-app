@@ -5,8 +5,9 @@ import { useEnv } from '../useEnv'
 import { DateTime } from 'luxon'
 
 interface ConfigGet<T extends unknown> {
-    cacheTime?: number
     initialState: T,
+    cacheTime?: number
+    onSettled?: (state: T) => void
 }
 interface E {
     code: string
@@ -16,7 +17,7 @@ interface E {
 
 const useGet = <T extends unknown>(key: (string)[], config: ConfigGet<T>) => {
     const { REACT_APP_NAME = 'app' } = useEnv()
-    const { initialState, cacheTime = 5000 } = config
+    const { initialState, cacheTime = 5000, onSettled } = config
     const [url, setUrl] = React.useState<string | undefined>(undefined)
     const [isLoading, setIsLoading] = React.useState(false)
     const [isFetching, setIsFetching] = React.useState(false)
@@ -25,7 +26,6 @@ const useGet = <T extends unknown>(key: (string)[], config: ConfigGet<T>) => {
 
     const get = React.useCallback(async (url:string) => {
         setUrl(url)
-
         const cacheKey = `${REACT_APP_NAME}-${key.join(',')}`
 
         try {
@@ -60,7 +60,7 @@ const useGet = <T extends unknown>(key: (string)[], config: ConfigGet<T>) => {
 
             if(cacheResponse && cacheResponse.ok) {
                 const json = await cacheResponse.json()
-                 setError(undefined)
+                setError(undefined)
                 return setState(() => json)
             }
 
@@ -84,8 +84,13 @@ const useGet = <T extends unknown>(key: (string)[], config: ConfigGet<T>) => {
 
     const refetch = React.useCallback( async () => url ? get(url): undefined, [get, url])
 
-
+    React.useEffect(() => {
+        if(onSettled) {
+            onSettled(state)
+        }
+    }, [state])
     return { isLoading, isFetching, get, refetch, state, error }
 }
 
+export type { ConfigGet }
 export { useGet }
