@@ -34,6 +34,7 @@ const useGet = <T extends unknown>(key: (string)[], config: ConfigGet<T>) => {
 
             const now = DateTime.now().toMillis()
             let expire = globalThis.localStorage.getItem(cacheKey)
+
             if(expire && +expire < now) {
                 await cache.delete(url)
             }
@@ -42,6 +43,10 @@ const useGet = <T extends unknown>(key: (string)[], config: ConfigGet<T>) => {
 
             if(cacheResponse) {
                 const json = await cacheResponse.json()
+                if(expire === null) {
+                    expire = String(DateTime.now().toMillis() + cacheTime)
+                    globalThis.localStorage.setItem(cacheKey, expire)
+                }
                 setError(undefined)
                 return setState(() => json)
             }
@@ -68,6 +73,11 @@ const useGet = <T extends unknown>(key: (string)[], config: ConfigGet<T>) => {
         }
         catch(err) {
             if(err instanceof AxiosError) {
+                Managers.analytics().sendErrorEvent({
+                    name: (err as AxiosError).name,
+                    message: (err as AxiosError).message,
+                    stack: (err as AxiosError).stack || ""
+                })
                 setError(() => ({
                     code: (err as AxiosError).code,
                     name: (err as AxiosError).name,

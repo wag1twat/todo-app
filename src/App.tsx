@@ -5,9 +5,13 @@ import { Header, Main } from "./entities";
 import { ErrorBoundary, Managers } from "./processes";
 import { FallbackAnalytics, FallbackTodos, FallbackTodo } from "./pages";
 import { GlobalLoaderProvider } from "./processes/providers";
+import { FallbackAnalyticsErrorEvent } from "./pages/AnalyticsErrorEvent";
 
 const TodosPage = React.lazy(() => import("./pages/Todos/Todos"));
 const AnalyticsPage = React.lazy(() => import("./pages/Analytics/Analitycs"));
+const AnalyticsErrorEventPage = React.lazy(
+    () => import("./pages/AnalyticsErrorEvent/AnalyticsErrorEvent")
+);
 const TodoPage = React.lazy(() => import("./pages/Todo/Todo"));
 
 function App() {
@@ -70,6 +74,24 @@ function App() {
                                             fallback={<FallbackAnalytics />}
                                         >
                                             <AnalyticsPage />
+                                        </React.Suspense>
+                                    </ErrorBoundary>
+                                }
+                            />
+
+                            <Route
+                                path={Managers.route()
+                                    .analyticsErrorEvent()
+                                    .path()
+                                    .exec()}
+                                element={
+                                    <ErrorBoundary stage="development">
+                                        <React.Suspense
+                                            fallback={
+                                                <FallbackAnalyticsErrorEvent />
+                                            }
+                                        >
+                                            <AnalyticsErrorEventPage />
                                         </React.Suspense>
                                     </ErrorBoundary>
                                 }

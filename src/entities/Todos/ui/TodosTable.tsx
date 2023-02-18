@@ -76,7 +76,7 @@ const TodosTable: React.FC<React.PropsWithChildren<TodosTableProps>> = ({
         ];
     }, [getAuthor]);
 
-    const collectionPaging = useCollectionPaging(todos.slice(0, 199));
+    const collectionPaging = useCollectionPaging(todos);
 
     return (
         <Stack spacing={4}>

@@ -1,36 +1,37 @@
 import { DateTime } from "luxon"
 
-type Event = {
+type AnalitycsErrorEvent = {
     name: string,
     message:string,
     stack: string
 }
 
 class Analitycs {
-    private prefix = 'analytics'
+    private errorPrefix = 'analytics-error'
 
-    private isAnalytics = (event: unknown): event is Event => {
+    private isAnalytics = (event: unknown): event is AnalitycsErrorEvent => {
         if(event === null || event === undefined) {
             return false
         }
         if(typeof event === 'object') {
-            return (['name', 'message', 'stack'] as Array<keyof Event>).every((key) => event.hasOwnProperty(key))
+            return (['name', 'message', 'stack'] as Array<keyof AnalitycsErrorEvent>).every((key) => event.hasOwnProperty(key))
         }
         return false
     }
 
-    public sendErrorEvent(event:Event ) {
+    public sendErrorEvent(event: AnalitycsErrorEvent) {
       const timestamp = DateTime.now().valueOf()
-      globalThis.localStorage.setItem(`${this.prefix}-${event.name}-${timestamp}`, JSON.stringify(event))
+      globalThis.localStorage.setItem(`${this.errorPrefix}-${event.name}-${timestamp}`, JSON.stringify(event))
     }
+    
 
     public getErrorEvents() {
-      const result: (Event)[] = []
+      const result: (AnalitycsErrorEvent & { key: string })[] = []
 
       const keys = Object.keys(globalThis.localStorage)
 
       for(let i = 0; i < keys.length; i++) {
-        const isAnalytics = keys[i].startsWith(this.prefix)
+        const isAnalytics = keys[i].startsWith(this.errorPrefix)
 
         if(!isAnalytics) {
             continue
@@ -42,7 +43,7 @@ class Analitycs {
             const parsed = JSON.parse(event)
 
             if(this.isAnalytics(parsed)) {
-                result.push(parsed)
+                result.push({ key: keys[i], ...parsed })
             } else {
                 continue
             }
@@ -56,4 +57,5 @@ class Analitycs {
     }
 }
 
+export type { AnalitycsErrorEvent }
 export { Analitycs }

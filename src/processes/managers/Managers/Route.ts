@@ -36,6 +36,13 @@ class Route extends Url {
             path: () => this.slash('analytics')
         }
     }
+
+    analyticsErrorEvent(){
+         return {
+            link: (key: string) => this.slash('analytics').slash(key),
+            path: () => this.slash('analytics').slashColon('key')
+        }
+    }
 }
 
 export { Route }
