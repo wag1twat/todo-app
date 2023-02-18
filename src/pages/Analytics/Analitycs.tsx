@@ -1,15 +1,20 @@
 import React from "react";
-import { Stack, Text } from "@chakra-ui/react";
+import { Heading } from "@chakra-ui/react";
+import { Layout } from "../../shared";
 
 const Analytics = () => {
-    return <div>Analytics</div>;
+    return (
+        <Layout>
+            <Heading>Analytics</Heading>
+        </Layout>
+    );
 };
 
 const FallbackAnalytics = () => {
     return (
-        <Stack>
-            <Text>Analytics</Text>
-        </Stack>
+        <Layout>
+            <Heading>Analytics</Heading>
+        </Layout>
     );
 };
 

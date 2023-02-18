@@ -97,18 +97,16 @@ const Todos: React.FC = () => {
 const FallbackTodos = () => {
     return (
         <Layout>
-            <Stack width="100%">
-                <Stack
-                    width="100%"
-                    direction={"row"}
-                    spacing={4}
-                    alignItems="center"
-                >
-                    <ReloadHeader isLoading={false} isDisabled={true}>
-                        Todos
-                    </ReloadHeader>
-                    <ToggleRenderVariantUrlQuery />
-                </Stack>
+            <Stack
+                width="100%"
+                direction={"row"}
+                spacing={4}
+                alignItems="center"
+            >
+                <ReloadHeader isLoading={false} isDisabled={true}>
+                    Todos
+                </ReloadHeader>
+                <ToggleRenderVariantUrlQuery />
             </Stack>
         </Layout>
     );
