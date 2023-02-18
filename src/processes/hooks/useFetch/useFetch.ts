@@ -15,7 +15,16 @@ interface E {
     message: string
 }
 
-const useGet = <T extends unknown>(key: (string)[], config: ConfigGet<T>) => {
+interface Get<T extends unknown> {
+    isLoading: boolean;
+    isFetching: boolean;
+    get: (url: string) => Promise<void>;
+    refetch: () => Promise<void | undefined>;
+    state: T;
+    error: Partial<E> | undefined;
+}
+
+const useGet = <T extends unknown>(key: (string)[], config: ConfigGet<T>): Get<T> => {
     const { initialState, cacheTime = 5000, onSettled } = config
     const [url, setUrl] = React.useState<string | undefined>(undefined)
     const [isLoading, setIsLoading] = React.useState(false)
@@ -101,5 +110,5 @@ const useGet = <T extends unknown>(key: (string)[], config: ConfigGet<T>) => {
     return { isLoading, isFetching, get, refetch, state, error }
 }
 
-export type { ConfigGet }
+export type { ConfigGet, Get }
 export { useGet }

@@ -54,4 +54,4 @@ const GlobalLoaderProvider: React.FC<React.PropsWithChildren<{}>> = ({
     );
 };
 
-export { useGlobalLoader, GlobalLoaderProvider };
+export { useGlobalLoader, globalLoaderContext, GlobalLoaderProvider };

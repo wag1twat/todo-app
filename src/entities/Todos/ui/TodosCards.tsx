@@ -1,6 +1,6 @@
 import { Grid } from "@chakra-ui/react";
 import { Todo } from "../model";
-import { TodoCard } from "./TodoCard";
+import { TodoCard } from "../../../widgets/TodoCardWidget/TodoCard";
 
 interface TodosCardsProps {
     todos: Todo[];

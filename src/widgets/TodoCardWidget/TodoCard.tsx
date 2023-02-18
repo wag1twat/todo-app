@@ -7,11 +7,10 @@ import {
     Skeleton,
     Box,
     Icon,
-    Text,
-    IconButton
+    Text
 } from "@chakra-ui/react";
-import { CompletedIcon, Paper } from "../../../shared";
-import { Todo } from "../model";
+import { CompletedIcon, Paper } from "../../shared";
+import { Todo } from "../../entities/Todos/model";
 import { UserOutlined } from "@ant-design/icons";
 
 interface TodoCardProps {
