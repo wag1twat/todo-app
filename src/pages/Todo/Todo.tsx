@@ -2,7 +2,7 @@ import { Flex, Stack } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 import { TodoCard, useTodo, useUser } from "../../entities";
 import { useGlobalLoader } from "../../processes";
-import { ReloadHeader } from "../../shared";
+import { Layout, ReloadHeader } from "../../shared";
 
 const Todo = () => {
     const { id } = useParams();
@@ -16,8 +16,8 @@ const Todo = () => {
     useGlobalLoader(todo.isLoading);
 
     return (
-        <Flex justifyContent={"center"}>
-            <Stack spacing={4} direction="column">
+        <Layout justifyContent={"center"}>
+            <Stack width="fit-content" spacing={4} direction="column">
                 <ReloadHeader
                     isLoading={todo.isLoading}
                     isDisabled={todo.isLoading || todo.isFetching}
@@ -27,12 +27,20 @@ const Todo = () => {
                 </ReloadHeader>
                 <TodoCard author={user.state?.username} todo={todo.state} />
             </Stack>
-        </Flex>
+        </Layout>
     );
 };
 
 const FallbackTodo = () => {
-    return null;
+    return (
+        <Layout justifyContent={"center"}>
+            <Stack width="fit-content" spacing={4} direction="column">
+                <ReloadHeader isLoading={false} isDisabled={true}>
+                    Todo #
+                </ReloadHeader>
+            </Stack>
+        </Layout>
+    );
 };
 
 export { FallbackTodo };
