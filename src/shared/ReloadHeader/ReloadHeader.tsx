@@ -4,7 +4,7 @@ import { RedoOutlined } from "@ant-design/icons";
 interface ReloadHeaderProps {
     isLoading: boolean;
     isDisabled: boolean;
-    refetch: () => void;
+    refetch?: () => void;
 }
 
 const ReloadHeader: React.FC<React.PropsWithChildren<ReloadHeaderProps>> = ({
@@ -20,7 +20,7 @@ const ReloadHeader: React.FC<React.PropsWithChildren<ReloadHeaderProps>> = ({
                 aria-label="Refetch"
                 size="sm"
                 isLoading={isLoading}
-                isDisabled={isDisabled}
+                isDisabled={isDisabled || refetch === undefined}
                 onClick={refetch}
             >
                 <Icon as={RedoOutlined} />
