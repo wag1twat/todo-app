@@ -8,7 +8,7 @@ class Managers {
     static env = () => new Env()
     static api = () => new Api(this.env().API)
     static route = (route: string = '') => new Route(route)
-    static queries = (url: string = '') => new Queries(url)
+    static queries = () => new Queries()
     static analytics = () => new Analitycs()
 }
 

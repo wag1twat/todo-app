@@ -1,9 +1,4 @@
 class Queries {
-    private url: string
-    constructor(url: string) {
-        this.url = url
-    }
-
     public serialize(params: object, prefix?: string): string {
         const query = (Object.keys(params)).map(key => {
             const value = params[key as (keyof typeof params)]
