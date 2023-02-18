@@ -3,15 +3,15 @@ import { Stack } from "@chakra-ui/layout";
 import { Flex } from "@chakra-ui/react";
 import { useTransition } from "react";
 import { useNavigate } from "react-router-dom";
+import { useRenderVariants } from "../../features";
 import { Managers, useMaxZIndex } from "../../processes";
-import { useViewsQueries } from "../../shared";
 
 const Header = () => {
     const [isPending, startTransition] = useTransition();
 
     const navigate = useNavigate();
 
-    const viewsQueries = useViewsQueries();
+    const { queries } = useRenderVariants();
 
     const zIndex = useMaxZIndex();
     return (
@@ -36,7 +36,7 @@ const Header = () => {
                                     .todos()
                                     .link()
                                     .exec(),
-                                search: viewsQueries.queries.list
+                                search: queries.list
                             });
                         })
                     }

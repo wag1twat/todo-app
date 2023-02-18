@@ -1,19 +1,18 @@
 import { Flex, Heading, Input, Stack } from "@chakra-ui/react";
 import React, { useDeferredValue } from "react";
 import { TodosCards, TodosTable, useTodos, useUsers } from "../../entities";
-import { useGlobalLoader } from "../../processes";
 import {
-    Layout,
-    ReloadHeader,
-    ToggleView,
-    useValidateView
-} from "../../shared";
+    ToggleRenderVariantUrlQuery,
+    useValidateRenderVariant
+} from "../../features";
+import { useGlobalLoader } from "../../processes";
+import { Layout, ReloadHeader } from "../../shared";
 
 const Todos: React.FC = () => {
     const [username, setUsername] = React.useState<string>("");
     const defferedUsername = useDeferredValue(username);
 
-    const view = useValidateView();
+    const { renderVariant } = useValidateRenderVariant();
 
     const users = useUsers();
 
@@ -65,7 +64,7 @@ const Todos: React.FC = () => {
                         >
                             Todos
                         </ReloadHeader>
-                        <ToggleView />
+                        <ToggleRenderVariantUrlQuery />
                     </Stack>
                     <Input
                         mt={[4, "unset", "unset", "unset", "unset"]}
@@ -79,10 +78,10 @@ const Todos: React.FC = () => {
                     />
                 </Flex>
 
-                {view === "list" && todos.state.length > 0 && (
+                {renderVariant === "list" && todos.state.length > 0 && (
                     <TodosTable todos={filteredTodos} getAuthor={getAuthor} />
                 )}
-                {view === "card" && (
+                {renderVariant === "card" && (
                     <TodosCards todos={filteredTodos} getAuthor={getAuthor} />
                 )}
             </Stack>

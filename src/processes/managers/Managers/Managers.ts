@@ -96,19 +96,37 @@ class Route extends Url {
     }
 }
 
-// TODO: квери манагер
 class Queries {
     private url: string
     constructor(url: string) {
         this.url = url
     }
+
+    public serialize(params: object, prefix?: string): string {
+        const query = (Object.keys(params)).map(key => {
+            const value = params[key as (keyof typeof params)]
+
+            if(params.constructor === Array) {
+                key = `${prefix}[]`
+            } else if(params.constructor === Object) {
+                key = (prefix ? `${prefix}[${key}]` : key);
+            }
+            
+            if(typeof value === 'object') {
+                return this.serialize(value, key)
+            } else {
+                return `${key}=${encodeURIComponent(value)}`
+            }
+        })
+
+        return ([] as string[]).concat.apply([] as string[], query).join('&');
+    }
 }
-
-
 
 class Managers {
     static api = () => new Api(process.env[EnvKeys.REACT_APP_API] || '/')
     static route = (route: string = '') => new Route(route)
+    static queries = (url: string = '') => new Queries(url)
 }
 
 export { Managers }
