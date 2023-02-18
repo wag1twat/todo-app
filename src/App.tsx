@@ -2,7 +2,7 @@ import React from "react";
 import { ChakraProvider } from "@chakra-ui/react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Header, Main } from "./entities";
-import { ErrorBoundary, Managers, ProcessCheck } from "./processes";
+import { ErrorBoundary, Managers } from "./processes";
 import { FallbackAnalytics, FallbackTodos, FallbackTodo } from "./pages";
 import { GlobalLoaderProvider } from "./processes/providers";
 
@@ -17,9 +17,6 @@ function App() {
                 <Main>
                     <BrowserRouter>
                         <Header />
-                        <ErrorBoundary stage="development">
-                            <ProcessCheck />
-                        </ErrorBoundary>
                         <Routes>
                             <Route
                                 path={Managers.route().exec()}

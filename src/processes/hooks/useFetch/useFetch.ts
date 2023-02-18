@@ -1,8 +1,8 @@
 import React from 'react'
 import { AxiosError , } from 'axios'
 import { axiosInstance } from '../../axios'
-import { useEnv } from '../useEnv'
 import { DateTime } from 'luxon'
+import { Managers } from '../../managers'
 
 interface ConfigGet<T extends unknown> {
     initialState: T,
@@ -16,7 +16,6 @@ interface E {
 }
 
 const useGet = <T extends unknown>(key: (string)[], config: ConfigGet<T>) => {
-    const { REACT_APP_NAME = 'app' } = useEnv()
     const { initialState, cacheTime = 5000, onSettled } = config
     const [url, setUrl] = React.useState<string | undefined>(undefined)
     const [isLoading, setIsLoading] = React.useState(false)
@@ -26,7 +25,7 @@ const useGet = <T extends unknown>(key: (string)[], config: ConfigGet<T>) => {
 
     const get = React.useCallback(async (url:string) => {
         setUrl(url)
-        const cacheKey = `${REACT_APP_NAME}-${key.join(',')}`
+        const cacheKey = `${Managers.env().NAME}-${key.join(',')}`
 
         try {
             setIsFetching(true)

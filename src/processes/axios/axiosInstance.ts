@@ -1,9 +1,8 @@
 import axios from "axios";
-import { DateTime } from "luxon";
-import {  EnvKeys } from "../managers";
+import { Managers } from "../managers";
 
 const axiosInstance = axios.create({
-    baseURL: process.env[EnvKeys.REACT_APP_API]
+    baseURL: Managers.env().API
 })
 
 axiosInstance.interceptors.request.use(function (config) {
