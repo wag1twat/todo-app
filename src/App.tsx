@@ -2,7 +2,7 @@ import React from "react";
 import { ChakraProvider } from "@chakra-ui/react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Header, Main } from "./entities";
-import { ErrorBoundary, Managers } from "./processes";
+import { ErrorBoundary, Core } from "./processes";
 import { FallbackAnalytics, FallbackTodos, FallbackTodo } from "./pages";
 import { GlobalLoaderProvider } from "./processes/providers";
 import { FallbackAnalyticsErrorEvent } from "./pages/AnalyticsErrorEvent";
@@ -25,7 +25,7 @@ function App() {
                         </ErrorBoundary>
                         <Routes>
                             <Route
-                                path={Managers.route().exec()}
+                                path={Core.route().exec()}
                                 element={
                                     <ErrorBoundary stage="development">
                                         <React.Suspense
@@ -38,7 +38,7 @@ function App() {
                             />
 
                             <Route
-                                path={Managers.route().todos().path().exec()}
+                                path={Core.route().todos().path().exec()}
                                 element={
                                     <ErrorBoundary stage="development">
                                         <React.Suspense
@@ -51,7 +51,7 @@ function App() {
                             />
 
                             <Route
-                                path={Managers.route().todo().path().exec()}
+                                path={Core.route().todo().path().exec()}
                                 element={
                                     <ErrorBoundary stage="development">
                                         <React.Suspense
@@ -64,10 +64,7 @@ function App() {
                             />
 
                             <Route
-                                path={Managers.route()
-                                    .analytics()
-                                    .path()
-                                    .exec()}
+                                path={Core.route().analytics().path().exec()}
                                 element={
                                     <ErrorBoundary stage="development">
                                         <React.Suspense
@@ -80,7 +77,7 @@ function App() {
                             />
 
                             <Route
-                                path={Managers.route()
+                                path={Core.route()
                                     .analyticsErrorEvent()
                                     .path()
                                     .exec()}

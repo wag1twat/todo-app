@@ -1,16 +1,16 @@
-import { Flex, Heading, Input, Stack } from "@chakra-ui/react";
+import { Flex, Input, Stack } from "@chakra-ui/react";
 import React, { useDeferredValue } from "react";
 import { TodosCards, TodosTable, useTodos, useUsers } from "../../entities";
 import {
     ToggleRenderVariantUrlQuery,
     useValidateRenderVariant
 } from "../../features";
-import { Managers, useGlobalLoader } from "../../processes";
+import { Core, useGlobalLoader } from "../../processes";
 import { Layout, ReloadHeader } from "../../shared";
 
 const Todos: React.FC = () => {
     const [username, setUsername] = React.useState<string>(() =>
-        Managers.queries().field("username")
+        Core.queries().field("username")
     );
 
     const defferedUsername = useDeferredValue(username);

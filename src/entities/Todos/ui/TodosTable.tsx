@@ -2,7 +2,7 @@ import { Box, Stack } from "@chakra-ui/react";
 import React from "react";
 import { Column } from "react-table";
 import { Pagination, useCollectionPaging } from "../../../features";
-import { Managers } from "../../../processes";
+import { Core } from "../../../processes";
 import { CompletedIcon, RouterLink } from "../../../shared";
 import { Table } from "../../Table";
 import { Todo } from "../model";
@@ -26,7 +26,7 @@ const TodosTable: React.FC<React.PropsWithChildren<TodosTableProps>> = ({
                     return (
                         <Box>
                             <RouterLink
-                                to={Managers.route()
+                                to={Core.route()
                                     .todo()
                                     .link(`${props.row.original.id}`)
                                     .exec()}

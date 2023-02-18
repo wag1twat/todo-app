@@ -4,7 +4,7 @@ import { Env } from "./Env"
 import { Queries } from "./Queries"
 import { Route } from "./Route"
 
-class Managers {
+class Core {
     static env = () => new Env()
     static api = () => new Api(this.env().API)
     static route = (route: string = '') => new Route(route)
@@ -12,4 +12,4 @@ class Managers {
     static analytics = () => new Analitycs()
 }
 
-export { Managers }
+export { Core }

@@ -1,6 +1,6 @@
 import React from 'react'
 import {  Undefined } from 'runtypes';
-import { Managers, useGet } from '../../../processes';
+import { Core, useGet } from '../../../processes';
 import { User, userContract } from './useUsers';
 
 const useUser = (id: string | undefined) => {
@@ -8,7 +8,7 @@ const useUser = (id: string | undefined) => {
 
     React.useEffect(() => {
         if(id) {
-            user.get(Managers.api().user(id).exec())
+            user.get(Core.api().user(id).exec())
         }
     }, [user.get, id]);
 

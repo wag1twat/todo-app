@@ -2,7 +2,7 @@ import React from 'react'
 import { AxiosError , } from 'axios'
 import { axiosInstance } from '../../axios'
 import { DateTime } from 'luxon'
-import { Managers } from '../../managers'
+import { Core } from '../../core'
 
 interface ConfigGet<T extends unknown> {
     initialState: T,
@@ -25,7 +25,7 @@ const useGet = <T extends unknown>(key: (string)[], config: ConfigGet<T>) => {
 
     const get = React.useCallback(async (url:string) => {
         setUrl(url)
-        const cacheKey = `${Managers.env().NAME}-${key.join(',')}`
+        const cacheKey = `${Core.env().NAME}-${key.join(',')}`
 
         try {
             setIsFetching(true)
@@ -73,7 +73,7 @@ const useGet = <T extends unknown>(key: (string)[], config: ConfigGet<T>) => {
         }
         catch(err) {
             if(err instanceof AxiosError) {
-                Managers.analytics().sendErrorEvent({
+                Core.analytics().sendErrorEvent({
                     name: (err as AxiosError).name,
                     message: (err as AxiosError).message,
                     stack: (err as AxiosError).stack || ""

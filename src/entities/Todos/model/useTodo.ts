@@ -1,6 +1,6 @@
 import React from 'react'
 import { Undefined } from 'runtypes';
-import { Managers, useGet } from '../../../processes';
+import { Core, useGet } from '../../../processes';
 import { Todo, todoContract } from './useTodos';
 
 
@@ -9,7 +9,7 @@ const useTodo = (id: string | undefined) => {
 
     React.useEffect(() => {
         if(id) {
-            todo.get(Managers.api().todo(id).exec());
+            todo.get(Core.api().todo(id).exec());
         }
     }, [todo.get, id]);
 

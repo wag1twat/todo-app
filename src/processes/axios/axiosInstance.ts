@@ -1,8 +1,8 @@
 import axios from "axios";
-import { Managers } from "../managers";
+import { Core } from "../core";
 
 const axiosInstance = axios.create({
-    baseURL: Managers.env().API
+    baseURL: Core.env().API
 })
 
 axiosInstance.interceptors.request.use(function (config) {

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Array, Number, Record, Static, String, Undefined } from 'runtypes';
-import { Managers, useGet } from '../../../processes';
+import { Core, useGet } from '../../../processes';
 
 const geoContact = Record({
     lat: String, lng: String
@@ -37,7 +37,7 @@ const useUsers = () => {
     const users = useGet<User[]>(['users'], { initialState: [], cacheTime: 10000 })
 
     React.useEffect(() => {
-        users.get(Managers.api().users().exec())
+        users.get(Core.api().users().exec())
     }, [users.get]);
 
     React.useEffect(() => {

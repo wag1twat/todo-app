@@ -4,7 +4,7 @@ import { Flex } from "@chakra-ui/react";
 import { useTransition } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRenderVariants } from "../../features";
-import { Managers, useMaxZIndex } from "../../processes";
+import { Core, useMaxZIndex } from "../../processes";
 
 const Header = () => {
     const [isPending, startTransition] = useTransition();
@@ -32,10 +32,7 @@ const Header = () => {
                     onClick={() =>
                         startTransition(() => {
                             navigate({
-                                pathname: Managers.route()
-                                    .todos()
-                                    .link()
-                                    .exec(),
+                                pathname: Core.route().todos().link().exec(),
                                 search: queries.list
                             });
                         })
@@ -49,9 +46,7 @@ const Header = () => {
                     colorScheme={"cyan"}
                     onClick={() =>
                         startTransition(() => {
-                            navigate(
-                                Managers.route().analytics().link().exec()
-                            );
+                            navigate(Core.route().analytics().link().exec());
                         })
                     }
                     isDisabled={isPending}

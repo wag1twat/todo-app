@@ -1,4 +1,4 @@
-import { Managers } from "../../../processes";
+import { Core } from "../../../processes";
 
 const renderVariants = ["card", "list"] as const;
 const renderVariantKey = 'renderVariant' as const
@@ -23,7 +23,7 @@ const useRenderVariants = () => {
             (acc, renderVariant) => {
                 return {
                     ...acc,
-                    [renderVariant]: `?${Managers.queries().serialize({ renderVariant })}`
+                    [renderVariant]: `?${Core.queries().serialize({ renderVariant })}`
                 };
             },
             {} as Record<RenderVariant, string>

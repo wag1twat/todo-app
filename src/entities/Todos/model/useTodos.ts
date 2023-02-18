@@ -1,6 +1,6 @@
 import React from 'react'
 import { Array, Boolean, Number, Record, Static, String, Undefined } from 'runtypes';
-import { ConfigGet, Managers, useGet } from '../../../processes';
+import { ConfigGet, Core, useGet } from '../../../processes';
 
 const todoContract = Record({
     completed: Boolean,
@@ -18,7 +18,7 @@ const useTodos = (props: Partial<Pick<ConfigGet<Todo[]>, 'onSettled'>> = {}) => 
     const todos = useGet<Todo[]>(['todos'], { initialState: [], cacheTime: 5000, onSettled });
 
     React.useEffect(() => {
-        todos.get(Managers.api().todos().exec());
+        todos.get(Core.api().todos().exec());
     }, [todos.get]);
 
     React.useEffect(() => {

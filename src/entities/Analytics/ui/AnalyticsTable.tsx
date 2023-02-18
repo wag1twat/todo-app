@@ -2,8 +2,8 @@ import { Box, Stack } from "@chakra-ui/react";
 import React from "react";
 import { Column } from "react-table";
 import { Pagination, useCollectionPaging } from "../../../features";
-import { Managers } from "../../../processes";
-import { AnalitycsErrorEvent } from "../../../processes/managers/Managers/Analytics";
+import { Core, AnalitycsErrorEvent } from "../../../processes";
+import {} from "../../../processes/core/Analytics";
 import { RouterLink } from "../../../shared";
 import { Table } from "../../Table";
 
@@ -23,7 +23,7 @@ const AnalitycsTable: React.FC<
                 Cell: (props) => (
                     <Box>
                         <RouterLink
-                            to={Managers.route()
+                            to={Core.route()
                                 .analyticsErrorEvent()
                                 .link(props.row.original.key)
                                 .exec()}
