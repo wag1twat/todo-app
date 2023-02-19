@@ -1,7 +1,7 @@
 import React from "react";
 
 const useCollectionPaging = <T extends unknown>(
-    collection: T[] = [],
+    defaultCollection: T[] = [],
     defaultOption: 5 | 10 | 20 | 50 = 10
 ) => {
     const [options] = React.useState(() => [5, 10, 20, 50]);
@@ -11,13 +11,13 @@ const useCollectionPaging = <T extends unknown>(
     const [page, setPage] = React.useState<number>(1);
 
     const count = React.useMemo(
-        () => Math.ceil(collection.length / option),
-        [collection.length, option]
+        () => Math.ceil(defaultCollection.length / option),
+        [defaultCollection.length, option]
     );
 
-    const items = React.useMemo(
-        () => [...collection].slice((page - 1) * option, page * option),
-        [collection, option, page]
+    const collection = React.useMemo(
+        () => [...defaultCollection].slice((page - 1) * option, page * option),
+        [defaultCollection, option, page]
     );
 
     const nextPage = React.useCallback(() => {
@@ -35,7 +35,7 @@ const useCollectionPaging = <T extends unknown>(
     }, []);
 
     return {
-        items,
+        collection,
         option,
         options,
         count,

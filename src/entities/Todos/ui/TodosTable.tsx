@@ -3,6 +3,7 @@ import React from "react";
 import { Column } from "react-table";
 import { Pagination, useCollectionPaging } from "../../../features";
 import { Core } from "../../../processes";
+import { useCollectionSorting } from "../../../processes/hooks/useCollectionSorting/useCollectionSorting";
 import { CompletedIcon, RouterLink } from "../../../shared";
 import { Table } from "../../Table";
 import { Todo } from "../model";
@@ -16,11 +17,22 @@ const TodosTable: React.FC<React.PropsWithChildren<TodosTableProps>> = ({
     todos,
     getAuthor
 }) => {
+    const collectionSorting = useCollectionSorting(todos, {
+        defaultField: "id",
+        defaultOrder: "ASC"
+    });
+
+    const collectionPaging = useCollectionPaging(collectionSorting.collection);
+
     const columns = React.useMemo<Column<Todo>[]>(() => {
         return [
             {
                 Header: (props) => {
-                    return <Box>id</Box>;
+                    return (
+                        <Box onClick={() => collectionSorting.sort("id")}>
+                            id
+                        </Box>
+                    );
                 },
                 Cell: (props) => {
                     return (
@@ -41,7 +53,11 @@ const TodosTable: React.FC<React.PropsWithChildren<TodosTableProps>> = ({
             },
             {
                 Header: (props) => {
-                    return <Box>title</Box>;
+                    return (
+                        <Box onClick={() => collectionSorting.sort("title")}>
+                            title
+                        </Box>
+                    );
                 },
                 Cell: (props) => {
                     return <Box>{props.row.original.title}</Box>;
@@ -51,7 +67,13 @@ const TodosTable: React.FC<React.PropsWithChildren<TodosTableProps>> = ({
             },
             {
                 Header: (props) => {
-                    return <Box>completed</Box>;
+                    return (
+                        <Box
+                            onClick={() => collectionSorting.sort("completed")}
+                        >
+                            completed
+                        </Box>
+                    );
                 },
                 Cell: (props) => {
                     return (
@@ -78,13 +100,11 @@ const TodosTable: React.FC<React.PropsWithChildren<TodosTableProps>> = ({
                 disableSortBy: true
             }
         ];
-    }, [getAuthor]);
-
-    const collectionPaging = useCollectionPaging(todos);
+    }, [getAuthor, collectionSorting.sort]);
 
     return (
         <Stack spacing={4}>
-            <Table data={collectionPaging.items} columns={columns} />
+            <Table data={collectionPaging.collection} columns={columns} />
             <Pagination
                 count={collectionPaging.count}
                 page={collectionPaging.page}

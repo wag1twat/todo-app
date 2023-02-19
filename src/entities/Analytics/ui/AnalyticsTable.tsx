@@ -79,7 +79,7 @@ const AnalitycsTable: React.FC<
 
     return (
         <Stack spacing={4}>
-            <Table data={collectionPaging.items} columns={columns} />;
+            <Table data={collectionPaging.collection} columns={columns} />;
             <Pagination
                 count={collectionPaging.count}
                 page={collectionPaging.page}

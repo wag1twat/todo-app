@@ -9,8 +9,6 @@ const Analytics = () => {
         Core.analytics().getErrorEvents()
     );
 
-    const sortFn = React.useCallback(() => {}, [errorEvents]);
-
     return (
         <Layout>
             <Stack width="100%" spacing={4}>

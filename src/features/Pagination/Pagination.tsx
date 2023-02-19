@@ -41,7 +41,7 @@ const Pagination: React.FC<PaginationProps> = ({
                 size="sm"
                 aria-label="Left pagination"
                 onClick={() => {
-                    const lastOfPaging = pagination.items.at(-1);
+                    const lastOfPaging = pagination.collection.at(-1);
 
                     if (typeof lastOfPaging === "number") {
                         setPage(lastOfPaging + 1 - option);
@@ -57,7 +57,7 @@ const Pagination: React.FC<PaginationProps> = ({
                 size="sm"
                 aria-label="Left pagination"
                 onClick={() => {
-                    const firstOfPaging = pagination.items.at(0);
+                    const firstOfPaging = pagination.collection.at(0);
 
                     if (
                         typeof firstOfPaging === "number" &&
@@ -71,7 +71,7 @@ const Pagination: React.FC<PaginationProps> = ({
             >
                 <Icon as={LeftOutlined} />
             </IconButton>
-            {pagination.items.map((item) => {
+            {pagination.collection.map((item) => {
                 return (
                     <Button
                         key={item}
@@ -90,7 +90,7 @@ const Pagination: React.FC<PaginationProps> = ({
                 size="sm"
                 aria-label="Right pagination"
                 onClick={() => {
-                    const lastOfPaging = pagination.items.at(-1);
+                    const lastOfPaging = pagination.collection.at(-1);
 
                     if (
                         typeof lastOfPaging === "number" &&
@@ -108,7 +108,7 @@ const Pagination: React.FC<PaginationProps> = ({
                 size="sm"
                 aria-label="Right pagination"
                 onClick={() => {
-                    const firstOfPaging = pagination.items.at(0);
+                    const firstOfPaging = pagination.collection.at(0);
 
                     if (typeof firstOfPaging === "number") {
                         setPage(firstOfPaging + 1 + option);
