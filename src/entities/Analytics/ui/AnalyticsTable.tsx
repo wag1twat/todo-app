@@ -1,6 +1,6 @@
 import { Box, Stack } from "@chakra-ui/react";
 import { DateTime } from "luxon";
-import React from "react";
+import React, { useTransition } from "react";
 import { Column } from "react-table";
 import { Pagination, useCollectionPaging } from "../../../features";
 import {
@@ -9,7 +9,7 @@ import {
     useCollectionSorting
 } from "../../../processes";
 import {} from "../../../processes/core/Analytics";
-import { RouterLink } from "../../../shared";
+import { RouterLink, TransitionBackdrop } from "../../../shared";
 import { Table } from "../../Table";
 
 interface AnalitycsTableProps {
@@ -26,6 +26,8 @@ const localeStringDate = (dateTime?: DateTime) =>
 const AnalitycsTable: React.FC<
     React.PropsWithChildren<AnalitycsTableProps>
 > = ({ events }) => {
+    const [isPending, startTransition] = useTransition();
+
     const collectionSorting = useCollectionSorting(
         events,
         React.useMemo(
@@ -40,7 +42,10 @@ const AnalitycsTable: React.FC<
         )
     );
 
-    const collectionPaging = useCollectionPaging(collectionSorting.collection);
+    const collectionPaging = useCollectionPaging(
+        collectionSorting.collection,
+        20
+    );
 
     const columns = React.useMemo<
         Column<AnalitycsErrorEvent & { key: string }>[]
@@ -48,7 +53,13 @@ const AnalitycsTable: React.FC<
         return [
             {
                 Header: () => (
-                    <Box onClick={() => collectionSorting.sort("name")}>
+                    <Box
+                        onClick={() => {
+                            startTransition(() => {
+                                collectionSorting.sort("name");
+                            });
+                        }}
+                    >
                         Name
                     </Box>
                 ),
@@ -69,7 +80,13 @@ const AnalitycsTable: React.FC<
             },
             {
                 Header: () => (
-                    <Box onClick={() => collectionSorting.sort("key")}>
+                    <Box
+                        onClick={() => {
+                            startTransition(() => {
+                                collectionSorting.sort("key");
+                            });
+                        }}
+                    >
                         Date
                     </Box>
                 ),
@@ -103,23 +120,25 @@ const AnalitycsTable: React.FC<
     }, [collectionSorting.sort]);
 
     return (
-        <Stack spacing={4}>
-            <Table data={collectionPaging.collection} columns={columns} />;
-            <Pagination
-                count={collectionPaging.count}
-                page={collectionPaging.page}
-                setPage={collectionPaging.setPage}
-                nextPage={collectionPaging.nextPage}
-                prevPage={collectionPaging.prevPage}
-                justifyContent={[
-                    "center",
-                    "center",
-                    "center",
-                    "flex-end",
-                    "flex-end"
-                ]}
-            />
-        </Stack>
+        <TransitionBackdrop isActive={isPending}>
+            <Stack spacing={4}>
+                <Table data={collectionPaging.collection} columns={columns} />;
+                <Pagination
+                    count={collectionPaging.count}
+                    page={collectionPaging.page}
+                    setPage={collectionPaging.setPage}
+                    nextPage={collectionPaging.nextPage}
+                    prevPage={collectionPaging.prevPage}
+                    justifyContent={[
+                        "center",
+                        "center",
+                        "center",
+                        "flex-end",
+                        "flex-end"
+                    ]}
+                />
+            </Stack>
+        </TransitionBackdrop>
     );
 };
 

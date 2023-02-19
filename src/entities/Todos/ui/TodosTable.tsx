@@ -1,9 +1,9 @@
 import { Box, Stack } from "@chakra-ui/react";
-import React from "react";
+import React, { useTransition } from "react";
 import { Column } from "react-table";
 import { Pagination, useCollectionPaging } from "../../../features";
 import { Core, useCollectionSorting } from "../../../processes";
-import { CompletedIcon, RouterLink } from "../../../shared";
+import { CompletedIcon, RouterLink, TransitionBackdrop } from "../../../shared";
 import { Table } from "../../Table";
 import { Todo } from "../model";
 
@@ -16,6 +16,10 @@ const TodosTable: React.FC<React.PropsWithChildren<TodosTableProps>> = ({
     todos,
     getAuthor
 }) => {
+    console.log("render...");
+
+    const [isPending, startTransition] = useTransition();
+
     const collectionSorting = useCollectionSorting(
         todos,
         React.useMemo(
@@ -30,14 +34,23 @@ const TodosTable: React.FC<React.PropsWithChildren<TodosTableProps>> = ({
         )
     );
 
-    const collectionPaging = useCollectionPaging(collectionSorting.collection);
+    const collectionPaging = useCollectionPaging(
+        collectionSorting.collection,
+        20
+    );
 
     const columns = React.useMemo<Column<Todo>[]>(() => {
         return [
             {
                 Header: (props) => {
                     return (
-                        <Box onClick={() => collectionSorting.sort("id")}>
+                        <Box
+                            onClick={() => {
+                                startTransition(() => {
+                                    collectionSorting.sort("id");
+                                });
+                            }}
+                        >
                             id
                         </Box>
                     );
@@ -62,7 +75,13 @@ const TodosTable: React.FC<React.PropsWithChildren<TodosTableProps>> = ({
             {
                 Header: (props) => {
                     return (
-                        <Box onClick={() => collectionSorting.sort("title")}>
+                        <Box
+                            onClick={() => {
+                                startTransition(() => {
+                                    collectionSorting.sort("title");
+                                });
+                            }}
+                        >
                             title
                         </Box>
                     );
@@ -77,7 +96,11 @@ const TodosTable: React.FC<React.PropsWithChildren<TodosTableProps>> = ({
                 Header: (props) => {
                     return (
                         <Box
-                            onClick={() => collectionSorting.sort("completed")}
+                            onClick={() => {
+                                startTransition(() => {
+                                    collectionSorting.sort("completed");
+                                });
+                            }}
                         >
                             completed
                         </Box>
@@ -99,7 +122,13 @@ const TodosTable: React.FC<React.PropsWithChildren<TodosTableProps>> = ({
             {
                 Header: (props) => {
                     return (
-                        <Box onClick={() => collectionSorting.sort("userId")}>
+                        <Box
+                            onClick={() => {
+                                startTransition(() => {
+                                    collectionSorting.sort("userId");
+                                });
+                            }}
+                        >
                             Author
                         </Box>
                     );
@@ -115,17 +144,19 @@ const TodosTable: React.FC<React.PropsWithChildren<TodosTableProps>> = ({
     }, [getAuthor, collectionSorting.sort]);
 
     return (
-        <Stack spacing={4}>
-            <Table data={collectionPaging.collection} columns={columns} />
-            <Pagination
-                count={collectionPaging.count}
-                page={collectionPaging.page}
-                setPage={collectionPaging.setPage}
-                nextPage={collectionPaging.nextPage}
-                prevPage={collectionPaging.prevPage}
-                justifyContent="flex-end"
-            />
-        </Stack>
+        <TransitionBackdrop isActive={isPending}>
+            <Stack spacing={4}>
+                <Table data={collectionPaging.collection} columns={columns} />
+                <Pagination
+                    count={collectionPaging.count}
+                    page={collectionPaging.page}
+                    setPage={collectionPaging.setPage}
+                    nextPage={collectionPaging.nextPage}
+                    prevPage={collectionPaging.prevPage}
+                    justifyContent="flex-end"
+                />
+            </Stack>
+        </TransitionBackdrop>
     );
 };
 
