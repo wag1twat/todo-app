@@ -31,7 +31,7 @@ const TodosTable: React.FC<React.PropsWithChildren<TodosTableProps>> = ({
                                     .link(`${props.row.original.id}`)
                                     .exec()}
                             >
-                                {props.row.original.id}
+                                #{props.row.original.id}
                             </RouterLink>
                         </Box>
                     );

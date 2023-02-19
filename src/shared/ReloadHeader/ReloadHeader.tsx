@@ -1,7 +1,7 @@
-import { Heading, IconButton, Stack, Icon } from "@chakra-ui/react";
+import { Heading, IconButton, Stack, Icon, StackProps } from "@chakra-ui/react";
 import { RedoOutlined } from "@ant-design/icons";
 
-interface ReloadHeaderProps {
+interface ReloadHeaderProps extends StackProps {
     isLoading: boolean;
     isDisabled: boolean;
     refetch?: () => void;
@@ -11,10 +11,11 @@ const ReloadHeader: React.FC<React.PropsWithChildren<ReloadHeaderProps>> = ({
     isLoading,
     isDisabled,
     refetch,
-    children
+    children,
+    ...props
 }) => {
     return (
-        <Stack direction={"row"} spacing={4} alignItems="center">
+        <Stack direction={"row"} spacing={4} alignItems="center" {...props}>
             <Heading>{children}</Heading>
             <IconButton
                 aria-label="Refetch"
