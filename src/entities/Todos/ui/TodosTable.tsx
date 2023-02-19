@@ -90,7 +90,17 @@ const TodosTable: React.FC<React.PropsWithChildren<TodosTableProps>> = ({
             },
             {
                 Header: (props) => {
-                    return <Box>Author</Box>;
+                    return (
+                        <Box
+                            onClick={() =>
+                                collectionSorting.sort("userId", (todo) =>
+                                    getAuthor(todo.userId)
+                                )
+                            }
+                        >
+                            Author
+                        </Box>
+                    );
                 },
                 Cell: (props) => {
                     return <Box>{getAuthor(props.row.original.userId)}</Box>;

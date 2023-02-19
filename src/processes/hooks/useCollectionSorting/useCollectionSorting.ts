@@ -8,12 +8,18 @@ interface Options<T extends unknown> {
     defaultOrder: Order,
 }
 
+interface Modifier<T extends unknown> {
+    (collectionItem: T) : unknown
+}
+
+type Modifiers<T extends unknown> = Partial<Record<keyof T, Modifier<T>>>
+
 const { isBoolean, isNumber, isString } = Guards
 
-const sortCallback = <T extends unknown>(order: Exclude<Order, 'default'>, field: keyof T) => (a: T, b: T) => {
+const sortCallback = <T extends unknown>(order: Exclude<Order, 'default'>, field: keyof T, modifier?: Modifier<T>) => (a: T, b: T) => {
     const isAsc = order === 'ASC'
-    const af = a[field] as unknown
-    const bf = b[field] as unknown
+    const af = modifier ? modifier(a) : a[field] as unknown
+    const bf = modifier ? modifier(b) : b[field] as unknown
     if(isString(af) && isString(bf)) {
         return isAsc ? bf.localeCompare(af) : af.localeCompare(bf)
     }
@@ -23,10 +29,10 @@ const sortCallback = <T extends unknown>(order: Exclude<Order, 'default'>, field
     return 0
 }
 
-const sortFn = <T extends unknown>(defaultCollection: T[], order: Order, field: keyof T) => {
+const sortFn = <T extends unknown>(defaultCollection: T[], order: Order, field: keyof T, modifier?: Modifier<T>) => {
     let collection = [...defaultCollection]
     if(order === 'ASC' || order === 'DESC') {
-        collection = collection.sort(sortCallback(order, field))
+        collection = collection.sort(sortCallback(order, field, modifier))
     }
     if(order === 'default') {
        return collection
@@ -38,11 +44,16 @@ const useCollectionSorting = <T extends unknown>(defaultCollection: T[], options
     const { defaultField, defaultOrder } = options
     const ordersRef = React.useRef<Order[]>(['ASC', 'DESC', 'default'])
     const defaultCollectionRef = React.useRef<T[]>([])
+    const modifiers = React.useRef<Modifiers<T>>({})
     const [field, setField] = React.useState<keyof T>(() => defaultField)
     const [order, setOrder] = React.useState<Order>(() => defaultOrder)
     const [collection, setCollection] = React.useState(() => [...defaultCollection])
 
-    const sort = React.useCallback((nextField: keyof T) => {
+    const sort = React.useCallback((nextField: keyof T, modifier?: Modifier<T>) => {
+        if(modifier) {
+            modifiers.current[nextField] = modifier
+        }
+
         setField(nextField)
 
         if(field === nextField) {
@@ -70,10 +81,15 @@ const useCollectionSorting = <T extends unknown>(defaultCollection: T[], options
     }, [isEqual, defaultCollection])
 
     React.useEffect(() => {
-        const collection = sortFn(defaultCollection, order, field)
+        const collection = sortFn(defaultCollection, order, field, modifiers.current[field])
         setCollection(() => collection)
-    }, [isEqual, order, field])
+    }, [isEqual, order, field, modifiers.current])
 
+    React.useEffect(() => {
+        return () => {
+            modifiers.current = {}
+        }
+    }, [])
     return { collection, sort }
 }
 
