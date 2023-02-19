@@ -1,6 +1,7 @@
 import { Stack } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
-import { Layout, ReloadHeader } from "../../shared";
+import { ContentLayout } from "../../processes/theme";
+import { ReloadHeader } from "../../shared";
 import {
     todoCardWidgetContext,
     TodoCardWidget,
@@ -10,7 +11,7 @@ import {
 const Todo = () => {
     const { id } = useParams();
     return (
-        <Layout justifyContent={"center"}>
+        <ContentLayout justifyContent={"center"}>
             <Stack width="fit-content" spacing={4} direction="column">
                 <TodoCardWidgetProvider id={id ? +id : undefined}>
                     <todoCardWidgetContext.Consumer>
@@ -32,19 +33,19 @@ const Todo = () => {
                     <TodoCardWidget />
                 </TodoCardWidgetProvider>
             </Stack>
-        </Layout>
+        </ContentLayout>
     );
 };
 
 const FallbackTodo = () => {
     return (
-        <Layout justifyContent={"center"}>
+        <ContentLayout justifyContent={"center"}>
             <Stack width="fit-content" spacing={4} direction="column">
                 <ReloadHeader isLoading={false} isDisabled={true}>
                     Todo #
                 </ReloadHeader>
             </Stack>
-        </Layout>
+        </ContentLayout>
     );
 };
 

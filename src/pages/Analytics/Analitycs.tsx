@@ -1,8 +1,8 @@
 import React from "react";
 import { Heading, Stack } from "@chakra-ui/react";
-import { Layout } from "../../shared";
 import { AnalitycsTable } from "../../entities";
 import { Core } from "../../processes";
+import { ContentLayout } from "../../processes/theme";
 
 const Analytics = () => {
     const [errorEvents] = React.useState(() =>
@@ -10,22 +10,22 @@ const Analytics = () => {
     );
 
     return (
-        <Layout>
+        <ContentLayout>
             <Stack width="100%" spacing={4}>
                 <Heading>Analytics</Heading>
                 <AnalitycsTable events={errorEvents} />
             </Stack>
-        </Layout>
+        </ContentLayout>
     );
 };
 
 const FallbackAnalytics = () => {
     return (
-        <Layout>
+        <ContentLayout>
             <Stack width="100%" spacing={4}>
                 <Heading>Analytics</Heading>
             </Stack>
-        </Layout>
+        </ContentLayout>
     );
 };
 

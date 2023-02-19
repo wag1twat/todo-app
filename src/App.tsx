@@ -1,7 +1,7 @@
 import React from "react";
 import { ChakraProvider } from "@chakra-ui/react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { Header, Main } from "./entities";
+import { Header } from "./entities";
 import { ErrorBoundary, GlobalLoaderProvider, Core } from "./processes";
 import {
     FallbackAnalytics,
@@ -10,6 +10,7 @@ import {
     FallbackPosts,
     FallbackAnalyticsErrorEvent
 } from "./pages";
+import theme, { MainLayout } from "./processes/theme";
 
 const TodosPage = React.lazy(() => import("./pages/Todos/Todos"));
 const AnalyticsPage = React.lazy(() => import("./pages/Analytics/Analitycs"));
@@ -21,27 +22,38 @@ const PostsPage = React.lazy(() => import("./pages/Posts/Posts"));
 
 function App() {
     return (
-        <ChakraProvider>
+        <ChakraProvider theme={theme}>
             <GlobalLoaderProvider>
-                <Main>
-                    <BrowserRouter>
-                        <ErrorBoundary stage="development">
-                            <Header />
-                        </ErrorBoundary>
+                <BrowserRouter>
+                    <ErrorBoundary stage="development">
+                        <Header />
+                    </ErrorBoundary>
+                    <MainLayout>
                         <Routes>
                             <Route
-                                path={Core.route().exec()}
+                                path="*"
                                 element={
-                                    <ErrorBoundary stage="development">
-                                        <React.Suspense
-                                            fallback={<FallbackTodos />}
-                                        >
-                                            <TodosPage />
-                                        </React.Suspense>
-                                    </ErrorBoundary>
+                                    <Navigate
+                                        to={Core.route()
+                                            .todos()
+                                            .path()
+                                            .query({ renderVariant: "list" })}
+                                        replace
+                                    />
                                 }
                             />
-
+                            <Route
+                                path="*"
+                                element={
+                                    <Navigate
+                                        to={Core.route()
+                                            .todos()
+                                            .path()
+                                            .query({ renderVariant: "list" })}
+                                        replace
+                                    />
+                                }
+                            />
                             <Route
                                 path={Core.route().todos().path().exec()}
                                 element={
@@ -111,13 +123,9 @@ function App() {
                                     </ErrorBoundary>
                                 }
                             />
-                            <Route
-                                path="*"
-                                element={<Navigate to="/" replace />}
-                            />
                         </Routes>
-                    </BrowserRouter>
-                </Main>
+                    </MainLayout>
+                </BrowserRouter>
             </GlobalLoaderProvider>
         </ChakraProvider>
     );

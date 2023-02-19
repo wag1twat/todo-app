@@ -26,9 +26,9 @@ const PostCard: React.FC<PostCardProps> = ({ post, user, comments }) => {
                     <chakra.span>{post?.title}</chakra.span>
                 </Flex>
                 <Text fontSize="sm">{post?.body}</Text>
-                <Flex justifyContent={"flex-end"} hidden={!comments.length}>
+                <Flex justifyContent={"flex-end"}>
                     <RouterLink to="/">
-                        comments{`(${comments.length})`}
+                        comments{`(${comments.length || 0})`}
                     </RouterLink>
                 </Flex>
             </Stack>

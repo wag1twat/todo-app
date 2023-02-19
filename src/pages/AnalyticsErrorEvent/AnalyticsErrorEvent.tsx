@@ -2,7 +2,7 @@ import { Heading, Stack } from "@chakra-ui/react";
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Core } from "../../processes";
-import { Layout } from "../../shared";
+import { ContentLayout } from "../../processes/theme";
 import { AnalyticsErrorWidget } from "../../widgets";
 
 const AnalyticsErrorEvent = () => {
@@ -18,22 +18,22 @@ const AnalyticsErrorEvent = () => {
         }
     }, [event]);
     return (
-        <Layout>
+        <ContentLayout>
             <Stack spacing={4}>
                 <Heading>{event?.name}</Heading>
                 <AnalyticsErrorWidget event={event} />
             </Stack>
-        </Layout>
+        </ContentLayout>
     );
 };
 
 const FallbackAnalyticsErrorEvent = () => {
     return (
-        <Layout>
+        <ContentLayout>
             <Stack spacing={4}>
                 <Heading>Event</Heading>
             </Stack>
-        </Layout>
+        </ContentLayout>
     );
 };
 

@@ -7,7 +7,8 @@ import {
     useValidateRenderVariant
 } from "../../features";
 import { useGlobalLoader } from "../../processes";
-import { Layout, ReloadHeader } from "../../shared";
+import { ContentLayout } from "../../processes/theme";
+import { ReloadHeader } from "../../shared";
 
 const Todos: React.FC = () => {
     const [searchParams] = useSearchParams();
@@ -46,7 +47,7 @@ const Todos: React.FC = () => {
     }, [todos.state, defferedUsername, getAuthor]);
 
     return (
-        <Layout>
+        <ContentLayout>
             <Stack width="100%" spacing={4}>
                 <Flex
                     alignItems={"center"}
@@ -93,13 +94,13 @@ const Todos: React.FC = () => {
                     <TodosCards todos={filteredTodos} getAuthor={getAuthor} />
                 )}
             </Stack>
-        </Layout>
+        </ContentLayout>
     );
 };
 
 const FallbackTodos = () => {
     return (
-        <Layout>
+        <ContentLayout>
             <Stack
                 width="100%"
                 direction={"row"}
@@ -111,7 +112,7 @@ const FallbackTodos = () => {
                 </ReloadHeader>
                 <ToggleRenderVariantUrlQuery />
             </Stack>
-        </Layout>
+        </ContentLayout>
     );
 };
 

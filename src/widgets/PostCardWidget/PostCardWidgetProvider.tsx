@@ -37,6 +37,16 @@ const PostCardWidgetProvider: React.FC<
         userId: user.state?.id
     });
 
+    React.useEffect(() => {
+        const interval = setInterval(() => {
+            comments.refetch();
+        }, 1000);
+
+        return () => {
+            clearInterval(interval);
+        };
+    }, [comments.refetch]);
+
     return (
         <postCardWidgetContext.Provider
             value={{

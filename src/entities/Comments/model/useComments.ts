@@ -14,13 +14,13 @@ type Comment = Static<typeof commentContract>
 
 interface UseCommentProps {
     postId?: number,
-    userId?: number
+    userId?: number,
 }
 
 const useComments = (props: UseCommentProps = {}) => {
     const { postId, userId } = props
 
-    const comments = useGet<Comment[]>(['comments', postId, userId], { initialState: [], cacheTime: 5000, enabled: postId !== undefined && userId !== undefined });
+    const comments = useGet<Comment[]>(['comments', postId, userId], { initialState: [], cacheTime: 1000, enabled: postId !== undefined && userId !== undefined });
 
     React.useEffect(() => {
         comments.get(Core.api().comments().query({

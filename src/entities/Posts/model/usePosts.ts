@@ -13,13 +13,13 @@ type Post = Static<typeof postConract>
 
 interface UsePostsProps {
     _start?: number,
-    _limit?: number
+    _limit?: number,
 }
 
 const usePosts = (props: UsePostsProps = {}) => {
-    const { _start, _limit } = props
+    const { _start, _limit, } = props
 
-    const posts = useGet<Post[]>(['posts', _start, _limit], { initialState: [], cacheTime: 5000 });
+    const posts = useGet<Post[]>(['posts', _start, _limit], { initialState: [], cacheTime: 5000,  });
 
     React.useEffect(() => {
         posts.get(Core.api().posts().query({ _start, _limit }));
