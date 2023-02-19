@@ -1,16 +1,19 @@
 import { Flex, Input, Stack } from "@chakra-ui/react";
 import React, { useDeferredValue } from "react";
+import { useSearchParams } from "react-router-dom";
 import { TodosCards, TodosTable, useTodos, useUsers } from "../../entities";
 import {
     ToggleRenderVariantUrlQuery,
     useValidateRenderVariant
 } from "../../features";
-import { Core, useGlobalLoader } from "../../processes";
+import { useGlobalLoader } from "../../processes";
 import { Layout, ReloadHeader } from "../../shared";
 
 const Todos: React.FC = () => {
-    const [username, setUsername] = React.useState<string>(() =>
-        Core.queries().field("username")
+    const [searchParams] = useSearchParams();
+
+    const [username, setUsername] = React.useState<string>(
+        () => searchParams.get("username") || ""
     );
 
     const defferedUsername = useDeferredValue(username);

@@ -3,12 +3,12 @@ import { Box, Icon, chakra } from "@chakra-ui/react";
 import { Core } from "../../processes";
 import { RouterLink } from "../../shared";
 
-interface TodoAuthorProps {
+interface UserLinkProps {
     id: number | undefined;
     isLoading?: boolean;
 }
 
-const TodoAuthor: React.FC<React.PropsWithChildren<TodoAuthorProps>> = ({
+const UserLink: React.FC<React.PropsWithChildren<UserLinkProps>> = ({
     id,
     isLoading,
     children
@@ -29,4 +29,4 @@ const TodoAuthor: React.FC<React.PropsWithChildren<TodoAuthorProps>> = ({
     );
 };
 
-export { TodoAuthor };
+export { UserLink };

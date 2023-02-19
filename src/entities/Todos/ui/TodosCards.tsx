@@ -1,6 +1,7 @@
 import { Grid } from "@chakra-ui/react";
 import { Todo } from "../model";
-import { TodoCard, TodoAuthor } from "../../../widgets/TodoCardWidget";
+import { TodoCard } from "../../../widgets";
+import { UserLink } from "../../../shared";
 
 interface TodosCardsProps {
     todos: Todo[];
@@ -30,9 +31,9 @@ const TodosCards: React.FC<React.PropsWithChildren<TodosCardsProps>> = ({
                         todo={todo}
                         useNavigate
                         author={
-                            <TodoAuthor id={todo.userId}>
+                            <UserLink id={todo.userId}>
                                 {getAuthor(todo.userId)}
-                            </TodoAuthor>
+                            </UserLink>
                         }
                     />
                 );

@@ -2,10 +2,14 @@ import React from "react";
 import { ChakraProvider } from "@chakra-ui/react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Header, Main } from "./entities";
-import { ErrorBoundary, Core } from "./processes";
-import { FallbackAnalytics, FallbackTodos, FallbackTodo } from "./pages";
-import { GlobalLoaderProvider } from "./processes/providers";
-import { FallbackAnalyticsErrorEvent } from "./pages/AnalyticsErrorEvent";
+import { ErrorBoundary, GlobalLoaderProvider, Core } from "./processes";
+import {
+    FallbackAnalytics,
+    FallbackTodos,
+    FallbackTodo,
+    FallbackPosts,
+    FallbackAnalyticsErrorEvent
+} from "./pages";
 
 const TodosPage = React.lazy(() => import("./pages/Todos/Todos"));
 const AnalyticsPage = React.lazy(() => import("./pages/Analytics/Analitycs"));
@@ -13,6 +17,7 @@ const AnalyticsErrorEventPage = React.lazy(
     () => import("./pages/AnalyticsErrorEvent/AnalyticsErrorEvent")
 );
 const TodoPage = React.lazy(() => import("./pages/Todo/Todo"));
+const PostsPage = React.lazy(() => import("./pages/Posts/Posts"));
 
 function App() {
     return (
@@ -89,6 +94,19 @@ function App() {
                                             }
                                         >
                                             <AnalyticsErrorEventPage />
+                                        </React.Suspense>
+                                    </ErrorBoundary>
+                                }
+                            />
+
+                            <Route
+                                path={Core.route().posts().path().exec()}
+                                element={
+                                    <ErrorBoundary stage="development">
+                                        <React.Suspense
+                                            fallback={<FallbackPosts />}
+                                        >
+                                            <PostsPage />
                                         </React.Suspense>
                                     </ErrorBoundary>
                                 }

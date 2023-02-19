@@ -1,7 +1,12 @@
-class Queries {
-    public serialize(params: object, prefix?: string): string {
+class Serializer {
+    static query(params: object, prefix?: string): string {
         const query = (Object.keys(params)).map(key => {
             const value = params[key as (keyof typeof params)]
+
+            // -> pick undefined or null props
+            if(value === undefined || value === null) {
+                return ''
+            }
 
             if(params.constructor === Array) {
                 key = `${prefix}[]`
@@ -10,24 +15,21 @@ class Queries {
             }
             
             if(typeof value === 'object') {
-                return this.serialize(value, key)
+                return this.query(value, key)
             } else {
                 return `${key}=${encodeURIComponent(value)}`
             }
         })
 
-        return ([] as string[]).concat.apply([] as string[], query).join('&');
-    }
-
-    public field<K extends string>(key: K) {
-        const location = globalThis.location
-
-        const urlSearchParams = new URLSearchParams(location.search)
-
-        const field = urlSearchParams.get(key)
-
-        return field ? field : ''
+        // query.filter(q => q !== '') > pick undefined or null props
+        return  ([] as string[]).concat.apply([] as string[], query.filter(q => q !== '')).join('&')
     }
 }
 
-export { Queries }
+class Queries {
+    protected serialize(params: object, prefix?: string): string {
+        return Serializer.query(params, prefix)
+    }
+}
+
+export { Queries, Serializer }

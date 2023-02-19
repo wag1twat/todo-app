@@ -1,0 +1,39 @@
+import { BoxProps, Flex, Stack, chakra, Text } from "@chakra-ui/react";
+import React from "react";
+import { Comment, Post, User } from "../../entities";
+import { Paper, RouterLink, UserLink } from "../../shared";
+
+interface PostCardProps {
+    post: Post | undefined;
+    user: User | undefined;
+    comments: Comment[];
+}
+
+const PostCardWrapper: React.FC<React.PropsWithChildren<BoxProps>> = (
+    props
+) => {
+    return <Paper minWidth={"260px"} maxWidth={"400px"} p={4} {...props} />;
+};
+
+const PostCard: React.FC<PostCardProps> = ({ post, user, comments }) => {
+    return (
+        <PostCardWrapper>
+            <Stack spacing={2}>
+                <Flex justifyContent={"flex-start"}>
+                    <UserLink id={user?.id}>{user?.username}</UserLink>
+                </Flex>
+                <Flex>
+                    <chakra.span>{post?.title}</chakra.span>
+                </Flex>
+                <Text fontSize="sm">{post?.body}</Text>
+                <Flex justifyContent={"flex-end"} hidden={!comments.length}>
+                    <RouterLink to="/">
+                        comments{`(${comments.length})`}
+                    </RouterLink>
+                </Flex>
+            </Stack>
+        </PostCardWrapper>
+    );
+};
+
+export { PostCard };

@@ -5,6 +5,18 @@ class Route extends Url {
         super(route)
     }
 
+    posts() {
+        return {
+            link: () => this.slash('posts'),
+            path: () => this.slash('posts'),
+        }
+    }
+    post(){
+        return {
+            link: (id: string) => this.posts().link().slash(id),
+            path: () => this.posts().path().slashColon('id'),
+        }
+    }
     todos() {
         return {
             link: () => this.slash('todos'),

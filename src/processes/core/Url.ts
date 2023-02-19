@@ -1,6 +1,9 @@
-class Url {
+import { Queries } from "./Queries"
+
+class Url extends Queries {
     private value: string
     constructor(value: string) {
+        super()
         this.value = value
     }
 
@@ -34,6 +37,11 @@ class Url {
      */
     public slashColon(...values: (string)[]): Url {
         return this.separate('/:', ...values)
+    }
+
+    public query(params: object): string {
+        const result = this.serialize(params)
+        return `${this.value}?${result}`
     }
 }
 

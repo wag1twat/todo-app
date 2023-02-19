@@ -4,13 +4,11 @@ import { Core, useGet } from '../../../processes';
 import { Todo, todoContract } from './useTodos';
 
 
-const useTodo = (id: string | undefined) => {    
-    const todo = useGet<Todo | undefined>(['todo', String(id)], { initialState: undefined, cacheTime: 5000 });
+const useTodo = (id: number | undefined) => {    
+    const todo = useGet<Todo | undefined>(['todo', String(id)], { initialState: undefined, cacheTime: 5000, enabled: id !== undefined });
 
     React.useEffect(() => {
-        if(id) {
-            todo.get(Core.api().todo(id).exec());
-        }
+        todo.get(Core.api().todo(String(id)).exec());
     }, [todo.get, id]);
 
     React.useEffect(() => {

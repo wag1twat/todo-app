@@ -12,7 +12,7 @@ const Todo = () => {
     return (
         <Layout justifyContent={"center"}>
             <Stack width="fit-content" spacing={4} direction="column">
-                <TodoCardWidgetProvider id={id}>
+                <TodoCardWidgetProvider id={id ? +id : undefined}>
                     <todoCardWidgetContext.Consumer>
                         {(ctx) => {
                             return (

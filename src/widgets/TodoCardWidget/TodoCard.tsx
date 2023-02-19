@@ -20,14 +20,14 @@ interface TodoCardProps {
 const TodoCardWrapper: React.FC<React.PropsWithChildren<BoxProps>> = (
     props
 ) => {
-    return <Paper minWidth={"260px"} maxWidth={"400px"} {...props} />;
+    return <Paper minWidth={"260px"} maxWidth={"400px"} p={4} {...props} />;
 };
 
 const TodoCard: React.FC<TodoCardProps> = React.memo(
     ({ todo, author, useNavigate }) => {
         return (
             <TodoCardWrapper>
-                <Stack direction={"column"} p={4} spacing={4}>
+                <Stack direction={"column"} spacing={4}>
                     <Heading size="md" position={"relative"} paddingRight={4}>
                         <chakra.span>{todo?.title}</chakra.span>
                         <RouterLink

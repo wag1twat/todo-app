@@ -1,4 +1,4 @@
-import { Core } from "../../../processes";
+import { Serializer } from "../../../processes/core/Queries";
 
 const renderVariants = ["card", "list"] as const;
 const renderVariantKey = 'renderVariant' as const
@@ -23,7 +23,7 @@ const useRenderVariants = () => {
             (acc, renderVariant) => {
                 return {
                     ...acc,
-                    [renderVariant]: `?${Core.queries().serialize({ renderVariant })}`
+                    [renderVariant]: `?${Serializer.query({ renderVariant })}`
                 };
             },
             {} as Record<RenderVariant, string>

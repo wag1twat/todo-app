@@ -7,7 +7,8 @@ import { Core } from '../../core'
 interface ConfigGet<T extends unknown> {
     initialState: T,
     cacheTime?: number
-    onSettled?: (state: T) => void
+    onSettled?: (state: T) => void,
+    enabled?: boolean
 }
 interface E {
     code: string
@@ -24,8 +25,8 @@ interface Get<T extends unknown> {
     error: Partial<E> | undefined;
 }
 
-const useGet = <T extends unknown>(key: (string)[], config: ConfigGet<T>): Get<T> => {
-    const { initialState, cacheTime = 5000, onSettled } = config
+const useGet = <T extends unknown>(key: (string | number | undefined | boolean)[], config: ConfigGet<T>): Get<T> => {
+    const { initialState, cacheTime = 5000, onSettled, enabled = true } = config
     const [url, setUrl] = React.useState<string | undefined>(undefined)
     const [isLoading, setIsLoading] = React.useState(false)
     const [isFetching, setIsFetching] = React.useState(false)
@@ -33,6 +34,9 @@ const useGet = <T extends unknown>(key: (string)[], config: ConfigGet<T>): Get<T
     const [error, setError] = React.useState<Partial<E> | undefined>(undefined)
 
     const get = React.useCallback(async (url:string) => {
+        if(!enabled) {
+            return
+        }
         setUrl(url)
         const cacheKey = `${Core.env().NAME}-${key.join(',')}`
 
@@ -98,15 +102,15 @@ const useGet = <T extends unknown>(key: (string)[], config: ConfigGet<T>): Get<T
             setIsLoading(false)
             setIsFetching(false)
         }
-    }, [cacheTime])
+    }, [enabled, cacheTime])
 
     const refetch = React.useCallback( async () => url ? get(url): undefined, [get, url])
 
     React.useEffect(() => {
-        if(onSettled) {
+        if(enabled && onSettled) {
             onSettled(state)
         }
-    }, [state])
+    }, [enabled, state])
     return { isLoading, isFetching, get, refetch, state, error }
 }
 

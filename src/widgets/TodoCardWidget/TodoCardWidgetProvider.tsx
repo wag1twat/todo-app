@@ -15,16 +15,14 @@ const useTodoCardWidget = () => {
 };
 
 interface TodoCardWidgetProviderProps {
-    id: string | undefined;
+    id: number | undefined;
 }
 const TodoCardWidgetProvider: React.FC<
     React.PropsWithChildren<TodoCardWidgetProviderProps>
 > = ({ id, ...props }) => {
     const todo = useTodo(id);
 
-    const user = useUser(
-        todo.state?.userId ? String(todo.state.userId) : undefined
-    );
+    const user = useUser(todo.state?.userId);
 
     return (
         <todoCardWidgetContext.Provider
