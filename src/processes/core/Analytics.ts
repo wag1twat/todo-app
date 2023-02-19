@@ -88,7 +88,7 @@ class Analitycs {
         }
       }
 
-      return result.sort((a, b) => (this.getTimestamp(b.key) || 0) - (this.getTimestamp(a.key) || 0))
+      return result
     }
 }
 

@@ -16,8 +16,6 @@ const TodosTable: React.FC<React.PropsWithChildren<TodosTableProps>> = ({
     todos,
     getAuthor
 }) => {
-    console.log("render");
-
     const collectionSorting = useCollectionSorting(
         todos,
         React.useMemo(

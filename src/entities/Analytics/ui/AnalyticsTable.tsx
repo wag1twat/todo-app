@@ -1,8 +1,13 @@
 import { Box, Stack } from "@chakra-ui/react";
+import { DateTime } from "luxon";
 import React from "react";
 import { Column } from "react-table";
 import { Pagination, useCollectionPaging } from "../../../features";
-import { Core, AnalitycsErrorEvent } from "../../../processes";
+import {
+    Core,
+    AnalitycsErrorEvent,
+    useCollectionSorting
+} from "../../../processes";
 import {} from "../../../processes/core/Analytics";
 import { RouterLink } from "../../../shared";
 import { Table } from "../../Table";
@@ -11,15 +16,42 @@ interface AnalitycsTableProps {
     events: (AnalitycsErrorEvent & { key: string })[];
 }
 
+const keyModifier = (event: AnalitycsErrorEvent & { key: string }) =>
+    Core.analytics().getDateTime(event.key)?.ordinal;
+const localeStringDate = (dateTime?: DateTime) =>
+    dateTime
+        ? dateTime.toLocaleString({ dateStyle: "medium", timeStyle: "medium" })
+        : "";
+
 const AnalitycsTable: React.FC<
     React.PropsWithChildren<AnalitycsTableProps>
 > = ({ events }) => {
+    const collectionSorting = useCollectionSorting(
+        events,
+        React.useMemo(
+            () => ({
+                defaultField: "key",
+                defaultOrder: "DESC",
+                modifiers: {
+                    key: keyModifier
+                }
+            }),
+            []
+        )
+    );
+
+    const collectionPaging = useCollectionPaging(collectionSorting.collection);
+
     const columns = React.useMemo<
         Column<AnalitycsErrorEvent & { key: string }>[]
     >(() => {
         return [
             {
-                Header: () => <Box>Name</Box>,
+                Header: () => (
+                    <Box onClick={() => collectionSorting.sort("name")}>
+                        Name
+                    </Box>
+                ),
                 Cell: (props) => (
                     <Box>
                         <RouterLink
@@ -36,22 +68,17 @@ const AnalitycsTable: React.FC<
                 disableSortBy: true
             },
             {
-                Header: () => <Box>Date</Box>,
+                Header: () => (
+                    <Box onClick={() => collectionSorting.sort("key")}>
+                        Date
+                    </Box>
+                ),
                 Cell: (props) => {
                     const dateTime = Core.analytics().getDateTime(
                         props.row.original.key
                     );
 
-                    return (
-                        <Box>
-                            {dateTime
-                                ? dateTime.toLocaleString({
-                                      dateStyle: "medium",
-                                      timeStyle: "medium"
-                                  })
-                                : "-"}
-                        </Box>
-                    );
+                    return <Box>{localeStringDate(dateTime)}</Box>;
                 },
                 accessor: "key",
                 disableSortBy: true
@@ -73,9 +100,7 @@ const AnalitycsTable: React.FC<
                 display: ["none", "none", "none", "table-cell", "table-cell"]
             }
         ];
-    }, []);
-
-    const collectionPaging = useCollectionPaging(events);
+    }, [collectionSorting.sort]);
 
     return (
         <Stack spacing={4}>

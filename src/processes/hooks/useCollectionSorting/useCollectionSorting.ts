@@ -49,7 +49,7 @@ const useCollectionSorting = <T extends unknown>(defaultCollection: T[], options
     const [order, setOrder] = React.useState<Order>(() => defaultOrder)
     const [collection, setCollection] = React.useState(() => [...defaultCollection])
 
-    const sort = React.useCallback((nextField: keyof T, ) => {
+    const sort = React.useCallback((nextField: keyof T) => {
         setField(nextField)
 
         if(field === nextField) {
@@ -77,6 +77,7 @@ const useCollectionSorting = <T extends unknown>(defaultCollection: T[], options
     }, [isEqual, defaultCollection])
 
     React.useEffect(() => {
+        // TODO: memoize sortFn ???
         const collection = sortFn(defaultCollection, order, field, modifiers?.[field])
         setCollection(() => collection)
     }, [isEqual, order, field, modifiers?.[field]])
