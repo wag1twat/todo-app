@@ -1,5 +1,4 @@
 import { Box, Stack } from "@chakra-ui/react";
-import { DateTime } from "luxon";
 import React from "react";
 import { Column } from "react-table";
 import { Pagination, useCollectionPaging } from "../../../features";
@@ -33,24 +32,29 @@ const AnalitycsTable: React.FC<
                         </RouterLink>
                     </Box>
                 ),
-                accessor: "name"
+                accessor: "name",
+                disableSortBy: true
             },
             {
                 Header: () => <Box>Date</Box>,
                 Cell: (props) => {
-                    const date = DateTime.fromMillis(
-                        Number(props.row.original.key.split("-").at(-1))
+                    const dateTime = Core.analytics().getDateTime(
+                        props.row.original.key
                     );
+
                     return (
                         <Box>
-                            {date.toLocaleString({
-                                dateStyle: "medium",
-                                timeStyle: "medium"
-                            })}
+                            {dateTime
+                                ? dateTime.toLocaleString({
+                                      dateStyle: "medium",
+                                      timeStyle: "medium"
+                                  })
+                                : "-"}
                         </Box>
                     );
                 },
-                accessor: "key"
+                accessor: "key",
+                disableSortBy: true
             },
             {
                 Header: () => <Box>Message</Box>,
@@ -64,6 +68,7 @@ const AnalitycsTable: React.FC<
                     </Box>
                 ),
                 accessor: "message",
+                disableSortBy: true,
                 maxWidth: "300px",
                 display: ["none", "none", "none", "table-cell", "table-cell"]
             }

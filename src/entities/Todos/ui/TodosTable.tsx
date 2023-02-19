@@ -36,7 +36,8 @@ const TodosTable: React.FC<React.PropsWithChildren<TodosTableProps>> = ({
                         </Box>
                     );
                 },
-                accessor: "id"
+                accessor: "id",
+                disableSortBy: true
             },
             {
                 Header: (props) => {
@@ -45,7 +46,8 @@ const TodosTable: React.FC<React.PropsWithChildren<TodosTableProps>> = ({
                 Cell: (props) => {
                     return <Box>{props.row.original.title}</Box>;
                 },
-                accessor: "title"
+                accessor: "title",
+                disableSortBy: true
             },
             {
                 Header: (props) => {
@@ -61,7 +63,8 @@ const TodosTable: React.FC<React.PropsWithChildren<TodosTableProps>> = ({
                     );
                 },
                 accessor: "completed",
-                maxWidth: 60
+                maxWidth: 60,
+                disableSortBy: true
             },
             {
                 Header: (props) => {
@@ -71,7 +74,8 @@ const TodosTable: React.FC<React.PropsWithChildren<TodosTableProps>> = ({
                     return <Box>{getAuthor(props.row.original.userId)}</Box>;
                 },
                 accessor: "userId",
-                maxWidth: 60
+                maxWidth: 60,
+                disableSortBy: true
             }
         ];
     }, [getAuthor]);

@@ -19,11 +19,53 @@ class Analitycs {
         return false
     }
 
+    public getTimestamp(key: string | undefined) {
+        if(key === undefined) {
+            return
+        }
+
+        const timestamp = key.split('-').at(-1)
+
+        if(timestamp === undefined){
+            return
+        }
+
+        const n = Number(timestamp)
+
+        if(!isNaN(n)) {
+            return n
+        }
+    }
+
+    public getDateTime(key: string | undefined){
+        const timestamp = this.getTimestamp(key)
+
+        if(timestamp === undefined) {
+            return
+        }
+
+        return DateTime.fromMillis(timestamp)
+    }
+
     public sendErrorEvent(event: AnalitycsErrorEvent) {
       const timestamp = DateTime.now().valueOf()
       globalThis.localStorage.setItem(`${this.errorPrefix}-${event.name}-${timestamp}`, JSON.stringify(event))
     }
-    
+
+    public getErrorEvent(key: string | undefined): (AnalitycsErrorEvent & { key: string }) | undefined {
+        if(key === undefined) {
+            return
+        }
+        const event = globalThis.localStorage.getItem(key)
+        
+        if(typeof event === 'string') {
+            const parsed = JSON.parse(event)
+
+            if(this.isAnalytics(parsed)) {
+                return { ...parsed, key }
+            }
+        }
+    }    
 
     public getErrorEvents() {
       const result: (AnalitycsErrorEvent & { key: string })[] = []
@@ -37,23 +79,16 @@ class Analitycs {
             continue
         }
 
-        const event = globalThis.localStorage.getItem(keys[i])
+        const event = this.getErrorEvent(keys[i])
 
-        if(typeof event === 'string') {
-            const parsed = JSON.parse(event)
-
-            if(this.isAnalytics(parsed)) {
-                result.push({ key: keys[i], ...parsed })
-            } else {
-                continue
-            }
+        if(event) {
+            result.push(event)
         } else {
             continue
         }
-       
       }
 
-      return result
+      return result.sort((a, b) => (this.getTimestamp(b.key) || 0) - (this.getTimestamp(a.key) || 0))
     }
 }
 
