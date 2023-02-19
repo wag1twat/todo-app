@@ -16,10 +16,21 @@ const TodosTable: React.FC<React.PropsWithChildren<TodosTableProps>> = ({
     todos,
     getAuthor
 }) => {
-    const collectionSorting = useCollectionSorting(todos, {
-        defaultField: "id",
-        defaultOrder: "ASC"
-    });
+    console.log("render");
+
+    const collectionSorting = useCollectionSorting(
+        todos,
+        React.useMemo(
+            () => ({
+                defaultField: "id",
+                defaultOrder: "ASC",
+                modifiers: {
+                    userId: (todo) => getAuthor(todo.userId)
+                }
+            }),
+            []
+        )
+    );
 
     const collectionPaging = useCollectionPaging(collectionSorting.collection);
 
@@ -90,13 +101,7 @@ const TodosTable: React.FC<React.PropsWithChildren<TodosTableProps>> = ({
             {
                 Header: (props) => {
                     return (
-                        <Box
-                            onClick={() =>
-                                collectionSorting.sort("userId", (todo) =>
-                                    getAuthor(todo.userId)
-                                )
-                            }
-                        >
+                        <Box onClick={() => collectionSorting.sort("userId")}>
                             Author
                         </Box>
                     );

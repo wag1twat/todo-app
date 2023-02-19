@@ -3,16 +3,17 @@ import { Guards } from "../../core"
 
 type Order = 'ASC' | 'DESC' | 'default'
 
-interface Options<T extends unknown> {
-    defaultField: keyof T,
-    defaultOrder: Order,
-}
-
 interface Modifier<T extends unknown> {
     (collectionItem: T) : unknown
 }
 
-type Modifiers<T extends unknown> = Partial<Record<keyof T, Modifier<T>>>
+type Modifiers<T extends unknown> = Record<keyof T, Modifier<T>>
+
+interface Options<T extends unknown> {
+    defaultField: keyof T,
+    defaultOrder: Order,
+    modifiers?: Partial<Modifiers<T>>
+}
 
 const { isBoolean, isNumber, isString } = Guards
 
@@ -41,19 +42,14 @@ const sortFn = <T extends unknown>(defaultCollection: T[], order: Order, field: 
 }
 
 const useCollectionSorting = <T extends unknown>(defaultCollection: T[], options: Options<T>) => {
-    const { defaultField, defaultOrder } = options
+    const { defaultField, defaultOrder, modifiers } = options
     const ordersRef = React.useRef<Order[]>(['ASC', 'DESC', 'default'])
     const defaultCollectionRef = React.useRef<T[]>([])
-    const modifiers = React.useRef<Modifiers<T>>({})
     const [field, setField] = React.useState<keyof T>(() => defaultField)
     const [order, setOrder] = React.useState<Order>(() => defaultOrder)
     const [collection, setCollection] = React.useState(() => [...defaultCollection])
 
-    const sort = React.useCallback((nextField: keyof T, modifier?: Modifier<T>) => {
-        if(modifier) {
-            modifiers.current[nextField] = modifier
-        }
-
+    const sort = React.useCallback((nextField: keyof T, ) => {
         setField(nextField)
 
         if(field === nextField) {
@@ -81,15 +77,10 @@ const useCollectionSorting = <T extends unknown>(defaultCollection: T[], options
     }, [isEqual, defaultCollection])
 
     React.useEffect(() => {
-        const collection = sortFn(defaultCollection, order, field, modifiers.current[field])
+        const collection = sortFn(defaultCollection, order, field, modifiers?.[field])
         setCollection(() => collection)
-    }, [isEqual, order, field, modifiers.current])
+    }, [isEqual, order, field, modifiers?.[field]])
 
-    React.useEffect(() => {
-        return () => {
-            modifiers.current = {}
-        }
-    }, [])
     return { collection, sort }
 }
 
