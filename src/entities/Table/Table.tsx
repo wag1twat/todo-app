@@ -17,20 +17,14 @@ interface TableProps<T extends object = object> {
 const Table = <T extends object = object>(props: TableProps<T>) => {
     const { data = [], columns } = props;
 
-    const {
-        getTableProps,
-        getTableBodyProps,
-        prepareRow,
-        headerGroups,
-        rows,
-        ...x
-    } = useTable(
-        {
-            data,
-            columns
-        },
-        useSortBy
-    );
+    const { getTableProps, getTableBodyProps, prepareRow, headerGroups, rows } =
+        useTable(
+            {
+                data,
+                columns
+            },
+            useSortBy
+        );
 
     return (
         <TableContainer>
@@ -51,6 +45,8 @@ const Table = <T extends object = object>(props: TableProps<T>) => {
                                                 column.getSortByToggleProps()
                                             )}
                                             p={2}
+                                            maxWidth={column.maxWidth}
+                                            display={column.display}
                                         >
                                             {
                                                 // Render the header
@@ -81,6 +77,12 @@ const Table = <T extends object = object>(props: TableProps<T>) => {
                                                 <Td
                                                     {...cell.getCellProps()}
                                                     p={2}
+                                                    maxWidth={
+                                                        cell.column.maxWidth
+                                                    }
+                                                    display={
+                                                        cell.column.display
+                                                    }
                                                 >
                                                     {
                                                         // Render the cell contents

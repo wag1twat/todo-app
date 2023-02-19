@@ -1,4 +1,5 @@
 import { Box, Stack } from "@chakra-ui/react";
+import { DateTime } from "luxon";
 import React from "react";
 import { Column } from "react-table";
 import { Pagination, useCollectionPaging } from "../../../features";
@@ -35,9 +36,36 @@ const AnalitycsTable: React.FC<
                 accessor: "name"
             },
             {
+                Header: () => <Box>Date</Box>,
+                Cell: (props) => {
+                    const date = DateTime.fromMillis(
+                        Number(props.row.original.key.split("-").at(-1))
+                    );
+                    return (
+                        <Box>
+                            {date.toLocaleString({
+                                dateStyle: "medium",
+                                timeStyle: "medium"
+                            })}
+                        </Box>
+                    );
+                },
+                accessor: "key"
+            },
+            {
                 Header: () => <Box>Message</Box>,
-                Cell: (props) => <Box>{props.row.original.message}</Box>,
-                accessor: "message"
+                Cell: (props) => (
+                    <Box
+                        overflow={"hidden"}
+                        textOverflow="ellipsis"
+                        whiteSpace={"nowrap"}
+                    >
+                        {props.row.original.message}
+                    </Box>
+                ),
+                accessor: "message",
+                maxWidth: "300px",
+                display: ["none", "none", "none", "table-cell", "table-cell"]
             }
         ];
     }, []);
@@ -53,7 +81,13 @@ const AnalitycsTable: React.FC<
                 setPage={collectionPaging.setPage}
                 nextPage={collectionPaging.nextPage}
                 prevPage={collectionPaging.prevPage}
-                justifyContent="flex-end"
+                justifyContent={[
+                    "center",
+                    "center",
+                    "center",
+                    "flex-end",
+                    "flex-end"
+                ]}
             />
         </Stack>
     );

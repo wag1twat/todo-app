@@ -1,3 +1,4 @@
+import { LayoutProps } from '@chakra-ui/react'
 import {
   UseColumnOrderInstanceProps,
   UseColumnOrderState,
@@ -101,13 +102,19 @@ declare module 'react-table' {
       UseGlobalFiltersColumnOptions<D>,
       UseGroupByColumnOptions<D>,
       UseResizeColumnsColumnOptions<D>,
-      UseSortByColumnOptions<D> {}
+      UseSortByColumnOptions<D> {
+        maxWidth?: LayoutProps['maxWidth'],
+        display?: LayoutProps['display']
+      }
 
   export interface ColumnInstance<D extends Record<string, unknown> = Record<string, unknown>>
     extends UseFiltersColumnProps<D>,
       UseGroupByColumnProps<D>,
       UseResizeColumnsColumnProps<D>,
-      UseSortByColumnProps<D> {}
+      UseSortByColumnProps<D> {
+        maxWidth?: LayoutProps['maxWidth'],
+        display?: LayoutProps['display']
+      }
 
   export interface Cell<D extends Record<string, unknown> = Record<string, unknown>, V = any>
     extends UseGroupByCellProps<D>,
