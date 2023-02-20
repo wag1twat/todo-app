@@ -1,8 +1,8 @@
-import { Box } from "@chakra-ui/react";
+import { Box, BoxProps } from "@chakra-ui/react";
 
 const TransitionBackdrop: React.FC<
-    React.PropsWithChildren<{ isActive: boolean }>
-> = ({ isActive, children }) => {
+    React.PropsWithChildren<BoxProps & { isActive: boolean }>
+> = ({ isActive, ...props }) => {
     return (
         <Box
             __css={
@@ -14,9 +14,8 @@ const TransitionBackdrop: React.FC<
                       }
                     : undefined
             }
-        >
-            {children}
-        </Box>
+            {...props}
+        />
     );
 };
 

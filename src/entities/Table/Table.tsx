@@ -8,6 +8,7 @@ import {
     Tr
 } from "@chakra-ui/react";
 import { Column, useSortBy, useTable } from "react-table";
+import { ScrollLayout } from "../../processes/theme";
 
 interface TableProps<T extends object = object> {
     data: T[] | undefined;
@@ -27,9 +28,15 @@ const Table = <T extends object = object>(props: TableProps<T>) => {
         );
 
     return (
-        <TableContainer>
-            <ChakraTable {...getTableProps()}>
-                <Thead>
+        <ScrollLayout width="100%" height="100%">
+            <ChakraTable
+                width="100%"
+                __css={{
+                    borderCollapse: "collapse"
+                }}
+                {...getTableProps()}
+            >
+                <Thead position={"sticky"} top={0} zIndex={1}>
                     {
                         // Loop over the header rows
                         headerGroups.map((headerGroup) => (
@@ -47,6 +54,10 @@ const Table = <T extends object = object>(props: TableProps<T>) => {
                                             p={2}
                                             maxWidth={column.maxWidth}
                                             display={column.display}
+                                            position={"sticky"}
+                                            top={0}
+                                            zIndex={1}
+                                            backgroundColor="#fff"
                                         >
                                             {
                                                 // Render the header
@@ -98,7 +109,7 @@ const Table = <T extends object = object>(props: TableProps<T>) => {
                     }
                 </Tbody>
             </ChakraTable>
-        </TableContainer>
+        </ScrollLayout>
     );
 };
 

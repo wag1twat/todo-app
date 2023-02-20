@@ -1,4 +1,4 @@
-import { Box, Stack } from "@chakra-ui/react";
+import { Box, Flex, Stack } from "@chakra-ui/react";
 import React, { useTransition } from "react";
 import { Column } from "react-table";
 import { Pagination, useCollectionPaging } from "../../../features";
@@ -8,12 +8,12 @@ import { Table } from "../../Table";
 import { Todo } from "../model";
 
 interface TodosTableProps {
-    todos: Todo[];
+    todos: Todo[] | undefined;
     getAuthor: (userId: number) => string | undefined;
 }
 
 const TodosTable: React.FC<React.PropsWithChildren<TodosTableProps>> = ({
-    todos,
+    todos = [],
     getAuthor
 }) => {
     const [isPending, startTransition] = useTransition();
@@ -28,7 +28,7 @@ const TodosTable: React.FC<React.PropsWithChildren<TodosTableProps>> = ({
                     userId: (todo) => getAuthor(todo.userId)
                 }
             }),
-            []
+            [getAuthor]
         )
     );
 
@@ -142,9 +142,27 @@ const TodosTable: React.FC<React.PropsWithChildren<TodosTableProps>> = ({
     }, [getAuthor, collectionSorting.sort]);
 
     return (
-        <TransitionBackdrop isActive={isPending}>
-            <Stack spacing={4}>
-                <Table data={collectionPaging.collection} columns={columns} />
+        <TransitionBackdrop
+            isActive={isPending}
+            display="flex"
+            flexDirection={"column"}
+            flexGrow={1}
+        >
+            <Flex flexGrow={1} position={"relative"}>
+                <Box
+                    position={"absolute"}
+                    top={0}
+                    left={0}
+                    right={0}
+                    bottom={0}
+                >
+                    <Table
+                        data={collectionPaging.collection}
+                        columns={columns}
+                    />
+                </Box>
+            </Flex>
+            <Flex p={2} justifyContent={"flex-end"}>
                 <Pagination
                     count={collectionPaging.count}
                     page={collectionPaging.page}
@@ -153,7 +171,7 @@ const TodosTable: React.FC<React.PropsWithChildren<TodosTableProps>> = ({
                     prevPage={collectionPaging.prevPage}
                     justifyContent="flex-end"
                 />
-            </Stack>
+            </Flex>
         </TransitionBackdrop>
     );
 };

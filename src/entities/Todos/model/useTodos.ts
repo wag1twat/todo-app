@@ -20,6 +20,7 @@ const useTodos = () => {
         onSettled(data, error) {
             Array(todoContract).Or(Undefined).check(data)
         },
+        keepPreviousData: true
     })
 
     return todos

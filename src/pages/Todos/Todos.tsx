@@ -12,16 +12,12 @@ import { ContentLayout } from "../../processes/theme";
 import { ReloadHeader } from "../../shared";
 
 const Todos: React.FC = () => {
-    const [searchParams] = useSearchParams();
+    const [searchParams, setSearchParams] = useSearchParams();
 
-    const [username, setUsername] = React.useState<string>(
-        () => searchParams.get("username") || ""
-    );
+    const username = searchParams.get("username") || "";
 
     const renderVariant =
         searchParams.get(renderVariantKey) || defRenderVariant;
-
-    const defferedUsername = useDeferredValue(username);
 
     const users = useUsers();
 
@@ -37,20 +33,20 @@ const Todos: React.FC = () => {
     );
 
     const filteredTodos = React.useMemo(() => {
-        return (
-            todos.data?.filter((todo) =>
+        return todos.data?.filter((todo) =>
+            Boolean(
                 getAuthor(todo.userId)
                     ?.toLocaleLowerCase()
-                    .includes(defferedUsername.toLocaleLowerCase())
-            ) || []
+                    .includes(username.toLocaleLowerCase())
+            )
         );
-    }, [todos.data, defferedUsername, getAuthor]);
+    }, [todos.data, username, getAuthor]);
 
+    console.log(filteredTodos?.map((t) => getAuthor(t.userId)));
     return (
         <ContentLayout>
             <Stack width="100%" spacing={4}>
                 <Flex
-                    alignItems={"center"}
                     justifyContent={[
                         "unset",
                         "space-between",
@@ -62,9 +58,10 @@ const Todos: React.FC = () => {
                 >
                     <Stack
                         width="100%"
+                        alignItems="center"
                         direction={"row"}
                         spacing={4}
-                        alignItems="center"
+                        height="fit-content"
                     >
                         <ReloadHeader
                             isLoading={todos.isLoading || todos.isFetching}
@@ -82,12 +79,17 @@ const Todos: React.FC = () => {
                         maxWidth={["unset", "300px", "300px", "300px", "300px"]}
                         isDisabled={todos.isLoading || todos.isFetching}
                         placeholder="Username..."
-                        value={defferedUsername}
-                        onChange={(e) => setUsername(e.target.value)}
+                        value={username}
+                        onChange={(e) => {
+                            setSearchParams((prev) => {
+                                prev.set("username", e.target.value);
+                                return prev;
+                            });
+                        }}
                     />
                 </Flex>
 
-                {renderVariant === "list" && (todos.data?.length || 0) > 0 && (
+                {renderVariant === "list" && (
                     <TodosTable todos={filteredTodos} getAuthor={getAuthor} />
                 )}
                 {renderVariant === "card" && (
@@ -103,9 +105,10 @@ const FallbackTodos = () => {
         <ContentLayout>
             <Stack
                 width="100%"
+                alignItems={"center"}
                 direction={"row"}
                 spacing={4}
-                alignItems="center"
+                height="fit-content"
             >
                 <ReloadHeader isLoading={false} isDisabled={true}>
                     Todos

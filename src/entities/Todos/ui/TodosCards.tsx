@@ -4,12 +4,12 @@ import { TodoCard } from "../../../widgets";
 import { UserLink } from "../../../shared";
 
 interface TodosCardsProps {
-    todos: Todo[];
+    todos: Todo[] | undefined;
     getAuthor: (userId: number) => string | undefined;
 }
 
 const TodosCards: React.FC<React.PropsWithChildren<TodosCardsProps>> = ({
-    todos,
+    todos = [],
     getAuthor
 }) => {
     return (
