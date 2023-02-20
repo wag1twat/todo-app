@@ -18,9 +18,7 @@ const Posts = () => {
         _start,
         _limit
     });
-
-    console.log(posts.data);
-
+    
     const showMore = React.useCallback(() => {
         setSearchParams({
             _start: String(_start),
@@ -67,7 +65,6 @@ const Posts = () => {
                     onScroll={onScroll}
                 >
                     <Stack spacing={4}>
-                        {/* @ts-ignore */}
                         {posts.data?.map((post) => {
                             return (
                                 <PostCardWidgetProvider

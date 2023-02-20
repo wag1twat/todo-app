@@ -1,5 +1,5 @@
 import React from 'react'
-import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { Transform } from '../../../processes';
 
 type Queries<K extends string> = Record<K, {
@@ -30,37 +30,34 @@ const validate: Validate = (queries, searchParams) => {
     }, {} as ValidateResult<typeof queries>)
 }
 
-const searchReplace = (result: ReturnType<Validate>, searchParams: URLSearchParams) => {
-    const entries = Object.entries(result)
+const searchReplace = (queries: ReturnType<Validate>) => {
+    const result: Record<string, string> = {}
+
+    const entries = Object.entries(queries)
 
     if(entries.every(([, { isValid }]) => isValid)) {
         return
     }
 
-    Object.entries(result).forEach(([key, { def, isValid}]) => {
+    entries.forEach(([key, { def, isValid}]) => {
         if(!isValid) {
-            searchParams.set(key, def)
+            result[key] = def
         }
     })
 
-    return searchParams.toString()
+    return result
 }
 
 const useQueriesGuardRoute = <T extends Queries<string>>(props: T) => {
-    const location = useLocation()
-    const navigate = useNavigate()
-    const [searchParams] = useSearchParams();
+    const [searchParams, setSearchParams] = useSearchParams();
 
     React.useEffect(() => {
         const queries = validate(props, searchParams)
-        const search = searchReplace(queries, searchParams)
+        const search = searchReplace(queries)
 
-        if(search) {
-            navigate({
-                pathname: location.pathname,
-                search
-            })
-        }
+        setSearchParams(prev => {
+            return { ...prev, ...search }
+        })
     }, [props])
 };
 
