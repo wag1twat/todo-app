@@ -3,7 +3,7 @@ import { Icon, Flex, IconButton, Stack } from "@chakra-ui/react";
 import React from "react";
 import { useSearchParams } from "react-router-dom";
 import { usePosts } from "src/entities";
-import { Transform } from "src/processes";
+import { EventHandling, Transform } from "src/processes";
 import { ContentLayout, ScrollLayout } from "src/processes/theme";
 import { ReloadHeader } from "src/shared";
 import { PostCardWidget, PostCardWidgetProvider } from "src/widgets";
@@ -31,26 +31,6 @@ const Posts = () => {
 
     const scrollRef = React.useRef<HTMLDivElement | null>(null);
 
-    const scrollEnd = React.useCallback(() => {
-        scrollRef.current?.scrollTo({
-            left: 0,
-            top: scrollRef.current.scrollHeight,
-            behavior: "smooth"
-        });
-    }, []);
-
-    const onScroll = React.useCallback(
-        (e: React.UIEvent<HTMLDivElement, UIEvent>) => {
-            const bottom =
-                e.currentTarget.scrollHeight - e.currentTarget.scrollTop ===
-                e.currentTarget.clientHeight;
-            if (bottom) {
-                showMore();
-            }
-        },
-        [showMore]
-    );
-
     return (
         <ContentLayout>
             <Stack spacing={4}>
@@ -65,7 +45,10 @@ const Posts = () => {
                     p={2}
                     flexGrow={1}
                     ref={scrollRef}
-                    onScroll={onScroll}
+                    onScroll={EventHandling.ifScrollBottom(
+                        showMore,
+                        !posts.isLoading
+                    )}
                 >
                     <Stack spacing={4}>
                         {posts.data?.map((post) => {
@@ -87,7 +70,7 @@ const Posts = () => {
                         isDisabled={posts.isLoading || posts.isFetching}
                         size="sm"
                         colorScheme={"cyan"}
-                        onClick={scrollEnd}
+                        onClick={() => EventHandling.scrollBottomRef(scrollRef)}
                     >
                         <Icon as={ArrowDownOutlined} color="white" />
                     </IconButton>
