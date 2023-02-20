@@ -2,13 +2,13 @@ import { Box, Flex, Stack } from "@chakra-ui/react";
 import React, { useTransition } from "react";
 import { Column } from "react-table";
 import { Pagination, useCollectionPaging } from "../../../features";
-import { Core, useCollectionSorting } from "../../../processes";
+import { route, useCollectionSorting } from "../../../processes";
+import { TodoDto } from "../../../processes/core/Api";
 import { CompletedIcon, RouterLink, TransitionBackdrop } from "../../../shared";
 import { Table } from "../../Table";
-import { Todo } from "../model";
 
 interface TodosTableProps {
-    todos: Todo[] | undefined;
+    todos: TodoDto[] | undefined;
     getAuthor: (userId: number) => string | undefined;
 }
 
@@ -37,7 +37,7 @@ const TodosTable: React.FC<React.PropsWithChildren<TodosTableProps>> = ({
         20
     );
 
-    const columns = React.useMemo<Column<Todo>[]>(() => {
+    const columns = React.useMemo<Column<TodoDto>[]>(() => {
         return [
             {
                 Header: (props) => {
@@ -57,7 +57,7 @@ const TodosTable: React.FC<React.PropsWithChildren<TodosTableProps>> = ({
                     return (
                         <Box>
                             <RouterLink
-                                to={Core.route()
+                                to={route()
                                     .todo()
                                     .link(`${props.row.original.id}`)
                                     .exec()}

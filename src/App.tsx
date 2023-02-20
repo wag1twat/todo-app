@@ -2,7 +2,12 @@ import React from "react";
 import { ChakraProvider } from "@chakra-ui/react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Header } from "./entities";
-import { ErrorBoundary, GlobalLoaderProvider, Core, Guards } from "./processes";
+import {
+    ErrorBoundary,
+    GlobalLoaderProvider,
+    Guards,
+    route
+} from "./processes";
 import {
     FallbackAnalytics,
     FallbackTodos,
@@ -40,9 +45,13 @@ function App() {
                                 path="/"
                                 element={
                                     <Navigate
-                                        to={Core.route().todos().path().query({
-                                            renderVariant: defRenderVariant
-                                        })}
+                                        to={route()
+                                            .todos()
+                                            .path()
+                                            .query({
+                                                renderVariant: defRenderVariant
+                                            })
+                                            .exec()}
                                         replace
                                     />
                                 }
@@ -51,15 +60,19 @@ function App() {
                                 path="*"
                                 element={
                                     <Navigate
-                                        to={Core.route().todos().path().query({
-                                            renderVariant: defRenderVariant
-                                        })}
+                                        to={route()
+                                            .todos()
+                                            .path()
+                                            .query({
+                                                renderVariant: defRenderVariant
+                                            })
+                                            .exec()}
                                         replace
                                     />
                                 }
                             />
                             <Route
-                                path={Core.route().todos().path().exec()}
+                                path={route().todos().path().exec()}
                                 element={
                                     <ErrorBoundary stage="development">
                                         <React.Suspense
@@ -84,7 +97,7 @@ function App() {
                             />
 
                             <Route
-                                path={Core.route().todo().path().exec()}
+                                path={route().todo().path().exec()}
                                 element={
                                     <ErrorBoundary stage="development">
                                         <React.Suspense
@@ -97,7 +110,7 @@ function App() {
                             />
 
                             <Route
-                                path={Core.route().analytics().path().exec()}
+                                path={route().analytics().path().exec()}
                                 element={
                                     <ErrorBoundary stage="development">
                                         <React.Suspense
@@ -110,7 +123,7 @@ function App() {
                             />
 
                             <Route
-                                path={Core.route()
+                                path={route()
                                     .analyticsErrorEvent()
                                     .path()
                                     .exec()}
@@ -128,7 +141,7 @@ function App() {
                             />
 
                             <Route
-                                path={Core.route().posts().path().exec()}
+                                path={route().posts().path().exec()}
                                 element={
                                     <ErrorBoundary stage="development">
                                         <React.Suspense

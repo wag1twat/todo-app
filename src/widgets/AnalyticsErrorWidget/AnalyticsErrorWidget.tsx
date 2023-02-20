@@ -1,5 +1,5 @@
 import { Text } from "@chakra-ui/react";
-import { AnalitycsErrorEvent, Core } from "../../processes";
+import { AnalitycsErrorEvent, analytics } from "../../processes";
 import { Paper } from "../../shared";
 
 interface AnalyticsErrorWidgetProps {
@@ -18,7 +18,7 @@ const AnalyticsErrorWidget: React.FC<AnalyticsErrorWidgetProps> = ({
     return (
         <Paper p={4}>
             <Text>
-                {Core.analytics().getDateTime(key)?.toLocaleString({
+                {analytics().getDateTime(key)?.toLocaleString({
                     dateStyle: "medium",
                     timeStyle: "medium"
                 })}

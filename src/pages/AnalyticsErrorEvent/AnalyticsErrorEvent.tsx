@@ -1,7 +1,7 @@
 import { Heading, Stack } from "@chakra-ui/react";
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Core } from "../../processes";
+import { analytics, route } from "../../processes";
 import { ContentLayout } from "../../processes/theme";
 import { AnalyticsErrorWidget } from "../../widgets";
 
@@ -10,11 +10,11 @@ const AnalyticsErrorEvent = () => {
 
     const navigate = useNavigate();
 
-    const [event] = React.useState(() => Core.analytics().getErrorEvent(key));
+    const [event] = React.useState(() => analytics().getErrorEvent(key));
 
     React.useEffect(() => {
         if (event === undefined) {
-            navigate(Core.route().analytics().link().exec());
+            navigate(route().analytics().link().exec());
         }
     }, [event]);
     return (

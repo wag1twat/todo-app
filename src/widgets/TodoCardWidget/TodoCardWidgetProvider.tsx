@@ -1,10 +1,11 @@
 import React from "react";
 import { UseQueryResult } from "react-query/types/react";
-import { Todo, User, useTodo, useUser } from "../../entities";
+import { useTodo, useUser } from "../../entities";
+import { TodoDto, UserDto } from "../../processes/core/Api";
 
 interface TodoCardWidgetContext {
-    todo: UseQueryResult<Todo>;
-    user: UseQueryResult<User>;
+    todo: UseQueryResult<TodoDto>;
+    user: UseQueryResult<UserDto>;
 }
 const todoCardWidgetContext = React.createContext<TodoCardWidgetContext>(
     {} as TodoCardWidgetContext

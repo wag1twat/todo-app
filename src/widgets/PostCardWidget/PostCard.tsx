@@ -1,12 +1,12 @@
 import { BoxProps, Flex, Stack, chakra, Text } from "@chakra-ui/react";
 import React from "react";
-import { Comment, Post, User } from "../../entities";
+import { CommentDto, PostDto, UserDto } from "../../processes/core/Api";
 import { Paper, RouterLink, UserLink } from "../../shared";
 
 interface PostCardProps {
-    post: Post | undefined;
-    user: User | undefined;
-    comments: Comment[];
+    post: PostDto | undefined;
+    user: UserDto | undefined;
+    comments: CommentDto[];
 }
 
 const PostCardWrapper: React.FC<React.PropsWithChildren<BoxProps>> = (

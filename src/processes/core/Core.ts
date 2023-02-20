@@ -4,12 +4,11 @@ import { Env } from "./Env"
 import { Queries } from "./Queries"
 import { Route } from "./Route"
 
-class Core {
-    static env = () => new Env()
-    static api = () => new Api(this.env().API)
-    static route = (route: string = '') => new Route(route)
-    static queries = () => new Queries()
-    static analytics = () => new Analitycs()
-}
 
-export { Core }
+const env = () => new Env()
+const api = () => new Api(env().API)
+const route = (route: string = '') => new Route(route)
+const queries = () => new Queries()
+const analytics = () => new Analitycs()
+
+export { env, api, route, queries, analytics }

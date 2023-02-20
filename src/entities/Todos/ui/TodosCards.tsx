@@ -1,10 +1,10 @@
 import { Grid } from "@chakra-ui/react";
-import { Todo } from "../model";
 import { TodoCard } from "../../../widgets";
 import { UserLink } from "../../../shared";
+import { TodoDto } from "../../../processes/core/Api";
 
 interface TodosCardsProps {
-    todos: Todo[] | undefined;
+    todos: TodoDto[] | undefined;
     getAuthor: (userId: number) => string | undefined;
 }
 

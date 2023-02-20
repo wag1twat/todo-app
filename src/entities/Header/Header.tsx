@@ -3,7 +3,7 @@ import { Stack } from "@chakra-ui/layout";
 import { useTransition } from "react";
 import { useNavigate } from "react-router-dom";
 import { renderVariantKey } from "../../features/ToggleRenderVariantUrlQuery/model";
-import { Core } from "../../processes";
+import { route } from "../../processes";
 import { Serializer } from "../../processes/core/Queries";
 import { HeaderLayout } from "../../processes/theme";
 
@@ -20,7 +20,7 @@ const Header = () => {
                     onClick={() =>
                         startTransition(() => {
                             navigate({
-                                pathname: Core.route().todos().link().exec(),
+                                pathname: route().todos().link().exec(),
                                 search: Serializer.query({
                                     [renderVariantKey]: "list"
                                 })
@@ -36,7 +36,7 @@ const Header = () => {
                     colorScheme={"cyan"}
                     onClick={() =>
                         startTransition(() => {
-                            navigate(Core.route().analytics().link().exec());
+                            navigate(route().analytics().link().exec());
                         })
                     }
                     isDisabled={isPending}

@@ -1,6 +1,6 @@
 import { UserOutlined } from "@ant-design/icons";
 import { Box, Icon, chakra } from "@chakra-ui/react";
-import { Core } from "../../processes";
+import { route } from "../../processes";
 import { RouterLink } from "../../shared";
 
 interface UserLinkProps {
@@ -16,7 +16,7 @@ const UserLink: React.FC<React.PropsWithChildren<UserLinkProps>> = ({
     return (
         <Box textAlign={"end"}>
             <RouterLink
-                to={Core.route().user().link(String(id)).exec()}
+                to={route().user().link(String(id)).exec()}
                 isDisabled={isLoading || id === undefined}
                 isLoading={isLoading}
             >

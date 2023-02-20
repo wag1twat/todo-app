@@ -4,8 +4,9 @@ import React, { useTransition } from "react";
 import { Column } from "react-table";
 import { Pagination, useCollectionPaging } from "../../../features";
 import {
-    Core,
     AnalitycsErrorEvent,
+    analytics,
+    route,
     useCollectionSorting
 } from "../../../processes";
 import {} from "../../../processes/core/Analytics";
@@ -17,7 +18,7 @@ interface AnalitycsTableProps {
 }
 
 const keyModifier = (event: AnalitycsErrorEvent & { key: string }) =>
-    Core.analytics().getDateTime(event.key)?.ordinal;
+    analytics().getDateTime(event.key)?.ordinal;
 const localeStringDate = (dateTime?: DateTime) =>
     dateTime
         ? dateTime.toLocaleString({ dateStyle: "medium", timeStyle: "medium" })
@@ -66,7 +67,7 @@ const AnalitycsTable: React.FC<
                 Cell: (props) => (
                     <Box>
                         <RouterLink
-                            to={Core.route()
+                            to={route()
                                 .analyticsErrorEvent()
                                 .link(props.row.original.key)
                                 .exec()}
@@ -91,7 +92,7 @@ const AnalitycsTable: React.FC<
                     </Box>
                 ),
                 Cell: (props) => {
-                    const dateTime = Core.analytics().getDateTime(
+                    const dateTime = analytics().getDateTime(
                         props.row.original.key
                     );
 

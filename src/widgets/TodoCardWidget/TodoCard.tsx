@@ -8,11 +8,11 @@ import {
     Text
 } from "@chakra-ui/react";
 import { CompletedIcon, Paper, RouterLink } from "../../shared";
-import { Todo } from "../../entities/Todos/model";
-import { Core } from "../../processes";
+import { TodoDto } from "../../processes/core/Api";
+import { route } from "../../processes";
 
 interface TodoCardProps {
-    todo: Todo | undefined;
+    todo: TodoDto | undefined;
     author: React.ReactNode;
     useNavigate?: boolean;
 }
@@ -31,10 +31,7 @@ const TodoCard: React.FC<TodoCardProps> = React.memo(
                     <Heading size="md" position={"relative"} paddingRight={4}>
                         <chakra.span>{todo?.title}</chakra.span>
                         <RouterLink
-                            to={Core.route()
-                                .todo()
-                                .link(String(todo?.id))
-                                .exec()}
+                            to={route().todo().link(String(todo?.id)).exec()}
                             isDisabled={todo?.id === undefined}
                             marginLeft={2}
                             hidden={!useNavigate}

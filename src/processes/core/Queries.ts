@@ -22,7 +22,9 @@ class Serializer {
         })
 
         // query.filter(q => q !== '') > pick undefined or null props
-        return  ([] as string[]).concat.apply([] as string[], query.filter(q => q !== '')).join('&')
+        const q = query.filter(v => v !== '')
+
+        return q.length > 0 ? ([] as string[]).concat.apply([] as string[], q).join('&') : ''
     }
 }
 
