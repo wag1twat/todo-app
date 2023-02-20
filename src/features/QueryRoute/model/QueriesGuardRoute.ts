@@ -17,7 +17,6 @@ interface Validate {
     <Q extends Queries<string>>(queries: Q, searchParams: URLSearchParams): ValidateResult<Q>
 }
 
-
 const validate: Validate = (queries, searchParams) => {
     const keys = (Object.keys(queries) as (keyof typeof queries)[])
 
@@ -36,7 +35,7 @@ const searchReplace = (queries: ReturnType<Validate>) => {
     const entries = Object.entries(queries)
 
     if(entries.every(([, { isValid }]) => isValid)) {
-        return
+        return result
     }
 
     entries.forEach(([key, { def, isValid}]) => {
@@ -54,9 +53,12 @@ const useQueriesGuardRoute = <T extends Queries<string>>(props: T) => {
     React.useEffect(() => {
         const queries = validate(props, searchParams)
         const search = searchReplace(queries)
-
+        
         setSearchParams(prev => {
-            return { ...prev, ...search }
+            Object.entries(search).forEach(([key, value]) => {
+                prev.set(key, value)
+            })
+            return prev
         })
     }, [props])
 };

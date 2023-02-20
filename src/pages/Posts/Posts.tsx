@@ -18,11 +18,11 @@ const Posts = () => {
         _start,
         _limit
     });
-    
+
     const showMore = React.useCallback(() => {
-        setSearchParams({
-            _start: String(_start),
-            _limit: String(_limit + 5)
+        setSearchParams((prev) => {
+            prev.set("_limit", String(_limit + 5));
+            return prev;
         });
     }, [_start, _limit]);
 

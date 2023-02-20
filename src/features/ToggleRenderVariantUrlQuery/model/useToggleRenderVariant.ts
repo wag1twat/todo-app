@@ -20,7 +20,8 @@ const useToggleRenderVariant = (variants: RenderVariant[] = defRenderVariants) =
         }
 
         setSearchParams(prev => {
-            return { ...prev, [renderVariantKey]: renderVariant }
+            prev.set(renderVariantKey, renderVariant)
+            return prev
         })
     }, [variants]);
 }
