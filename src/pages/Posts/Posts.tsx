@@ -1,7 +1,7 @@
 import { ArrowDownOutlined } from "@ant-design/icons";
 import { Icon, Flex, IconButton, Stack } from "@chakra-ui/react";
 import React from "react";
-import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { usePosts } from "../../entities";
 import { Transform } from "../../processes";
 import { ContentLayout, ScrollLayout } from "../../processes/theme";
@@ -11,9 +11,6 @@ import { PostCardWidget, PostCardWidgetProvider } from "../../widgets";
 const Posts = () => {
     const [searchParams, setSearchParams] = useSearchParams();
 
-    const navigate = useNavigate();
-    const location = useLocation();
-
     const _start = Number(Transform.identy(searchParams.get("_start")));
     const _limit = Number(Transform.identy(searchParams.get("_limit")));
 
@@ -21,6 +18,8 @@ const Posts = () => {
         _start,
         _limit
     });
+
+    console.log(posts.data);
 
     const showMore = React.useCallback(() => {
         setSearchParams({
@@ -68,6 +67,7 @@ const Posts = () => {
                     onScroll={onScroll}
                 >
                     <Stack spacing={4}>
+                        {/* @ts-ignore */}
                         {posts.data?.map((post) => {
                             return (
                                 <PostCardWidgetProvider

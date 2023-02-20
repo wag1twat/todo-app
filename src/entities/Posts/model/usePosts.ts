@@ -20,7 +20,7 @@ interface UsePostsProps {
 const usePosts = (props: UsePostsProps = {}) => {
     const { _start, _limit, } = props
 
-    const posts = useQuery(['posts', _start, _limit], {
+    return useQuery(['posts', _start, _limit], {
         queryFn: () => axiosInstance.get<Post[]>(Core.api().posts().query({ _start, _limit })),
         select: ( { data } ) => data,
         onSettled(data, error) {
@@ -28,11 +28,8 @@ const usePosts = (props: UsePostsProps = {}) => {
         },
         enabled: (_start !== undefined || _limit !== undefined),
         cacheTime: 5000,
-        refetchOnWindowFocus: false,
-        
+        keepPreviousData: true
     })
-
-    return posts
 }
 
 export type { Post }
