@@ -15,6 +15,7 @@ const AnalyticsErrorEvent = () => {
         if (event === undefined) {
             navigate(route().analytics().link().exec());
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [event]);
     return (
         <ContentLayout>

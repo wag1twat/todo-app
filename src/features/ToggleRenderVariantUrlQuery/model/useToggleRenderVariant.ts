@@ -23,6 +23,7 @@ const useToggleRenderVariant = (variants: RenderVariant[] = defRenderVariants) =
             prev.set(renderVariantKey, renderVariant)
             return prev
         })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [variants]);
 }
 

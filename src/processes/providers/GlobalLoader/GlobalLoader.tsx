@@ -15,6 +15,7 @@ const useGlobalLoader = (isLoading: boolean) => {
 
     React.useEffect(() => {
         ctx.setIsLoading(isLoading);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isLoading]);
 };
 

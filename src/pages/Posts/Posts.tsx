@@ -8,6 +8,8 @@ import { ContentLayout, ScrollLayout } from "src/processes/theme";
 import { ReloadHeader } from "src/shared";
 import { PostCardWidget, PostCardWidgetProvider } from "src/widgets";
 
+const step = 5;
+
 const Posts = () => {
     const [searchParams, setSearchParams] = useSearchParams();
 
@@ -21,9 +23,10 @@ const Posts = () => {
 
     const showMore = React.useCallback(() => {
         setSearchParams((prev) => {
-            prev.set("_limit", String(_limit + 5));
+            prev.set("_limit", String(_limit + step));
             return prev;
         });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [_start, _limit]);
 
     const scrollRef = React.useRef<HTMLDivElement | null>(null);

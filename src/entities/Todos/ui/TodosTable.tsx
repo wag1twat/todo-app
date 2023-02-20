@@ -139,6 +139,7 @@ const TodosTable: React.FC<React.PropsWithChildren<TodosTableProps>> = ({
                 disableSortBy: true
             }
         ];
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [getAuthor, collectionSorting.sort]);
 
     return (

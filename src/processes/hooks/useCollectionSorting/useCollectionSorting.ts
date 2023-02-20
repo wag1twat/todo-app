@@ -80,6 +80,7 @@ const useCollectionSorting = <T extends unknown>(defaultCollection: T[], options
         // TODO: memoize sortFn ???
         const collection = sortFn(defaultCollection, order, field, modifiers?.[field])
         setCollection(() => collection)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isEqual, order, field, modifiers?.[field]])
 
     return { collection, sort }

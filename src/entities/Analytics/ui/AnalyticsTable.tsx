@@ -116,6 +116,7 @@ const AnalitycsTable: React.FC<
                 display: ["none", "none", "none", "table-cell", "table-cell"]
             }
         ];
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [collectionSorting.sort]);
 
     return (

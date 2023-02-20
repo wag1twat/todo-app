@@ -60,7 +60,8 @@ const useQueriesGuardRoute = <T extends Queries<string>>(props: T) => {
             })
             return prev
         })
-    }, [props])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [props, searchParams.toString()])
 };
 
 export type { Queries }

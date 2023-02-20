@@ -16,6 +16,8 @@ const Todos: React.FC = () => {
 
     const username = searchParams.get("username") || "";
 
+    const deferredUsername = useDeferredValue(username);
+
     const renderVariant =
         searchParams.get(renderVariantKey) || defRenderVariant;
 
@@ -37,10 +39,10 @@ const Todos: React.FC = () => {
             Boolean(
                 getAuthor(todo.userId)
                     ?.toLocaleLowerCase()
-                    .includes(username.toLocaleLowerCase())
+                    .includes(deferredUsername.toLocaleLowerCase())
             )
         );
-    }, [todos.data, username, getAuthor]);
+    }, [todos.data, deferredUsername, getAuthor]);
 
     console.log(filteredTodos?.map((t) => getAuthor(t.userId)));
     return (
@@ -79,7 +81,7 @@ const Todos: React.FC = () => {
                         maxWidth={["unset", "300px", "300px", "300px", "300px"]}
                         isDisabled={todos.isLoading || todos.isFetching}
                         placeholder="Username..."
-                        value={username}
+                        value={deferredUsername}
                         onChange={(e) => {
                             setSearchParams((prev) => {
                                 prev.set("username", e.target.value);
