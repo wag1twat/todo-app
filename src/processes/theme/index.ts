@@ -57,7 +57,7 @@ const components = {
                 mt: headerStyles.height, 
                 mx: 6, 
                 mb: 6,
-                height: `calc(100vh - ${headerStyles.height * 4}px)`
+                height: `calc(100vh - ${(headerStyles.height) * 4}px)`,
             }
         }
     },
@@ -69,7 +69,8 @@ const components = {
                 mx: "auto",
                 justifyContent: "center",
                 display: 'flex',
-                height: 'inherit'
+                height: 'inherit',
+                pt: 1
             }
         }
     },
