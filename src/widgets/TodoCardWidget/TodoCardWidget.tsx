@@ -12,10 +12,10 @@ const TodoCardWidget: React.FC = () => {
 
     return (
         <TodoCard
-            todo={todo.state}
+            todo={todo.data}
             author={
-                <UserLink id={user.state?.id} isLoading={user.isLoading}>
-                    {user.state?.username}
+                <UserLink id={user.data?.id} isLoading={user.isLoading}>
+                    {user.data?.username}
                 </UserLink>
             }
         />

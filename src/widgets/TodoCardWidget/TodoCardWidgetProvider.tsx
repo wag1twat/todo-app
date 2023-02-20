@@ -1,10 +1,10 @@
 import React from "react";
+import { UseQueryResult } from "react-query/types/react";
 import { Todo, User, useTodo, useUser } from "../../entities";
-import { Get } from "../../processes";
 
 interface TodoCardWidgetContext {
-    todo: Get<Todo | undefined>;
-    user: Get<User | undefined>;
+    todo: UseQueryResult<Todo>;
+    user: UseQueryResult<User>;
 }
 const todoCardWidgetContext = React.createContext<TodoCardWidgetContext>(
     {} as TodoCardWidgetContext
@@ -22,7 +22,7 @@ const TodoCardWidgetProvider: React.FC<
 > = ({ id, ...props }) => {
     const todo = useTodo(id);
 
-    const user = useUser(todo.state?.userId);
+    const user = useUser(todo.data?.userId);
 
     return (
         <todoCardWidgetContext.Provider

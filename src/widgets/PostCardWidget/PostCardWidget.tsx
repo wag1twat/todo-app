@@ -7,9 +7,9 @@ const PostCardWidget = () => {
 
     return (
         <PostCard
-            post={post.state}
-            user={user.state}
-            comments={comments.state}
+            post={post.data}
+            user={user.data}
+            comments={comments.data || []}
         />
     );
 };

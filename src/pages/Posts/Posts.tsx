@@ -1,30 +1,21 @@
 import { ArrowDownOutlined } from "@ant-design/icons";
 import { Icon, Flex, IconButton, Stack } from "@chakra-ui/react";
 import React from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { usePosts } from "../../entities";
-import { Guards, useValidateSearchParams } from "../../processes";
+import { Transform } from "../../processes";
 import { ContentLayout, ScrollLayout } from "../../processes/theme";
 import { ReloadHeader } from "../../shared";
 import { PostCardWidget, PostCardWidgetProvider } from "../../widgets";
 
 const Posts = () => {
+    const [searchParams, setSearchParams] = useSearchParams();
+
     const navigate = useNavigate();
     const location = useLocation();
 
-    const {
-        params: { _start, _limit },
-        searchParams
-    } = useValidateSearchParams({
-        _start: (value) => {
-            const n = Number(value);
-            return Guards.isNumber(n) ? n : 0;
-        },
-        _limit: (value) => {
-            const n = Number(value);
-            return Guards.isNumber(n) ? n : 5;
-        }
-    });
+    const _start = Number(Transform.identy(searchParams.get("_start")));
+    const _limit = Number(Transform.identy(searchParams.get("_limit")));
 
     const posts = usePosts({
         _start,
@@ -32,15 +23,11 @@ const Posts = () => {
     });
 
     const showMore = React.useCallback(() => {
-        searchParams.set("_limit", String(_limit + 5));
-        navigate(
-            {
-                pathname: location.pathname,
-                search: searchParams.toString()
-            },
-            { replace: true }
-        );
-    }, [_limit]);
+        setSearchParams({
+            _start: String(_start),
+            _limit: String(_limit + 5)
+        });
+    }, [_start, _limit]);
 
     const scrollRef = React.useRef<HTMLDivElement | null>(null);
 
@@ -81,7 +68,7 @@ const Posts = () => {
                     onScroll={onScroll}
                 >
                     <Stack spacing={4}>
-                        {posts.state.map((post) => {
+                        {posts.data?.map((post) => {
                             return (
                                 <PostCardWidgetProvider
                                     key={post.id}

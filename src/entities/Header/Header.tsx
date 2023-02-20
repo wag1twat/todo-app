@@ -2,16 +2,15 @@ import { Button } from "@chakra-ui/button";
 import { Stack } from "@chakra-ui/layout";
 import { useTransition } from "react";
 import { useNavigate } from "react-router-dom";
-import { useRenderVariants } from "../../features";
+import { renderVariantKey } from "../../features/ToggleRenderVariantUrlQuery/model";
 import { Core } from "../../processes";
+import { Serializer } from "../../processes/core/Queries";
 import { HeaderLayout } from "../../processes/theme";
 
 const Header = () => {
     const [isPending, startTransition] = useTransition();
 
     const navigate = useNavigate();
-
-    const { queries } = useRenderVariants();
 
     return (
         <HeaderLayout>
@@ -22,7 +21,9 @@ const Header = () => {
                         startTransition(() => {
                             navigate({
                                 pathname: Core.route().todos().link().exec(),
-                                search: queries.list
+                                search: Serializer.query({
+                                    [renderVariantKey]: "list"
+                                })
                             });
                         })
                     }

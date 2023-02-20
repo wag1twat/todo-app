@@ -1,6 +1,7 @@
 import React from 'react'
+import { useQuery } from 'react-query';
 import { Array, Number, Record, Static, String, Undefined } from 'runtypes';
-import { Core, useGet } from '../../../processes';
+import { axiosInstance, Core } from '../../../processes';
 
 const geoContact = Record({
     lat: String, lng: String
@@ -34,15 +35,13 @@ const userContract = Record({
 type User = Static<typeof userContract>
 
 const useUsers = () => {
-    const users = useGet<User[]>(['users'], { initialState: [], cacheTime: 10000 })
-
-    React.useEffect(() => {
-        users.get(Core.api().users().exec())
-    }, [users.get]);
-
-    React.useEffect(() => {
-        Array(userContract).Or(Undefined).check(users.state)
-    }, [users.state])
+    const users = useQuery(['users'], {
+        queryFn: () => axiosInstance.get<User[]>(Core.api().users().exec()),
+        select: ( { data } ) => data,
+        onSettled(data) {
+            Array(userContract).Or(Undefined).check(data)
+        },
+    })
 
     return users
 }

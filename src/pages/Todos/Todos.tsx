@@ -2,10 +2,11 @@ import { Flex, Input, Stack } from "@chakra-ui/react";
 import React, { useDeferredValue } from "react";
 import { useSearchParams } from "react-router-dom";
 import { TodosCards, TodosTable, useTodos, useUsers } from "../../entities";
+import { ToggleRenderVariantUrlQuery } from "../../features";
 import {
-    ToggleRenderVariantUrlQuery,
-    useValidateRenderVariant
-} from "../../features";
+    defRenderVariant,
+    renderVariantKey
+} from "../../features/ToggleRenderVariantUrlQuery/model";
 import { useGlobalLoader } from "../../processes";
 import { ContentLayout } from "../../processes/theme";
 import { ReloadHeader } from "../../shared";
@@ -17,34 +18,33 @@ const Todos: React.FC = () => {
         () => searchParams.get("username") || ""
     );
 
-    const defferedUsername = useDeferredValue(username);
+    const renderVariant =
+        searchParams.get(renderVariantKey) || defRenderVariant;
 
-    const { renderVariant } = useValidateRenderVariant();
+    const defferedUsername = useDeferredValue(username);
 
     const users = useUsers();
 
-    const todos = useTodos({
-        onSettled: () => {
-            users.refetch();
-        }
-    });
+    const todos = useTodos();
 
     useGlobalLoader(todos.isLoading || users.isLoading);
 
     const getAuthor = React.useCallback(
         (userId: number) => {
-            return users.state.find((user) => user.id === userId)?.username;
+            return users.data?.find((user) => user.id === userId)?.username;
         },
-        [users.state]
+        [users.data]
     );
 
     const filteredTodos = React.useMemo(() => {
-        return todos.state.filter((todo) =>
-            getAuthor(todo.userId)
-                ?.toLocaleLowerCase()
-                .includes(defferedUsername.toLocaleLowerCase())
+        return (
+            todos.data?.filter((todo) =>
+                getAuthor(todo.userId)
+                    ?.toLocaleLowerCase()
+                    .includes(defferedUsername.toLocaleLowerCase())
+            ) || []
         );
-    }, [todos.state, defferedUsername, getAuthor]);
+    }, [todos.data, defferedUsername, getAuthor]);
 
     return (
         <ContentLayout>
@@ -87,7 +87,7 @@ const Todos: React.FC = () => {
                     />
                 </Flex>
 
-                {renderVariant === "list" && todos.state.length > 0 && (
+                {renderVariant === "list" && (todos.data?.length || 0) > 0 && (
                     <TodosTable todos={filteredTodos} getAuthor={getAuthor} />
                 )}
                 {renderVariant === "card" && (

@@ -1,40 +1,27 @@
 import { IconButton, Icon } from "@chakra-ui/react";
 import { BarsOutlined, AppstoreOutlined } from "@ant-design/icons";
-import { useLocation, useNavigate } from "react-router-dom";
-import React, { useTransition } from "react";
-import { useValidateRenderVariant } from "./model";
+import { useSearchParams } from "react-router-dom";
+import { useTransition } from "react";
+import {
+    defRenderVariant,
+    defRenderVariants,
+    RenderVariant,
+    renderVariantKey
+} from "./model/types";
+import { useToggleRenderVariant } from "./model";
 
-const ToggleRenderVariantUrlQuery = () => {
+const ToggleRenderVariantUrlQuery = (props: { variants?: RenderVariant[] }) => {
+    const { variants = defRenderVariants } = props;
+
+    const [searchParams] = useSearchParams();
+
+    const variant = searchParams.get(renderVariantKey) || defRenderVariant;
+
     const [isPending, startTransition] = useTransition();
-    const location = useLocation();
-    const navigate = useNavigate();
-    const { renderVariant, renderVariants } = useValidateRenderVariant();
 
-    const toggle = React.useCallback(() => {
-        if (renderVariant) {
-            const index = renderVariants.variants.indexOf(renderVariant);
+    const toggle = useToggleRenderVariant(variants);
 
-            if (index >= renderVariants.variants.length - 1) {
-                navigate({
-                    pathname: location.pathname,
-                    search: renderVariants.queries[renderVariants.variants[0]]
-                });
-
-                return;
-            }
-
-            navigate({
-                pathname: location.pathname,
-                search: renderVariants.queries[
-                    renderVariants.variants[index + 1]
-                ]
-            });
-
-            return;
-        }
-    }, [renderVariant, renderVariants, location.pathname]);
-
-    if (renderVariant === "card") {
+    if (variant === "card") {
         return (
             <IconButton
                 size="sm"
@@ -51,7 +38,7 @@ const ToggleRenderVariantUrlQuery = () => {
         );
     }
 
-    if (renderVariant === "list") {
+    if (variant === "list") {
         return (
             <IconButton
                 size="sm"

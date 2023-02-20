@@ -1,6 +1,7 @@
 import React from 'react'
+import { useQuery } from 'react-query';
 import { Array, Boolean, Number, Record, Static, String, Undefined } from 'runtypes';
-import { ConfigGet, Core, useGet } from '../../../processes';
+import { axiosInstance, Core,  } from '../../../processes';
 
 const todoContract = Record({
     completed: Boolean,
@@ -12,18 +13,14 @@ const todoContract = Record({
 type Todo = Static<typeof todoContract>
 
 
-const useTodos = (props: Partial<Pick<ConfigGet<Todo[]>, 'onSettled'>> = {}) => {
-    const { onSettled } = props
-
-    const todos = useGet<Todo[]>(['todos'], { initialState: [], cacheTime: 5000, onSettled });
-
-    React.useEffect(() => {
-        todos.get(Core.api().todos().exec());
-    }, [todos.get]);
-
-    React.useEffect(() => {
-        Array(todoContract).Or(Undefined).check(todos.state)
-    }, [todos.state])
+const useTodos = () => {
+    const todos = useQuery(['todos'], {
+        queryFn: () => axiosInstance.get<Todo[]>(Core.api().todos().exec()),
+        select: ( { data } ) => data,
+        onSettled(data, error) {
+            Array(todoContract).Or(Undefined).check(data)
+        },
+    })
 
     return todos
 }

@@ -1,4 +1,5 @@
 import React from "react";
+import { QueryClientProvider, QueryClient } from "react-query";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
@@ -7,11 +8,15 @@ const root = ReactDOM.createRoot(
     document.getElementById("root") as HTMLElement
 );
 
+const client = new QueryClient();
+
 // React.StrictMode при дев окружении рендерит /App два раза
 
 root.render(
     <React.StrictMode>
-        <App />
+        <QueryClientProvider client={client}>
+            <App />
+        </QueryClientProvider>
     </React.StrictMode>
 );
 

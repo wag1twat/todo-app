@@ -1,18 +1,18 @@
 import React from 'react'
+import { useQuery } from 'react-query';
 import {  Undefined } from 'runtypes';
-import { Core, useGet } from '../../../processes';
+import { axiosInstance, Core,  } from '../../../processes';
 import { User, userContract } from './useUsers';
 
 const useUser = (id: number | undefined) => {
-    const user = useGet<User | undefined>(['user'], { initialState: undefined, cacheTime: 10000, enabled: id !== undefined })
-
-    React.useEffect(() => {
-        user.get(Core.api().user(String(id)).exec())
-    }, [user.get, id]);
-
-    React.useEffect(() => {
-       userContract.Or(Undefined).check(user.state)
-    }, [user.state])
+    const user = useQuery(['user', id], {
+        queryFn: () => axiosInstance.get<User>(Core.api().user(String(id)).exec()),
+        select: ( { data } ) => data,
+        onSettled(data, error) {
+            userContract.Or(Undefined).check(data)
+        },
+        enabled: id !== undefined,
+    })
 
     return user
 }

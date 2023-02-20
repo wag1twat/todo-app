@@ -1,4 +1,5 @@
 import React from "react";
+import { UseQueryResult } from "react-query/types/react";
 import {
     Post,
     User,
@@ -7,12 +8,11 @@ import {
     usePost,
     useComments
 } from "../../entities";
-import { Get } from "../../processes";
 
 interface postCardWidgetContext {
-    post: Get<Post | undefined>;
-    user: Get<User | undefined>;
-    comments: Get<Comment[]>;
+    post: UseQueryResult<Post>;
+    user: UseQueryResult<User>;
+    comments: UseQueryResult<Comment[]>;
 }
 const postCardWidgetContext = React.createContext<postCardWidgetContext>(
     {} as postCardWidgetContext
@@ -30,22 +30,12 @@ const PostCardWidgetProvider: React.FC<
 > = ({ id, ...props }) => {
     const post = usePost(id);
 
-    const user = useUser(post.state?.userId);
+    const user = useUser(post.data?.userId);
 
     const comments = useComments({
-        postId: post.state?.id,
-        userId: user.state?.id
+        postId: post.data?.id,
+        userId: user.data?.id
     });
-
-    React.useEffect(() => {
-        const interval = setInterval(() => {
-            comments.refetch();
-        }, 1000);
-
-        return () => {
-            clearInterval(interval);
-        };
-    }, [comments.refetch]);
 
     return (
         <postCardWidgetContext.Provider

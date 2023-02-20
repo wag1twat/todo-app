@@ -2,7 +2,7 @@ import React from "react";
 import { ChakraProvider } from "@chakra-ui/react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Header } from "./entities";
-import { ErrorBoundary, GlobalLoaderProvider, Core } from "./processes";
+import { ErrorBoundary, GlobalLoaderProvider, Core, Guards } from "./processes";
 import {
     FallbackAnalytics,
     FallbackTodos,
@@ -11,6 +11,12 @@ import {
     FallbackAnalyticsErrorEvent
 } from "./pages";
 import theme, { MainLayout } from "./processes/theme";
+import { QueriesGuardRoute } from "./features";
+import {
+    defRenderVariant,
+    isRenderVariant,
+    renderVariantKey
+} from "./features/ToggleRenderVariantUrlQuery/model";
 
 const TodosPage = React.lazy(() => import("./pages/Todos/Todos"));
 const AnalyticsPage = React.lazy(() => import("./pages/Analytics/Analitycs"));
@@ -31,13 +37,12 @@ function App() {
                     <MainLayout>
                         <Routes>
                             <Route
-                                path="*"
+                                path="/"
                                 element={
                                     <Navigate
-                                        to={Core.route()
-                                            .todos()
-                                            .path()
-                                            .query({ renderVariant: "list" })}
+                                        to={Core.route().todos().path().query({
+                                            renderVariant: defRenderVariant
+                                        })}
                                         replace
                                     />
                                 }
@@ -46,10 +51,9 @@ function App() {
                                 path="*"
                                 element={
                                     <Navigate
-                                        to={Core.route()
-                                            .todos()
-                                            .path()
-                                            .query({ renderVariant: "list" })}
+                                        to={Core.route().todos().path().query({
+                                            renderVariant: defRenderVariant
+                                        })}
                                         replace
                                     />
                                 }
@@ -61,7 +65,19 @@ function App() {
                                         <React.Suspense
                                             fallback={<FallbackTodos />}
                                         >
-                                            <TodosPage />
+                                            <QueriesGuardRoute
+                                                queries={{
+                                                    [renderVariantKey]: {
+                                                        def: defRenderVariant,
+                                                        guard: (value) =>
+                                                            isRenderVariant(
+                                                                value
+                                                            )
+                                                    }
+                                                }}
+                                            >
+                                                <TodosPage />
+                                            </QueriesGuardRoute>
                                         </React.Suspense>
                                     </ErrorBoundary>
                                 }
@@ -118,7 +134,26 @@ function App() {
                                         <React.Suspense
                                             fallback={<FallbackPosts />}
                                         >
-                                            <PostsPage />
+                                            <QueriesGuardRoute
+                                                queries={{
+                                                    _start: {
+                                                        def: "0",
+                                                        guard: (value) =>
+                                                            Guards.isNumber(
+                                                                Number(value)
+                                                            )
+                                                    },
+                                                    _limit: {
+                                                        def: "5",
+                                                        guard: (value) =>
+                                                            Guards.isNumber(
+                                                                Number(value)
+                                                            )
+                                                    }
+                                                }}
+                                            >
+                                                <PostsPage />
+                                            </QueriesGuardRoute>
                                         </React.Suspense>
                                     </ErrorBoundary>
                                 }

@@ -1,6 +1,7 @@
 import React from 'react'
+import { useQuery } from 'react-query';
 import { Array, Number, Record, Static, String, Undefined } from 'runtypes';
-import { Core, useGet } from '../../../processes';
+import { axiosInstance, Core } from '../../../processes';
 
 const commentContract = Record({
     body: String,
@@ -20,17 +21,16 @@ interface UseCommentProps {
 const useComments = (props: UseCommentProps = {}) => {
     const { postId, userId } = props
 
-    const comments = useGet<Comment[]>(['comments', postId, userId], { initialState: [], cacheTime: 1000, enabled: postId !== undefined && userId !== undefined });
-
-    React.useEffect(() => {
-        comments.get(Core.api().comments().query({
-            postId, userId
-        }));
-    }, [comments.get, postId, userId]);
-
-    React.useEffect(() => {
-        Array(commentContract).Or(Undefined).check(comments.state)
-    }, [comments.state])
+    const comments = useQuery(['comments', postId, userId], {
+        queryFn: () => axiosInstance.get<Comment[]>(Core.api().comments().query({
+             postId, userId
+        })),
+        select: ( { data } ) => data,
+        onSettled(data, error) {
+            Array(commentContract).Or(Undefined).check(data)
+        },
+        enabled: postId !== undefined || userId !== undefined
+    })
 
     return comments
 }

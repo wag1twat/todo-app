@@ -25,7 +25,7 @@ const Todo = () => {
                                     }
                                     refetch={ctx.todo.refetch}
                                 >
-                                    Todo #{ctx.todo.state?.id}
+                                    Todo #{ctx.todo.data?.id}
                                 </ReloadHeader>
                             );
                         }}
