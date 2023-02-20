@@ -1,6 +1,5 @@
 import {
     Table as ChakraTable,
-    TableContainer,
     Tbody,
     Td,
     Th,
@@ -8,7 +7,7 @@ import {
     Tr
 } from "@chakra-ui/react";
 import { Column, useSortBy, useTable } from "react-table";
-import { ScrollLayout } from "../../processes/theme";
+import { ScrollLayout } from "src/processes/theme";
 
 interface TableProps<T extends object = object> {
     data: T[] | undefined;

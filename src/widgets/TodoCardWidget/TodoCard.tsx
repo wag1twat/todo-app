@@ -7,9 +7,9 @@ import {
     Skeleton,
     Text
 } from "@chakra-ui/react";
-import { CompletedIcon, Paper, RouterLink } from "../../shared";
-import { TodoDto } from "../../processes/core/Api";
-import { route } from "../../processes";
+import { CompletedIcon, Paper, RouterLink } from "src/shared";
+import { TodoDto } from "src/processes/core/Api";
+import { route } from "src/processes";
 
 interface TodoCardProps {
     todo: TodoDto | undefined;

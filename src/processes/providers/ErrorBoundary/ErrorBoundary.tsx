@@ -1,6 +1,6 @@
 import React, { ErrorInfo } from "react";
 import { Stack, Text } from "@chakra-ui/react";
-import { analytics } from "../../core";
+import { analytics } from "src/processes/core";
 
 interface Props {
     stage: NodeJS.ProcessEnv["NODE_ENV"];

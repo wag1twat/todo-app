@@ -1,6 +1,6 @@
 import { Box, CircularProgress } from "@chakra-ui/react";
 import React from "react";
-import { useMaxZIndex } from "../../hooks";
+import { useMaxZIndex } from "src/processes/hooks";
 
 interface GlobalLoaderContext {
     setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;

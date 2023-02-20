@@ -1,8 +1,8 @@
 import React from "react";
 import { Heading, Stack } from "@chakra-ui/react";
-import { AnalitycsTable } from "../../entities";
-import { ContentLayout } from "../../processes/theme";
-import { analytics } from "../../processes";
+import { analytics } from "src/processes";
+import { ContentLayout } from "src/processes/theme";
+import { AnalitycsTable } from "src/entities";
 
 const Analytics = () => {
     const [errorEvents] = React.useState(() => analytics().getErrorEvents());

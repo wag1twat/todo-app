@@ -1,6 +1,6 @@
 import { Text } from "@chakra-ui/react";
-import { AnalitycsErrorEvent, analytics } from "../../processes";
-import { Paper } from "../../shared";
+import { AnalitycsErrorEvent, analytics } from "src/processes";
+import { Paper } from "src/shared";
 
 interface AnalyticsErrorWidgetProps {
     event: (AnalitycsErrorEvent & { key: string }) | undefined;

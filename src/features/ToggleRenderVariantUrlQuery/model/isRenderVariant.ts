@@ -1,4 +1,4 @@
-import { Guards } from "../../../processes";
+import { Guards } from "src/processes";
 import { defRenderVariants, RenderVariant } from "./types";
 
 const isRenderVariant = (value: unknown): value is string => {

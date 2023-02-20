@@ -1,10 +1,9 @@
 import { Heading, Stack } from "@chakra-ui/react";
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { analytics, route } from "../../processes";
-import { ContentLayout } from "../../processes/theme";
-import { AnalyticsErrorWidget } from "../../widgets";
-
+import { analytics, route } from "src/processes";
+import { ContentLayout } from "src/processes/theme";
+import { AnalyticsErrorWidget } from "src/widgets";
 const AnalyticsErrorEvent = () => {
     const { key } = useParams();
 

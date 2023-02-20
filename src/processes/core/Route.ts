@@ -1,10 +1,6 @@
 import { Url } from "./Url"
 
 class Route extends Url {
-    constructor(route: string) {
-        super(route)
-    }
-
     posts() {
         return {
             link: () => this.slash('posts'),

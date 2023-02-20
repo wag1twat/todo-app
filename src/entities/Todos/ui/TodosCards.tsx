@@ -1,7 +1,7 @@
 import { Grid } from "@chakra-ui/react";
-import { TodoCard } from "../../../widgets";
-import { UserLink } from "../../../shared";
-import { TodoDto } from "../../../processes/core/Api";
+import { TodoDto } from "src/processes/core/Api";
+import { UserLink } from "src/shared";
+import { TodoCard } from "src/widgets";
 
 interface TodosCardsProps {
     todos: TodoDto[] | undefined;

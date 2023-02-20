@@ -1,7 +1,7 @@
 import { BoxProps, Flex, Stack, chakra, Text } from "@chakra-ui/react";
 import React from "react";
-import { CommentDto, PostDto, UserDto } from "../../processes/core/Api";
-import { Paper, RouterLink, UserLink } from "../../shared";
+import { CommentDto, PostDto, UserDto } from "src/processes/core/Api";
+import { Paper, RouterLink, UserLink } from "src/shared";
 
 interface PostCardProps {
     post: PostDto | undefined;

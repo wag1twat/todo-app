@@ -1,5 +1,5 @@
 import { useQuery } from 'react-query';
-import { api } from '../../../processes';
+import { api } from 'src/processes';
 
 const useUser = (id: number | undefined) => {
     const user = useQuery(['user', id], {

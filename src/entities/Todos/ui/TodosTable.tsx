@@ -1,11 +1,11 @@
-import { Box, Flex, Stack } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 import React, { useTransition } from "react";
 import { Column } from "react-table";
-import { Pagination, useCollectionPaging } from "../../../features";
-import { route, useCollectionSorting } from "../../../processes";
-import { TodoDto } from "../../../processes/core/Api";
-import { CompletedIcon, RouterLink, TransitionBackdrop } from "../../../shared";
-import { Table } from "../../Table";
+import { Table } from "src/entities/Table";
+import { Pagination, useCollectionPaging } from "src/features";
+import { route, useCollectionSorting } from "src/processes";
+import { TodoDto } from "src/processes/core/Api";
+import { CompletedIcon, RouterLink, TransitionBackdrop } from "src/shared";
 
 interface TodosTableProps {
     todos: TodoDto[] | undefined;

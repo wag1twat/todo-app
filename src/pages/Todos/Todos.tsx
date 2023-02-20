@@ -1,15 +1,15 @@
 import { Flex, Input, Stack } from "@chakra-ui/react";
 import React, { useDeferredValue } from "react";
 import { useSearchParams } from "react-router-dom";
-import { TodosCards, TodosTable, useTodos, useUsers } from "../../entities";
-import { ToggleRenderVariantUrlQuery } from "../../features";
+import { TodosCards, TodosTable, useTodos, useUsers } from "src/entities";
+import { ToggleRenderVariantUrlQuery } from "src/features";
 import {
     defRenderVariant,
     renderVariantKey
-} from "../../features/ToggleRenderVariantUrlQuery/model";
-import { useGlobalLoader } from "../../processes";
-import { ContentLayout } from "../../processes/theme";
-import { ReloadHeader } from "../../shared";
+} from "src/features/ToggleRenderVariantUrlQuery/model";
+import { useGlobalLoader } from "src/processes";
+import { ContentLayout } from "src/processes/theme";
+import { ReloadHeader } from "src/shared";
 
 const Todos: React.FC = () => {
     const [searchParams, setSearchParams] = useSearchParams();

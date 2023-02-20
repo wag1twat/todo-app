@@ -2,17 +2,15 @@ import { Box, Stack } from "@chakra-ui/react";
 import { DateTime } from "luxon";
 import React, { useTransition } from "react";
 import { Column } from "react-table";
-import { Pagination, useCollectionPaging } from "../../../features";
+import { Table } from "src/entities/Table";
+import { Pagination, useCollectionPaging } from "src/features";
 import {
     AnalitycsErrorEvent,
     analytics,
     route,
     useCollectionSorting
-} from "../../../processes";
-import {} from "../../../processes/core/Analytics";
-import { RouterLink, TransitionBackdrop } from "../../../shared";
-import { Table } from "../../Table";
-
+} from "src/processes";
+import { RouterLink, TransitionBackdrop } from "src/shared";
 interface AnalitycsTableProps {
     events: (AnalitycsErrorEvent & { key: string })[];
 }

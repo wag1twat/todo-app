@@ -1,5 +1,5 @@
 import React from "react"
-import { Guards } from "../../core"
+import { Guards } from "src/processes/core"
 
 type Order = 'ASC' | 'DESC' | 'default'
 
@@ -24,7 +24,7 @@ const sortCallback = <T extends unknown>(order: Exclude<Order, 'default'>, field
     if(isString(af) && isString(bf)) {
         return isAsc ? bf.localeCompare(af) : af.localeCompare(bf)
     }
-    if(isBoolean(af) && isBoolean(bf) || isNumber(af) && isNumber(bf)) {
+    if((isBoolean(af) && isBoolean(bf)) || (isNumber(af) && isNumber(bf))) {
         return isAsc ? (af > bf ? 1 : -1) : (af < bf ? 1 : -1)
     }
     return 0

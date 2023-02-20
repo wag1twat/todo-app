@@ -1,6 +1,6 @@
 import { useQuery } from 'react-query';
-import { api } from '../../../processes';
-import { LimiterQueries } from '../../../processes/core/types';
+import { api } from 'src/processes';
+import { LimiterQueries } from 'src/processes/core/types';
 
 const usePosts = (props: LimiterQueries = {}) => {
     const { _start, _limit, } = props

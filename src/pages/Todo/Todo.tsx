@@ -1,12 +1,12 @@
 import { Stack } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
-import { ContentLayout } from "../../processes/theme";
-import { ReloadHeader } from "../../shared";
+import { ContentLayout } from "src/processes/theme";
+import { ReloadHeader } from "src/shared";
 import {
+    TodoCardWidgetProvider,
     todoCardWidgetContext,
-    TodoCardWidget,
-    TodoCardWidgetProvider
-} from "../../widgets";
+    TodoCardWidget
+} from "src/widgets";
 
 const Todo = () => {
     const { id } = useParams();

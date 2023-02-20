@@ -2,10 +2,10 @@ import { Button } from "@chakra-ui/button";
 import { Stack } from "@chakra-ui/layout";
 import { useTransition } from "react";
 import { useNavigate } from "react-router-dom";
-import { renderVariantKey } from "../../features/ToggleRenderVariantUrlQuery/model";
-import { route } from "../../processes";
-import { Serializer } from "../../processes/core/Queries";
-import { HeaderLayout } from "../../processes/theme";
+import { renderVariantKey } from "src/features/ToggleRenderVariantUrlQuery/model";
+import { route } from "src/processes";
+import { Serializer } from "src/processes/core/Queries";
+import { HeaderLayout } from "src/processes/theme";
 
 const Header = () => {
     const [isPending, startTransition] = useTransition();

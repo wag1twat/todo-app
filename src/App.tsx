@@ -1,13 +1,13 @@
 import React from "react";
 import { ChakraProvider } from "@chakra-ui/react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { Header } from "./entities";
+import { Header } from "src/entities";
 import {
     ErrorBoundary,
     GlobalLoaderProvider,
     Guards,
     route
-} from "./processes";
+} from "src/processes";
 import {
     FallbackAnalytics,
     FallbackTodos,
@@ -15,21 +15,21 @@ import {
     FallbackPosts,
     FallbackAnalyticsErrorEvent
 } from "./pages";
-import theme, { MainLayout } from "./processes/theme";
-import { QueriesGuardRoute } from "./features";
+import theme, { MainLayout } from "src/processes/theme";
+import { QueriesGuardRoute } from "src/features";
 import {
     defRenderVariant,
     isRenderVariant,
     renderVariantKey
-} from "./features/ToggleRenderVariantUrlQuery/model";
+} from "src/features/ToggleRenderVariantUrlQuery/model";
 
-const TodosPage = React.lazy(() => import("./pages/Todos/Todos"));
-const AnalyticsPage = React.lazy(() => import("./pages/Analytics/Analitycs"));
+const TodosPage = React.lazy(() => import("src/pages/Todos/Todos"));
+const AnalyticsPage = React.lazy(() => import("src/pages/Analytics/Analitycs"));
 const AnalyticsErrorEventPage = React.lazy(
-    () => import("./pages/AnalyticsErrorEvent/AnalyticsErrorEvent")
+    () => import("src/pages/AnalyticsErrorEvent/AnalyticsErrorEvent")
 );
-const TodoPage = React.lazy(() => import("./pages/Todo/Todo"));
-const PostsPage = React.lazy(() => import("./pages/Posts/Posts"));
+const TodoPage = React.lazy(() => import("src/pages/Todo/Todo"));
+const PostsPage = React.lazy(() => import("src/pages/Posts/Posts"));
 
 function App() {
     return (

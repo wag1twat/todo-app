@@ -2,11 +2,11 @@ import { ArrowDownOutlined } from "@ant-design/icons";
 import { Icon, Flex, IconButton, Stack } from "@chakra-ui/react";
 import React from "react";
 import { useSearchParams } from "react-router-dom";
-import { usePosts } from "../../entities";
-import { Transform } from "../../processes";
-import { ContentLayout, ScrollLayout } from "../../processes/theme";
-import { ReloadHeader } from "../../shared";
-import { PostCardWidget, PostCardWidgetProvider } from "../../widgets";
+import { usePosts } from "src/entities";
+import { Transform } from "src/processes";
+import { ContentLayout, ScrollLayout } from "src/processes/theme";
+import { ReloadHeader } from "src/shared";
+import { PostCardWidget, PostCardWidgetProvider } from "src/widgets";
 
 const Posts = () => {
     const [searchParams, setSearchParams] = useSearchParams();

@@ -1,15 +1,15 @@
 import React from "react";
 import { UseQueryResult } from "react-query/types/react";
-import { useUser, usePost, useComments } from "../../entities";
-import { CommentDto, PostDto, UserDto } from "../../processes/core/Api";
+import { useUser, usePost, useComments } from "src/entities";
+import { CommentDto, PostDto, UserDto } from "src/processes/core/Api";
 
-interface postCardWidgetContext {
+interface PostCardWidgetContext {
     post: UseQueryResult<PostDto>;
     user: UseQueryResult<UserDto>;
     comments: UseQueryResult<CommentDto[]>;
 }
-const postCardWidgetContext = React.createContext<postCardWidgetContext>(
-    {} as postCardWidgetContext
+const postCardWidgetContext = React.createContext<PostCardWidgetContext>(
+    {} as PostCardWidgetContext
 );
 
 const usePostCardWidget = () => {

@@ -1,8 +1,8 @@
 import { Array } from "runtypes"
 import { axiosInstance } from "../../axios"
-import { LimiterQueries, Queries, Query } from "../types"
-import { Url } from "../Url"
 import { commentDto, CommentDto, postDto, PostDto, todoDto, TodoDto, userDto, UserDto } from "./dto"
+import { Url } from "../Url"
+import { LimiterQueries, Queries, Query } from "../types"
 
 class Api extends Url  {
     private get<T extends unknown>() {
@@ -38,49 +38,49 @@ class Api extends Url  {
     async getTodos(...rest: Parameters<Api['todos']>){
         this.todos(...rest)
         return this.get<TodoDto[]>().then((response) => {
-            // Array(todoDto).check(response.data)
+            Array(todoDto).check(response.data)
             return response
         })
     }
     async getTodo(...rest: Parameters<Api['todo']>){
         this.todo(...rest)
         return this.get<TodoDto>().then(response => {
-            // todoDto.check(response.data)
+            todoDto.check(response.data)
             return response
         })
     }
     async getUsers(...rest: Parameters<Api['users']>){
         this.users(...rest)
         return this.get<UserDto[]>().then(response => {
-            // Array(userDto).check(response.data)
+            Array(userDto).check(response.data)
             return response
         })
     }
     async getUser(...rest: Parameters<Api['user']>){
         this.user(...rest)
         return this.get<UserDto>().then(response => {
-            // userDto.check(response.data)
+            userDto.check(response.data)
             return response
         })
     }
     async getPosts(...rest: Parameters<Api['posts']>) {
         this.posts(...rest)
         return this.get<PostDto[]>().then(response => {
-            // Array(postDto).check(response.data)
+            Array(postDto).check(response.data)
             return response
         })
     }
     async getPost(...rest: Parameters<Api['post']>){
         this.post(...rest)
         return this.get<PostDto>().then(response => {
-            // postDto.check(response.data)
+            postDto.check(response.data)
             return response
         })
     }
     async getComments(...rest: Parameters<Api['comments']>){
         this.comments(...rest)
         return this.get<CommentDto[]>().then(response => {
-            // Array(commentDto).check(response.data)
+            Array(commentDto).check(response.data)
             return response
         })
     }

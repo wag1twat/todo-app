@@ -1,7 +1,7 @@
 import { UserOutlined } from "@ant-design/icons";
 import { Box, Icon, chakra } from "@chakra-ui/react";
-import { route } from "../../processes";
-import { RouterLink } from "../../shared";
+import { route } from "src/processes";
+import { RouterLink } from "src/shared";
 
 interface UserLinkProps {
     id: number | undefined;
