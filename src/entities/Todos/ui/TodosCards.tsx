@@ -1,5 +1,5 @@
 import { Grid } from "@chakra-ui/react";
-import { TodoDto } from "src/processes/core/Api";
+import { TodoDto } from "src/processes/core/api/dto";
 import { UserLink } from "src/shared";
 import { TodoCard } from "src/widgets";
 

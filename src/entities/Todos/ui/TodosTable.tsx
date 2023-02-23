@@ -3,8 +3,8 @@ import React, { useTransition } from "react";
 import { Column } from "react-table";
 import { Table } from "src/entities/Table";
 import { Pagination, useCollectionPaging } from "src/features";
-import { route, useCollectionSorting } from "src/processes";
-import { TodoDto } from "src/processes/core/Api";
+import { useCollectionSorting } from "src/processes";
+import { TodoDto } from "src/processes/core/api/dto";
 import { CompletedIcon, RouterLink, TransitionBackdrop } from "src/shared";
 
 interface TodosTableProps {
@@ -57,10 +57,8 @@ const TodosTable: React.FC<React.PropsWithChildren<TodosTableProps>> = ({
                     return (
                         <Box>
                             <RouterLink
-                                to={route()
-                                    .todo()
-                                    .link(`${props.row.original.id}`)
-                                    .exec()}
+                                // TODO:
+                                to={"/"}
                             >
                                 #{props.row.original.id}
                             </RouterLink>

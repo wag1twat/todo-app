@@ -1,7 +1,7 @@
 import React from "react";
 import { UseQueryResult } from "react-query/types/react";
 import { useUser, usePost, useComments } from "src/entities";
-import { CommentDto, PostDto, UserDto } from "src/processes/core/Api";
+import { CommentDto, PostDto, UserDto } from "src/processes/core/api/dto";
 
 interface PostCardWidgetContext {
     post: UseQueryResult<PostDto>;
@@ -27,17 +27,12 @@ const PostCardWidgetProvider: React.FC<
     const user = useUser(post.data?.userId);
 
     const comments = useComments({
-        postId: post.data?.id,
-        userId: user.data?.id
+        postId: post.data?.id
     });
 
     return (
         <postCardWidgetContext.Provider
-            value={{
-                user,
-                post,
-                comments
-            }}
+            value={{ post, user, comments }}
             {...props}
         />
     );

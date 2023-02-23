@@ -8,8 +8,11 @@ const PostCardWidget = () => {
     return (
         <PostCard
             post={post.data}
+            isLoadingPost={post.isLoading}
             user={user.data}
+            isLoadingUser={user.isLoading}
             comments={comments.data || []}
+            isLoadingComments={comments.isLoading}
         />
     );
 };

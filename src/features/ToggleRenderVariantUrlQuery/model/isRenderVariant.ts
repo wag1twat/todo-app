@@ -1,4 +1,4 @@
-import { Guards } from "src/processes";
+import { Guards } from "shulga-app-core";
 import { defRenderVariants, RenderVariant } from "./types";
 
 const isRenderVariant = (value: unknown): value is string => {

@@ -1,5 +1,5 @@
 import React from "react"
-import { Guards } from "src/processes/core"
+import { Guards } from "shulga-app-core"
 
 type Order = 'ASC' | 'DESC' | 'default'
 

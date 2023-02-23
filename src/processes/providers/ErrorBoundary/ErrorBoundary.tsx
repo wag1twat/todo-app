@@ -1,6 +1,5 @@
 import React, { ErrorInfo } from "react";
 import { Stack, Text } from "@chakra-ui/react";
-import { analytics } from "src/processes/core";
 
 interface Props {
     stage: NodeJS.ProcessEnv["NODE_ENV"];
@@ -31,12 +30,6 @@ class ErrorBoundary extends React.Component<
     }
 
     componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-        analytics().sendErrorEvent({
-            name: error.name,
-            message: error.message,
-            stack: errorInfo.componentStack
-        });
-
         this.setState((prevState) => ({
             ...prevState,
             name: error.name,

@@ -44,7 +44,6 @@ const Todos: React.FC = () => {
         );
     }, [todos.data, deferredUsername, getAuthor]);
 
-    console.log(filteredTodos?.map((t) => getAuthor(t.userId)));
     return (
         <ContentLayout>
             <Stack width="100%" spacing={4}>

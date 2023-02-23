@@ -1,6 +1,6 @@
 import React from 'react'
 import { useSearchParams } from "react-router-dom";
-import { Transform } from 'src/processes';
+import Transform from 'src/processes/core/Transform';
 
 type Queries<K extends string> = Record<K, {
     def: string

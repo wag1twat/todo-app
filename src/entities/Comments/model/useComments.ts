@@ -1,18 +1,16 @@
 import { useQuery } from 'react-query';
-import { api } from 'src/processes';
+import { Guards } from 'shulga-app-core';
+import api from 'src/processes/core/api';
+import { CommentQeriesDto } from 'src/processes/core/api/dto';
 
-interface UseCommentProps {
-    postId?: number,
-    userId?: number,
-}
 
-const useComments = (props: UseCommentProps = {}) => {
-    const { postId, userId } = props
+const useComments = (props: CommentQeriesDto = {}) => {
+    const { postId } = props
 
-    const comments = useQuery(['comments', postId, userId], {
-        queryFn: () => api().getComments({ queries: { postId, userId }}),
+    const comments = useQuery(['comments', postId], {
+        queryFn: () => api.getComments({ postId }),
         select: ( { data } ) => data,
-        enabled: postId !== undefined || userId !== undefined
+        enabled: Guards.isNumber(postId)
     })
 
     return comments

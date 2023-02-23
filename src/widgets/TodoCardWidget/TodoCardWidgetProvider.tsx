@@ -1,7 +1,7 @@
 import React from "react";
 import { UseQueryResult } from "react-query/types/react";
 import { useTodo, useUser } from "../../entities";
-import { TodoDto, UserDto } from "../../processes/core/Api";
+import { TodoDto, UserDto } from "src/processes/core/api/dto";
 
 interface TodoCardWidgetContext {
     todo: UseQueryResult<TodoDto>;

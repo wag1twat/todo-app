@@ -8,7 +8,12 @@ const commentDto = Record({
     postId: Number
 })
 
-type CommentDto = Static<typeof commentDto>
+const commentsQeriesDto = Record({
+    postId: Number.optional(),
+})
 
-export type { CommentDto }
-export { commentDto }
+type CommentDto = Static<typeof commentDto>
+type CommentQeriesDto = Static<typeof commentsQeriesDto>
+
+export type { CommentDto, CommentQeriesDto }
+export { commentDto, commentsQeriesDto }

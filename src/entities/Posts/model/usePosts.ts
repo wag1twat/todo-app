@@ -1,14 +1,19 @@
 import { useQuery } from 'react-query';
-import { api } from 'src/processes';
-import { LimiterQueries } from 'src/processes/core/types';
+import { Guards } from 'shulga-app-core';
+import api from 'src/processes/core/api';
 
-const usePosts = (props: LimiterQueries = {}) => {
+interface Props {
+    _start?: number,
+    _limit?: number
+}
+
+const usePosts = (props: Props) => {
     const { _start, _limit, } = props
 
     return useQuery(['posts', _start, _limit], {
-        queryFn: () => api().getPosts({ queries: { _start, _limit } }),
+        queryFn: () => api.getPosts({ _start, _limit }),
         select: ( { data } ) => data,
-        enabled: (_start !== undefined || _limit !== undefined),
+        enabled: Guards.isNumber(_start) && Guards.isNumber(_limit),
         cacheTime: 5000,
         keepPreviousData: true
     })

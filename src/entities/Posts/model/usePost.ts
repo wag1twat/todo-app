@@ -1,11 +1,12 @@
 import { useQuery } from 'react-query';
-import { api } from 'src/processes';
+import { Guards } from 'shulga-app-core';
+import api from 'src/processes/core/api';
 
 const usePost = (id: number | undefined) => {
     return useQuery(['post', id], {
-        queryFn: () => api().getPost({ id }),
+        queryFn: () => api.getPost({ ':postId': `${id}` }),
         select: ( { data } ) => data,
-        enabled: id !== undefined
+        enabled: Guards.isNumber(id)
     })
 }
 

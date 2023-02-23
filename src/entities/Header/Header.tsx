@@ -2,9 +2,7 @@ import { Button } from "@chakra-ui/button";
 import { Stack } from "@chakra-ui/layout";
 import { useTransition } from "react";
 import { useNavigate } from "react-router-dom";
-import { renderVariantKey } from "src/features/ToggleRenderVariantUrlQuery/model";
-import { route } from "src/processes";
-import { Serializer } from "src/processes/core/Queries";
+import routes from "src/processes/core/routes";
 import { HeaderLayout } from "src/processes/theme";
 
 const Header = () => {
@@ -19,12 +17,7 @@ const Header = () => {
                     size={"sm"}
                     onClick={() =>
                         startTransition(() => {
-                            navigate({
-                                pathname: route().todos().link().exec(),
-                                search: Serializer.query({
-                                    [renderVariantKey]: "list"
-                                })
-                            });
+                            navigate(routes.todosRouteWithDefaultQueries.path);
                         })
                     }
                     isDisabled={isPending}
@@ -32,16 +25,15 @@ const Header = () => {
                     Todos
                 </Button>
                 <Button
-                    size="sm"
-                    colorScheme={"cyan"}
+                    size={"sm"}
                     onClick={() =>
                         startTransition(() => {
-                            navigate(route().analytics().link().exec());
+                            navigate(routes.postsRoute.path);
                         })
                     }
                     isDisabled={isPending}
                 >
-                    Analytics
+                    Posts
                 </Button>
             </Stack>
         </HeaderLayout>

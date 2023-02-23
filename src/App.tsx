@@ -2,19 +2,8 @@ import React from "react";
 import { ChakraProvider } from "@chakra-ui/react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Header } from "src/entities";
-import {
-    ErrorBoundary,
-    GlobalLoaderProvider,
-    Guards,
-    route
-} from "src/processes";
-import {
-    FallbackAnalytics,
-    FallbackTodos,
-    FallbackTodo,
-    FallbackPosts,
-    FallbackAnalyticsErrorEvent
-} from "./pages";
+import { ErrorBoundary, GlobalLoaderProvider } from "src/processes";
+import { FallbackTodos, FallbackTodo, FallbackPosts } from "./pages";
 import theme, { MainLayout } from "src/processes/theme";
 import { QueriesGuardRoute } from "src/features";
 import {
@@ -22,12 +11,10 @@ import {
     isRenderVariant,
     renderVariantKey
 } from "src/features/ToggleRenderVariantUrlQuery/model";
+import routes from "src/processes/core/routes";
+import { Guards } from "shulga-app-core";
 
 const TodosPage = React.lazy(() => import("src/pages/Todos/Todos"));
-const AnalyticsPage = React.lazy(() => import("src/pages/Analytics/Analitycs"));
-const AnalyticsErrorEventPage = React.lazy(
-    () => import("src/pages/AnalyticsErrorEvent/AnalyticsErrorEvent")
-);
 const TodoPage = React.lazy(() => import("src/pages/Todo/Todo"));
 const PostsPage = React.lazy(() => import("src/pages/Posts/Posts"));
 
@@ -45,13 +32,10 @@ function App() {
                                 path="/"
                                 element={
                                     <Navigate
-                                        to={route()
-                                            .todos()
-                                            .path()
-                                            .query({
-                                                renderVariant: defRenderVariant
-                                            })
-                                            .exec()}
+                                        to={
+                                            routes.todosRouteWithDefaultQueries
+                                                .path
+                                        }
                                         replace
                                     />
                                 }
@@ -60,19 +44,16 @@ function App() {
                                 path="*"
                                 element={
                                     <Navigate
-                                        to={route()
-                                            .todos()
-                                            .path()
-                                            .query({
-                                                renderVariant: defRenderVariant
-                                            })
-                                            .exec()}
+                                        to={
+                                            routes.todosRouteWithDefaultQueries
+                                                .path
+                                        }
                                         replace
                                     />
                                 }
                             />
                             <Route
-                                path={route().todos().path().exec()}
+                                path={routes.todosRoute.path}
                                 element={
                                     <ErrorBoundary stage="development">
                                         <React.Suspense
@@ -97,7 +78,7 @@ function App() {
                             />
 
                             <Route
-                                path={route().todo().path().exec()}
+                                path={routes.todoRoute.path}
                                 element={
                                     <ErrorBoundary stage="development">
                                         <React.Suspense
@@ -110,38 +91,7 @@ function App() {
                             />
 
                             <Route
-                                path={route().analytics().path().exec()}
-                                element={
-                                    <ErrorBoundary stage="development">
-                                        <React.Suspense
-                                            fallback={<FallbackAnalytics />}
-                                        >
-                                            <AnalyticsPage />
-                                        </React.Suspense>
-                                    </ErrorBoundary>
-                                }
-                            />
-
-                            <Route
-                                path={route()
-                                    .analyticsErrorEvent()
-                                    .path()
-                                    .exec()}
-                                element={
-                                    <ErrorBoundary stage="development">
-                                        <React.Suspense
-                                            fallback={
-                                                <FallbackAnalyticsErrorEvent />
-                                            }
-                                        >
-                                            <AnalyticsErrorEventPage />
-                                        </React.Suspense>
-                                    </ErrorBoundary>
-                                }
-                            />
-
-                            <Route
-                                path={route().posts().path().exec()}
+                                path={routes.postsRoute.path}
                                 element={
                                     <ErrorBoundary stage="development">
                                         <React.Suspense
