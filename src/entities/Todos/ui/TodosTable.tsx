@@ -1,9 +1,9 @@
 import { Box, Flex } from "@chakra-ui/react";
 import React, { useTransition } from "react";
 import { Column } from "react-table";
+import { useArrayPaging, useArraySort } from "shulga-app-core/hooks";
 import { Table } from "src/entities/Table";
-import { Pagination, useCollectionPaging } from "src/features";
-import { useCollectionSorting } from "src/processes";
+import { Pagination } from "src/features";
 import { TodoDto } from "src/processes/core/api/dto";
 import { CompletedIcon, RouterLink, TransitionBackdrop } from "src/shared";
 
@@ -18,24 +18,20 @@ const TodosTable: React.FC<React.PropsWithChildren<TodosTableProps>> = ({
 }) => {
     const [isPending, startTransition] = useTransition();
 
-    const collectionSorting = useCollectionSorting(
-        todos,
-        React.useMemo(
-            () => ({
-                defaultField: "id",
-                defaultOrder: "ASC",
-                modifiers: {
-                    userId: (todo) => getAuthor(todo.userId)
-                }
-            }),
-            [getAuthor]
-        )
-    );
+    const sort = useArraySort({
+        collection: todos,
+        order: "ASC",
+        orders: ["ASC", "DESC", "default"],
+        field: "id"
+    });
 
-    const collectionPaging = useCollectionPaging(
-        collectionSorting.collection,
-        20
-    );
+    const { collection, ...pagingProps } = useArrayPaging({
+        startsWith: 1,
+        pageSize: 15,
+        paginationSize: 6,
+        collection: sort.collection || [],
+        onMount: true
+    });
 
     const columns = React.useMemo<Column<TodoDto>[]>(() => {
         return [
@@ -45,7 +41,10 @@ const TodosTable: React.FC<React.PropsWithChildren<TodosTableProps>> = ({
                         <Box
                             onClick={() => {
                                 startTransition(() => {
-                                    collectionSorting.sort("id");
+                                    sort.update({
+                                        field: "id",
+                                        noUpdateOrderFalsyEqualXPath: true
+                                    });
                                 });
                             }}
                         >
@@ -57,7 +56,7 @@ const TodosTable: React.FC<React.PropsWithChildren<TodosTableProps>> = ({
                     return (
                         <Box>
                             <RouterLink
-                                // TODO:
+                                // TODO: link for todo page
                                 to={"/"}
                             >
                                 #{props.row.original.id}
@@ -74,7 +73,10 @@ const TodosTable: React.FC<React.PropsWithChildren<TodosTableProps>> = ({
                         <Box
                             onClick={() => {
                                 startTransition(() => {
-                                    collectionSorting.sort("title");
+                                    sort.update({
+                                        field: "title",
+                                        noUpdateOrderFalsyEqualXPath: true
+                                    });
                                 });
                             }}
                         >
@@ -94,7 +96,10 @@ const TodosTable: React.FC<React.PropsWithChildren<TodosTableProps>> = ({
                         <Box
                             onClick={() => {
                                 startTransition(() => {
-                                    collectionSorting.sort("completed");
+                                    sort.update({
+                                        field: "completed",
+                                        noUpdateOrderFalsyEqualXPath: true
+                                    });
                                 });
                             }}
                         >
@@ -121,7 +126,16 @@ const TodosTable: React.FC<React.PropsWithChildren<TodosTableProps>> = ({
                         <Box
                             onClick={() => {
                                 startTransition(() => {
-                                    collectionSorting.sort("userId");
+                                    sort.update({
+                                        field: {
+                                            xpath: "userId",
+                                            handler: (item) =>
+                                                item
+                                                    ? getAuthor(item)
+                                                    : undefined
+                                        },
+                                        noUpdateOrderFalsyEqualXPath: true
+                                    });
                                 });
                             }}
                         >
@@ -138,7 +152,7 @@ const TodosTable: React.FC<React.PropsWithChildren<TodosTableProps>> = ({
             }
         ];
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [getAuthor, collectionSorting.sort]);
+    }, [getAuthor, sort.update]);
 
     return (
         <TransitionBackdrop
@@ -155,21 +169,11 @@ const TodosTable: React.FC<React.PropsWithChildren<TodosTableProps>> = ({
                     right={0}
                     bottom={0}
                 >
-                    <Table
-                        data={collectionPaging.collection}
-                        columns={columns}
-                    />
+                    <Table data={collection} columns={columns} />
                 </Box>
             </Flex>
             <Flex p={2} justifyContent={"flex-end"}>
-                <Pagination
-                    count={collectionPaging.count}
-                    page={collectionPaging.page}
-                    setPage={collectionPaging.setPage}
-                    nextPage={collectionPaging.nextPage}
-                    prevPage={collectionPaging.prevPage}
-                    justifyContent="flex-end"
-                />
+                <Pagination {...pagingProps} />
             </Flex>
         </TransitionBackdrop>
     );

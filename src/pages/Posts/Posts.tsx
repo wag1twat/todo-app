@@ -46,7 +46,7 @@ const Posts = () => {
                     p={2}
                     flexGrow={1}
                     ref={scrollRef}
-                    onScroll={EventHandling.ifScrollBottom(
+                    onScroll={EventHandling.onScrollBottom(
                         showMore,
                         !posts.isLoading
                     )}
@@ -71,7 +71,7 @@ const Posts = () => {
                         isDisabled={posts.isLoading || posts.isFetching}
                         size="sm"
                         colorScheme={"cyan"}
-                        onClick={() => EventHandling.scrollBottomRef(scrollRef)}
+                        onClick={() => EventHandling.toScrollBottom(scrollRef)}
                     >
                         <Icon as={ArrowDownOutlined} color="white" />
                     </IconButton>

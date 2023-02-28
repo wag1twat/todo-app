@@ -1,5 +1,5 @@
 import { useQuery } from 'react-query';
-import { Guards } from 'shulga-app-core';
+import { Guards } from 'shulga-app-core'
 import api from 'src/processes/core/api';
 
 interface Props {

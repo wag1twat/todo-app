@@ -1,122 +1,74 @@
-import {
-    ButtonGroup,
-    IconButton,
-    Icon,
-    Button,
-    ButtonGroupProps
-} from "@chakra-ui/react";
+import { ButtonGroup, IconButton, Icon, Button } from "@chakra-ui/react";
 import {
     DoubleLeftOutlined,
     DoubleRightOutlined,
     LeftOutlined,
     RightOutlined
 } from "@ant-design/icons";
-import React from "react";
-import { useCollectionPaging } from "./model";
+import { ArrayPaging } from "shulga-app-core/hooks";
 
-const option = 5;
+interface PaginationProps<T extends unknown[]>
+    extends Omit<ArrayPaging<T>, "collection"> {}
 
-interface PaginationProps extends ButtonGroupProps {
-    count: number;
-    page: number;
-    setPage: (page: number) => void;
-    nextPage: () => void;
-    prevPage: () => void;
-}
-const Pagination: React.FC<PaginationProps> = ({
-    count,
-    page,
-    setPage,
-    prevPage,
+const Pagination = <T extends unknown[]>({
+    updatePage,
     nextPage,
-    ...props
-}) => {
-    const pages = React.useMemo(() => Array.from(Array(count).keys()), [count]);
-
-    const pagination = useCollectionPaging(pages, option);
-
+    prevPage,
+    nextPaginationPage,
+    prevPaginationPage,
+    isFirstPage,
+    isLastPage,
+    isFirstPagingPage,
+    isLastPagingPage,
+    pages = [],
+    page
+}: PaginationProps<T>) => {
     return (
-        <ButtonGroup {...props}>
+        <ButtonGroup>
             <IconButton
                 size="sm"
                 aria-label="Left pagination"
-                onClick={() => {
-                    const lastOfPaging = pagination.collection.at(-1);
-
-                    if (typeof lastOfPaging === "number") {
-                        setPage(lastOfPaging + 1 - option);
-                    }
-
-                    pagination.prevPage();
-                }}
-                isDisabled={pagination.page === 1}
+                onClick={prevPaginationPage}
+                isDisabled={isFirstPagingPage}
             >
                 <Icon as={DoubleLeftOutlined} />
             </IconButton>
             <IconButton
                 size="sm"
                 aria-label="Left pagination"
-                onClick={() => {
-                    const firstOfPaging = pagination.collection.at(0);
-
-                    if (
-                        typeof firstOfPaging === "number" &&
-                        page === firstOfPaging + 1
-                    ) {
-                        pagination.prevPage();
-                    }
-                    prevPage();
-                }}
-                isDisabled={page === 1}
+                onClick={prevPage}
+                isDisabled={isFirstPage}
             >
                 <Icon as={LeftOutlined} />
             </IconButton>
-            {pagination.collection.map((item) => {
+            {pages.map((item) => {
                 return (
                     <Button
                         key={item}
                         size="sm"
-                        isActive={item + 1 === page}
-                        onClick={() => setPage(item + 1)}
+                        isActive={item === page}
+                        onClick={() => updatePage(item)}
                         _active={{
                             backgroundColor: "cyan.200"
                         }}
                     >
-                        {item + 1}
+                        {item}
                     </Button>
                 );
             })}
             <IconButton
                 size="sm"
                 aria-label="Right pagination"
-                onClick={() => {
-                    const lastOfPaging = pagination.collection.at(-1);
-
-                    if (
-                        typeof lastOfPaging === "number" &&
-                        page === lastOfPaging + 1
-                    ) {
-                        pagination.nextPage();
-                    }
-                    nextPage();
-                }}
-                isDisabled={page === count}
+                onClick={nextPage}
+                isDisabled={isLastPage}
             >
                 <Icon as={RightOutlined} />
             </IconButton>
             <IconButton
                 size="sm"
                 aria-label="Right pagination"
-                onClick={() => {
-                    const firstOfPaging = pagination.collection.at(0);
-
-                    if (typeof firstOfPaging === "number") {
-                        setPage(firstOfPaging + 1 + option);
-                    }
-
-                    pagination.nextPage();
-                }}
-                isDisabled={pagination.count === pagination.page}
+                onClick={nextPaginationPage}
+                isDisabled={isLastPagingPage}
             >
                 <Icon as={DoubleRightOutlined} />
             </IconButton>

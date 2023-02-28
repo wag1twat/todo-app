@@ -101,17 +101,11 @@ function App() {
                                                 queries={{
                                                     _start: {
                                                         def: "0",
-                                                        guard: (value) =>
-                                                            Guards.isNumber(
-                                                                Number(value)
-                                                            )
+                                                        guard: Guards.isNumber
                                                     },
                                                     _limit: {
                                                         def: "5",
-                                                        guard: (value) =>
-                                                            Guards.isNumber(
-                                                                Number(value)
-                                                            )
+                                                        guard: Guards.isNumber
                                                     }
                                                 }}
                                             >
