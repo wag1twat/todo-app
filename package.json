@@ -26,7 +26,7 @@
         "react-scripts": "5.0.1",
         "react-table": "^7.8.0",
         "runtypes": "^6.6.0",
-        "shulga-app-core": "^1.0.247",
+        "shulga-app-core": "^1.0.251",
         "typescript": "^4.9.5",
         "web-vitals": "^2.1.4"
     },

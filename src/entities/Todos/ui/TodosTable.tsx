@@ -1,7 +1,7 @@
 import { Box, Flex } from "@chakra-ui/react";
 import React, { useTransition } from "react";
 import { Column } from "react-table";
-import { useArrayPaging, useArraySort } from "shulga-app-core/hooks";
+import { useCollectionPaging, useCollectionSort } from "shulga-app-core/hooks";
 import { Table } from "src/entities/Table";
 import { Pagination } from "src/features";
 import { TodoDto } from "src/processes/core/api/dto";
@@ -18,14 +18,14 @@ const TodosTable: React.FC<React.PropsWithChildren<TodosTableProps>> = ({
 }) => {
     const [isPending, startTransition] = useTransition();
 
-    const sort = useArraySort({
+    const sort = useCollectionSort({
         collection: todos,
         order: "ASC",
         orders: ["ASC", "DESC", "default"],
         field: "id"
     });
 
-    const { collection, ...pagingProps } = useArrayPaging({
+    const { collection = [], ...pagingProps } = useCollectionPaging({
         startsWith: 1,
         pageSize: 15,
         paginationSize: 6,
@@ -42,8 +42,7 @@ const TodosTable: React.FC<React.PropsWithChildren<TodosTableProps>> = ({
                             onClick={() => {
                                 startTransition(() => {
                                     sort.update({
-                                        field: "id",
-                                        noUpdateOrderFalsyEqualXPath: true
+                                        field: "id"
                                     });
                                 });
                             }}
@@ -74,8 +73,7 @@ const TodosTable: React.FC<React.PropsWithChildren<TodosTableProps>> = ({
                             onClick={() => {
                                 startTransition(() => {
                                     sort.update({
-                                        field: "title",
-                                        noUpdateOrderFalsyEqualXPath: true
+                                        field: "title"
                                     });
                                 });
                             }}
@@ -97,8 +95,7 @@ const TodosTable: React.FC<React.PropsWithChildren<TodosTableProps>> = ({
                             onClick={() => {
                                 startTransition(() => {
                                     sort.update({
-                                        field: "completed",
-                                        noUpdateOrderFalsyEqualXPath: true
+                                        field: "completed"
                                     });
                                 });
                             }}
@@ -133,8 +130,7 @@ const TodosTable: React.FC<React.PropsWithChildren<TodosTableProps>> = ({
                                                 item
                                                     ? getAuthor(item)
                                                     : undefined
-                                        },
-                                        noUpdateOrderFalsyEqualXPath: true
+                                        }
                                     });
                                 });
                             }}

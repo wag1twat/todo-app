@@ -5,17 +5,17 @@ import {
     LeftOutlined,
     RightOutlined
 } from "@ant-design/icons";
-import { ArrayPaging } from "shulga-app-core/hooks";
+import { CollectionPagingResult } from "shulga-app-core/hooks";
 
 interface PaginationProps<T extends unknown[]>
-    extends Omit<ArrayPaging<T>, "collection"> {}
+    extends Omit<CollectionPagingResult<T>, "collection"> {}
 
 const Pagination = <T extends unknown[]>({
     updatePage,
     nextPage,
     prevPage,
-    nextPaginationPage,
-    prevPaginationPage,
+    nextPagingPage,
+    prevPagingPage,
     isFirstPage,
     isLastPage,
     isFirstPagingPage,
@@ -28,7 +28,7 @@ const Pagination = <T extends unknown[]>({
             <IconButton
                 size="sm"
                 aria-label="Left pagination"
-                onClick={prevPaginationPage}
+                onClick={prevPagingPage}
                 isDisabled={isFirstPagingPage}
             >
                 <Icon as={DoubleLeftOutlined} />
@@ -67,7 +67,7 @@ const Pagination = <T extends unknown[]>({
             <IconButton
                 size="sm"
                 aria-label="Right pagination"
-                onClick={nextPaginationPage}
+                onClick={nextPagingPage}
                 isDisabled={isLastPagingPage}
             >
                 <Icon as={DoubleRightOutlined} />
