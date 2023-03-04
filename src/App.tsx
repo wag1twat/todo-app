@@ -5,14 +5,7 @@ import { Header } from "src/entities";
 import { ErrorBoundary, GlobalLoaderProvider } from "src/processes";
 import { FallbackTodos, FallbackTodo, FallbackPosts } from "./pages";
 import theme, { MainLayout } from "src/processes/theme";
-import { QueriesGuardRoute } from "src/features";
-import {
-    defRenderVariant,
-    isRenderVariant,
-    renderVariantKey
-} from "src/features/ToggleRenderVariantUrlQuery/model";
 import routes from "src/processes/core/routes";
-import { Guards } from "shulga-app-core";
 
 const TodosPage = React.lazy(() => import("src/pages/Todos/Todos"));
 const TodoPage = React.lazy(() => import("src/pages/Todo/Todo"));
@@ -59,19 +52,7 @@ function App() {
                                         <React.Suspense
                                             fallback={<FallbackTodos />}
                                         >
-                                            <QueriesGuardRoute
-                                                queries={{
-                                                    [renderVariantKey]: {
-                                                        def: defRenderVariant,
-                                                        guard: (value) =>
-                                                            isRenderVariant(
-                                                                value
-                                                            )
-                                                    }
-                                                }}
-                                            >
-                                                <TodosPage />
-                                            </QueriesGuardRoute>
+                                            <TodosPage />
                                         </React.Suspense>
                                     </ErrorBoundary>
                                 }
@@ -97,20 +78,7 @@ function App() {
                                         <React.Suspense
                                             fallback={<FallbackPosts />}
                                         >
-                                            <QueriesGuardRoute
-                                                queries={{
-                                                    _start: {
-                                                        def: "0",
-                                                        guard: Guards.isNumber
-                                                    },
-                                                    _limit: {
-                                                        def: "5",
-                                                        guard: Guards.isNumber
-                                                    }
-                                                }}
-                                            >
-                                                <PostsPage />
-                                            </QueriesGuardRoute>
+                                            <PostsPage />
                                         </React.Suspense>
                                     </ErrorBoundary>
                                 }

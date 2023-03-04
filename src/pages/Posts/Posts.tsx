@@ -14,21 +14,22 @@ const step = 5;
 const Posts = () => {
     const [searchParams, setSearchParams] = useSearchParams();
 
-    const _start = Number(Transform.identy(searchParams.get("_start")));
-    const _limit = Number(Transform.identy(searchParams.get("_limit")));
-
     const posts = usePosts({
-        _start,
-        _limit
+        _start: Number(searchParams.get("_start") || 0),
+        _limit: Number(searchParams.get("_limit") || 5)
     });
 
     const showMore = React.useCallback(() => {
         setSearchParams((prev) => {
-            prev.set("_limit", String(_limit + step));
+            prev.set("_start", "0");
+            prev.set(
+                "_limit",
+                String(Number(searchParams.get("_limit") || 0) + step)
+            );
             return prev;
         });
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [_start, _limit]);
+    }, []);
 
     const scrollRef = React.useRef<HTMLDivElement | null>(null);
 
@@ -48,7 +49,7 @@ const Posts = () => {
                     ref={scrollRef}
                     onScroll={EventHandling.onScrollBottom(
                         showMore,
-                        !posts.isLoading
+                        !posts.isLoading || !posts.isFetching
                     )}
                 >
                     <Stack spacing={4}>
